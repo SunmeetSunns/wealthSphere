@@ -1,0 +1,38 @@
+.cardBoxShadow{
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2), 0 4px 8px 0 transparent;
+
+}
+/* Custom styles for the table header */
+.custom-header {
+  background-color: #f8f9fa;
+  color: #343a40;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Custom styles for the table rows */
+.custom-row {
+  background-color: #ffffff;
+  color: #495057;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Custom styles for the table cells */
+.custom-cell {
+  padding: 10px;
+}
+
+/* Add hover effect to table rows */
+.custom-row:hover {
+  background-color: #f1f1f1;
+}
+
+.portfolio-container{
+  overflow-y: hidden;
+  /* height: fit-content; */
+  /* width: 50vw; */
+  /* left: 1em; */
+  top: 0.5em;
+} 

@@ -1,0 +1,95 @@
+.cardBoxShadow {
+    background-color: #f8f9fa; /* Light background for the card */
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+  }
+  
+  .cardBoxShadow img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+  .cardBoxShadow1 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+  }
+  
+  .cardBoxShadow1 span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00786c;
+  }
+  .flags{
+    height: 2em;
+    margin-right: 1em;
+  }
+  .cardBoxShadow span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00786c; /* Use the color for the text */
+  }
+  
+  .custom-header {
+    background-color: #00786c; /* Background color for headers */
+    color: white; /* White text for contrast */
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .custom-row {
+    border-bottom: 1px solid #ddd; /* Light border between rows */
+  }
+  
+  .custom-cell {
+    padding: 8px;
+  }
+  
+  .custom-cell span {
+    display: block;
+    color: #00786c; /* Use the color for cell text */
+  }
+  
+  .p-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .p-table th, .p-table td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .p-table th {
+    background-color: #00786c; /* Background color for table headers */
+    color: white; /* White text for headers */
+  }
+  
+  .p-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternating row color */
+  }
+  
+  .p-table tr:hover {
+    background-color: #009688; /* Light teal color on hover */
+    color: white; /* White text on hover for contrast */
+  }
+  
+  .p-table td {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .p-table td span {
+    display: block;
+    color: #00786c; /* Use the color for cell text */
+  }
+  
+  .p-table td.no-record {
+    text-align: center;
+  }
+  

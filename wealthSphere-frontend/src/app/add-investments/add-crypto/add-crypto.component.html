@@ -1,0 +1,43 @@
+<div class="cardBoxShadow1 mt-2">
+  <span>Add/Edit CryptoCurrency</span>
+</div>
+<div class="background">
+  <div class="form-container">
+    <form [formGroup]="stockForm">
+      <div class="form-group">
+        <label for="symbol">Type</label>
+        <select id="symbol" formControlName="type">
+          <option value="">Select Type</option>
+          <option value="Bitcoin">Bitcoin</option>
+          <option value="Ethereum">Ethereum</option>
+          <option value="Ripple">Ripple</option>
+          <option value="Litecoin">Litecoin</option>
+          <option value="Cardano">Cardano</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="company">Purchase Price</label>
+        <input id="company" formControlName="purchasePrice" type="number" />
+      </div>
+      <div class="form-group">
+        <label for="company">Current Price</label>
+        <input id="company" formControlName="currentValue" type="number" />
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input id="quantity" formControlName="quantity" type="number" />
+      </div>
+      <div class="form-group">
+        <label for="purchasePrice">Purchase Date</label>
+        <input id="purchasePrice" formControlName="purchaseDate" type="date" />
+      </div>
+      <div class="form-group">
+        <label for="company">Total Value</label>
+        <input id="company" formControlName="totalValue" type="number" />
+      </div>
+      <button type="submit" class="submit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
+      <button type="submit" class="edit" *ngIf="forEdit" (click)="onSubmit('edit')">Edit</button>
+      <button type="submit" class="delete" *ngIf="forEdit" (click)="onSubmit('delete')">Delete</button>
+    </form>
+  </div>
+</div>

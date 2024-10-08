@@ -1,0 +1,31 @@
+<div class="position-relative  newsSection col-lg-12">
+    <!-- <div class="toggle" *ngIf="this.showNews" (click)="toggleData()">
+      <i class="fa-solid fa-chevron-left" style="color: white; position: absolute; left: 2em; top: 0.3em;"></i>
+    </div> -->
+    
+    <!-- <div class="toggle1" (click)="toggleData()" *ngIf="!this.showNews">
+      <i class="fa-solid fa-chevron-right" style="color: white; position: absolute; left: 2em; top: 0.3em;"></i>
+    </div> -->
+  
+    <div class="d-flex flex-column col-lg-12" *ngIf="this.showNews">
+      <div class="n-head">News</div>
+      <div class="border-btm"></div>
+  
+      <div class="d-flex flex-row bulletins justify-content-around n-news"
+        *ngFor="let item of newsArray; let i = index"
+        [ngClass]="{'odd-item': i % 2 === 0}">
+        <img src="{{item.img}}" alt="News Image">
+        
+        <div class="d-flex flex-column news-point">
+          <!-- Truncated heading with hover for full text -->
+          <span class="truncate" style="color: #2641ce" [attr.title]="item.heading">{{item.heading | truncate:30}}</span>
+          
+          <!-- Truncated news summary with hover for full text -->
+          <span class="truncate" style="font-size: 12px;" [attr.title]="item.news">{{item.news | truncate:50}}</span>
+          
+          <span style="font-size: 11px;">{{item.date}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  

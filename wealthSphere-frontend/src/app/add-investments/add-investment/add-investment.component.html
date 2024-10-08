@@ -1,0 +1,43 @@
+<div class="initialise col-lg-12">
+  <div class="options col-lg-9">
+    <div (click)="routeTo('stocks')" class="stocks-box d-flex flex-column justify-content-between">
+      <div class="d-flex flex-row"><span style="font-size: 25px;font-weight: bold;margin-left: 1em;">Stocks</span></div>
+      <div class="align-self-center"><img class="asset-svg" src="../../../assets/stock-ticker.svg"></div>
+      <div class="d-flex flex-row justify-content-between">
+        <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
+          style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
+          {{(this.totals?.assetValues?.stockTotal).toFixed(2)}}</span>
+      </div>
+    </div>
+    <div (click)="routeTo('cash')" class="cash-box d-flex flex-column justify-content-between">
+      <div class="d-flex flex-row"><span style="font-size: 25px;font-weight: bold;margin-left: 1em;">Cash</span></div>
+      <div class="align-self-center"><img class="asset-svg" src="../../../assets/country-currencies.svg"></div>
+      <div class="d-flex flex-row justify-content-between">
+        <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
+          style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
+          {{(this.totals?.assetValues?.cashTotal).toFixed(2)}}</span>
+      </div>
+    </div>
+    <div (click)="routeTo('fd')" class="fd-box d-flex flex-column justify-content-between">
+      <div class="d-flex flex-row"><span style="font-size: 25px;font-weight: bold;margin-left: 1em;">Fixed
+          Deposits</span></div>
+      <div class="align-self-center"><img class="asset-svg" src="../../../assets/fd-svg.svg"></div>
+      <div class="d-flex flex-row justify-content-between">
+        <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
+          style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
+          {{(this.totals?.assetValues?.fdTotal).toFixed(2)}}</span>
+      </div>
+    </div>
+    <div (click)="routeTo('crypto')" class="crypto-box d-flex flex-column justify-content-between">
+      <div class="d-flex flex-row"><span
+          style="font-size: 25px;font-weight: bold;margin-left: 1em;">CryptoCurrency</span></div>
+      <div class="align-self-center"><img class="asset-svg" src="../../../assets/bitcoin.svg"></div>
+      <div class="d-flex flex-row justify-content-between">
+        <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
+          style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
+          {{(this.totals?.assetValues?.cryptoTotal).toFixed(2)}}</span>
+      </div>
+    </div>
+  </div>
+  <app-news class="for-invest cardBoxShadow"></app-news>
+</div>

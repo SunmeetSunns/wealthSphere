@@ -1,0 +1,35 @@
+.header{
+    height: 70px;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #00786c;
+}
+.logo>img{
+    height: 70px;
+    width: 210px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+.logo{
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+.profile>img{
+    height: 50px;
+    width: 100px;
+    cursor: pointer;
+}
+.profile>span{
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+}
+.profile{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+align-items: center;
+}

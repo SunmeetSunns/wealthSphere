@@ -1,0 +1,40 @@
+<div class="col-lg-12">
+    <div class="cardBoxShadow">
+      <span>Top Movers</span>
+    </div>
+    <div class="cardBoxShadow1 mt-4 ">
+      <span>Top 5 Gainers</span>
+    </div>
+    <p-table [columns]="columns" [value]="data" [rows]="10">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" class="custom-header">
+            <span>{{ col.header }}</span>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr class="custom-row">
+          <td *ngFor="let col of columns" class="custom-cell">
+            <span *ngIf="heading === 'Cash' && col.field !== 'currency'">{{ rowData[col.field] }}</span>
+            <span *ngIf="heading === 'Cash' && col.field === 'currency'" class="d-flex flex-row">
+                <img class="flags"[src]="'../../..'+rowData.svg_url"  />
+                <span>{{rowData[col.field]}}</span>
+            </span>
+            <span *ngIf="heading !=='Cash'">{{rowData[col.field]}}</span>
+        </td>
+        
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer" let-columns>
+        <ng-container *ngIf="data.length === 0">
+          <tr>
+            <td [attr.colspan]="columns.length" class="no-record">
+              <span>No Records Found!</span>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+  

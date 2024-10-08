@@ -1,0 +1,54 @@
+.add-inv {
+    border: 2px solid #00786c;
+    border-radius: 10px;
+    height: 16em;
+    width: 16em;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.view-rep {
+    border: 2px solid #6c0078;
+    border-radius: 10px;
+    height: 16em;
+    width: 16em;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+.add-inv>span{
+    font-size: 20px;
+    font-weight: 500;
+    color: #00786c;
+}
+.add-inv>img{
+    width: 10em;
+    height: 10em;
+}
+.view-rep>span{
+    font-size: 20px;
+    font-style: 300;
+    color: #6c0078;
+}
+.view-rep>img{
+    width: 10em;
+    height: 10em;
+}
+.view-rep:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+.add-inv:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+.actions{
+    height: 32.2vw;
+    width: 20em;
+    overflow-x: hidden;
+    align-items: center;
+    padding: 2em;
+    gap: 1em;
+    top: 0.5em;
+}

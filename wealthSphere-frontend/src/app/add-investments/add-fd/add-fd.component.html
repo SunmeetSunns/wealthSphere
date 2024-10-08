@@ -1,0 +1,41 @@
+<div class="cardBoxShadow1 mt-2">
+    <span>Add/Edit Fixed Deposit</span>
+  </div>
+  <div class="background">
+    <div class="form-container">
+      <form [formGroup]="stockForm">
+        <div class="form-group">
+            <label for="symbol">Bank</label>
+            <input id="symbol" formControlName="bankName" type="text" />
+          </div>
+        <div class="form-group">
+          <label for="symbol">Deposit Amount</label>
+          <input id="symbol" formControlName="depositAmount" type="number" />
+        </div>
+        <div class="form-group">
+          <label for="company">Interest Rate</label>
+          <input id="company" formControlName="interestRate" type="number" />
+        </div>
+        <div class="form-group">
+          <label for="quantity">Tenure(in Days)</label>
+          <input id="quantity" formControlName="tenure" type="text" />
+        </div>
+        <div class="form-group">
+            <label for="quantity">Maturity Date</label>
+            <input id="quantity" formControlName="maturityDate" type="date" />
+          </div>
+          <div class="form-group">
+            <label for="quantity">Maturity Amount</label>
+            <input id="quantity" formControlName="expectedReturn" type="text" [disabled]="true"/>
+          </div>
+        <!-- <div class="form-group">
+          <label for="purchasePrice">Purchase Price</label>
+          <input id="purchasePrice" formControlName="purchasePrice" type="number" />
+        </div> -->
+        <button type="submit" class="submit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
+        <button type="submit" class="edit" *ngIf="forEdit" (click)="onSubmit('edit')">Edit</button>
+        <button type="submit" class="delete" *ngIf="forEdit" (click)="onSubmit('delete')">Delete</button>
+      </form>
+    </div>
+  </div>
+  

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class StocksComponent {
   columns: any[] = [];
   data: any[] = [];
-  constructor(private http: HttpClient,public router:Router) { }
+  constructor(private http: HttpClient, public router: Router) { }
   ngOnInit() {
     this.populateSchema();
     this.getStockData();
@@ -48,23 +48,29 @@ export class StocksComponent {
         company: result[i].company,
         symbol: result[i].symbol,
         quantity: result[i].quantity,
-        totalValue: result[i].totalValue,
-        purchasePrice: result[i].purchasePrice,
-        currentPrice:result[i].currentPrice,
-        orderId:result[i].orderId ? result[i].orderId:'',
+        totalValue: this.addCommasToNumber(result[i].totalValue.toFixed(2)),
+        purchasePrice: this.addCommasToNumber(result[i].purchasePrice.toFixed(2)),
+        currentPrice: this.addCommasToNumber(result[i].currentPrice.toFixed(2)),
+        orderId: result[i].orderId ? result[i].orderId : '',
       });
     }
   }
 
-routeToStock(){
-  this.router.navigate(['/add-investment/add-stock'])
-}
-storeToEdit(rowData: any) {
-  // Convert the rowData object to a JSON string
-  sessionStorage.setItem('Data_for_Edit', JSON.stringify(rowData));
-  
-  // Navigate to the add-stock route
-  this.router.navigate(['/add-investment/add-stock']);
-}
+  routeToStock() {
+    this.router.navigate(['/add-investment/add-stock'])
+  }
+  storeToEdit(rowData: any) {
+    // Convert the rowData object to a JSON string
+    sessionStorage.setItem('Data_for_Edit', JSON.stringify(rowData));
+
+    // Navigate to the add-stock route
+    this.router.navigate(['/add-investment/add-stock']);
+  }
+  addCommasToNumber(value: number | string): string {
+    if (typeof value === "number") {
+      value = value.toString();
+    }
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
 }

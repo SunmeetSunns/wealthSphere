@@ -1,0 +1,14 @@
+<div class="modal-backdrop" *ngIf="isVisible" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()"> <!-- Prevent closing on modal click -->
+    <div class="modal-header">
+      <h3>{{ title }}</h3>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+    <div class="modal-footer">
+      <button class="close-button" (click)="closeModal()">Close</button>
+    </div>
+  </div>
+</div>

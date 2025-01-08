@@ -1,19 +1,17 @@
 <app-header class="app-header"></app-header>
 <!-- <app-spinner></app-spinner> -->
 <router-outlet></router-outlet>
-<div *ngIf="this.showContent "class="d-flex flex-row dashboard">
+<div *ngIf="this.showContent " class="d-flex flex-row dashboard">
   <div class="toggle" *ngIf="this.showNews" (click)="toggleData()">
     <i class="fa-solid fa-chevron-left" style="color: white; position: absolute; left: 2em; top: 0.3em;"></i>
   </div>
   <div class="toggle1" (click)="toggleData()" *ngIf="!this.showNews">
     <i class="fa-solid fa-chevron-right" style="color: #ffffff; position: absolute; left: 2em; top: 0.3em;"></i>
   </div>
-    <app-news 
-    *ngIf="showNews" class="cardBoxShadow"
-    [ngClass]="{'col-lg-3': showNews, 'noShow': !showNews}"
+  <app-news *ngIf="showNews" class="cardBoxShadow" [ngClass]="{'col-lg-3': showNews, 'noShow': !showNews}"
     (toggleNewsComponent)="onNewsToggle($event)">
   </app-news>
-    <app-portfolio  class="cardBoxShadow" [ngClass]="{'col-lg-6': showNews, 'col-lg-9': !showNews}"></app-portfolio>
-    <app-actions class="col-lg-3 cardBoxShadow"></app-actions>
-   
+  <app-portfolio class="cardBoxShadow" [ngClass]="{'col-lg-6': showNews, 'col-lg-9': !showNews}"></app-portfolio>
+  <app-actions class="col-lg-3 cardBoxShadow"></app-actions>
+
 </div>

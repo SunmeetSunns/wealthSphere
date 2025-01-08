@@ -1,5 +1,9 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
+  DomSanitizer
+} from "./chunk-S4L4GIHN.js";
+import "./chunk-VHJKVWX5.js";
+import {
   AutoFocus,
   AutoFocusModule,
   BaseIcon,
@@ -43,10 +47,6 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-F4M6OFGH.js";
-import {
-  DomSanitizer
-} from "./chunk-S4L4GIHN.js";
-import "./chunk-VHJKVWX5.js";
 import {
   CommonModule,
   DOCUMENT,

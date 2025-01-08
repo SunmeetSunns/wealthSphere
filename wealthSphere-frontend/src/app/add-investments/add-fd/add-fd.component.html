@@ -1,41 +1,99 @@
 <div class="cardBoxShadow1 mt-2">
-    <span>Add/Edit Fixed Deposit</span>
-  </div>
-  <div class="background">
-    <div class="form-container">
-      <form [formGroup]="stockForm">
-        <div class="form-group">
-            <label for="symbol">Bank</label>
-            <input id="symbol" formControlName="bankName" type="text" />
-          </div>
-        <div class="form-group">
-          <label for="symbol">Deposit Amount</label>
+  <span>Add/Edit Fixed Deposit</span>
+</div>
+<div class="background">
+  <div class="triangle"></div>
+  <div class="triangle1"></div>
+  <div class="form-container">
+    <form [formGroup]="stockForm">
+      <div class="form-group">
+        <label for="symbol">Bank <span class="error">*</span></label>
+        <input id="symbol" formControlName="bankName" type="text" />
+        <span class="error" *ngIf="this.stockForm.get('bankName')?.invalid && this.stockForm.get('bankName')?.touched">
+          Bank Name is required.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="symbol">Deposit Amount<span class="error">*</span></label>
+        <div class="d-flex flex-row">
+          <span class="symbolBox">₹</span>
           <input id="symbol" formControlName="depositAmount" type="number" />
+
         </div>
-        <div class="form-group">
-          <label for="company">Interest Rate</label>
+        <span class="error" *ngIf="this.stockForm.get('depositAmount')?.invalid && this.stockForm.get('depositAmount')?.touched">
+          Deposit Amount is required.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Beginning Date<span class="error">*</span></label>
+        <input id="quantity" formControlName="beginningDate" type="date" />
+        <span class="error" *ngIf="this.stockForm.get('beginningDate')?.invalid && this.stockForm.get('beginningDate')?.touched">
+          Beginning Date is required.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Maturity Date<span class="error">*</span></label>
+        <input id="quantity" formControlName="maturityDate" type="date" />
+        <span class="error" *ngIf="this.stockForm.get('maturityDate')?.invalid && this.stockForm.get('maturityDate')?.touched">
+          Maturity Date is required.
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="company">Interest Rate<span class="error">*</span></label>
+        <div class="d-flex flex-row">
+          <span class="symbolBox">%</span>
           <input id="company" formControlName="interestRate" type="number" />
+         
         </div>
-        <div class="form-group">
-          <label for="quantity">Tenure(in Days)</label>
-          <input id="quantity" formControlName="tenure" type="text" />
+        <span class="error" *ngIf="this.stockForm.get('interestRate')?.invalid && this.stockForm.get('interestRate')?.touched">
+          Interest Rate is required.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Tenure(in Days)<span class="error">*</span></label>
+        <input id="quantity" formControlName="tenure" type="text" />
+       
+      </div>
+      <span class="error" *ngIf="this.stockForm.get('tenure')?.invalid && this.stockForm.get('tenure')?.touched">
+        Tenure is required.
+      </span>
+
+      <div class="form-group1">
+        <label for="quantity">Maturity Amount</label>
+        <div class="d-flex flex-row">
+          <span class="symbolBox">₹</span>
+          <input id="quantity" formControlName="expectedReturn" type="text" />
+         
         </div>
-        <div class="form-group">
-            <label for="quantity">Maturity Date</label>
-            <input id="quantity" formControlName="maturityDate" type="date" />
-          </div>
-          <div class="form-group">
-            <label for="quantity">Maturity Amount</label>
-            <input id="quantity" formControlName="expectedReturn" type="text" [disabled]="true"/>
-          </div>
-        <!-- <div class="form-group">
+        <span class="error" *ngIf="this.stockForm.get('expectedReturn')?.invalid && this.stockForm.get('expectedReturn')?.touched">
+          Maturity Amount is required.
+        </span>
+      </div>
+      <!-- <div class="form-group">
           <label for="purchasePrice">Purchase Price</label>
           <input id="purchasePrice" formControlName="purchasePrice" type="number" />
         </div> -->
-        <button type="submit" class="submit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
-        <button type="submit" class="edit" *ngIf="forEdit" (click)="onSubmit('edit')">Edit</button>
-        <button type="submit" class="delete" *ngIf="forEdit" (click)="onSubmit('delete')">Delete</button>
-      </form>
+      <button type="submit" class="submit" *ngIf="!forEdit" (click)="openModal(myModal,'submit')">Submit</button>
+      <button type="submit" class="edit" *ngIf="forEdit" (click)="openModal(myModal,'edit')">Edit</button>
+      <button type="submit" class="delete" *ngIf="forEdit" (click)="openModal(myModal,'delete')">Delete</button>
+    </form>
+  </div>
+  <div class="triangle2"></div>
+  <div class="triangle3"></div>
+</div>
+<ng-template #myModal let-modal>
+  <div class="modal-header-pop ">
+    <div class="heading my-modal">
+      <span>{{this.modalText}}</span>
+    </div>
+
+    <div class="modal-body d-flex justify-content-evenly mt-3">
+      <button *ngIf="this.currentText=='submit'" class="btn btn-success" (click)="onSubmit('submit')">Submit</button>
+      <button *ngIf="this.currentText=='edit'" class="btn btn-primary" (click)="onSubmit('edit')">Edit</button>
+      <button *ngIf="this.currentText=='delete'" class="btn btn-red" (click)="onSubmit('delete')">Delete</button>
+      <button class="btn btn-danger" (click)="close()">Close</button>
     </div>
   </div>
-  
+
+</ng-template>

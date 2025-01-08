@@ -186,7 +186,9 @@ exports.addCash = async (req, res) => {
     // Convert the amount to INR if currency is not INR
     if (cash.currency && rates[cash.currency]) {
       const exchangeRate = 1/rates[cash.currency];
-      cash.amountinINR = cash.amount * exchangeRate; // Convert amount to INR
+      cash.amountinINR = cash.amount * exchangeRate;
+      cash.exchangeRate=exchangeRate
+      // Convert amount to INR
     } else {
       cash.amountinINR = cash.amount; // Assume the amount is already in INR if currency is not found
     }

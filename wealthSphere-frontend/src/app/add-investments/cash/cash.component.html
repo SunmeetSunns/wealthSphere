@@ -29,8 +29,9 @@
               <span *ngIf="col.field=='currency'" class="d-flex flex-row">
                 <img class="flags" [src]="'../../..'+rowData.svg_url" />
                 <span>{{rowData[col.field]}}</span></span>
-              <span *ngIf="col.field!=='currency' && col.field!='amount'">{{rowData[col.field]}}</span>
+              <span *ngIf="col.field!=='currency' && col.field!='amount' && col.field!='inrAmount'">{{rowData[col.field]}}</span>
               <span *ngIf="col.field=='amount'">{{rowData.symbol}} {{rowData[col.field]}}</span>
+              <span *ngIf="col.field=='inrAmount'">₹ {{rowData[col.field]}}</span>
               <span *ngIf="col.field=='actions'"  ><img class="edit-svg"src="../../../assets/edit-svgrepo-com.svg"></span>
             </td>
           </tr>

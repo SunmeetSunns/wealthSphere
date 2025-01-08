@@ -1,0 +1,91 @@
+/* Backdrop styling */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50em; /* Full-screen width */
+  height: 20em; /* Full-screen height */
+  background-color: white; /* Semi-transparent background */
+  display: flex;
+  justify-content: center; /* Horizontally center modal */
+  align-items: center; /* Vertically center modal */
+  z-index: 1000; /* Ensure the modal is on top */
+}
+
+/* Modal box styling */
+.modal {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 400px; /* Adjust width as needed */
+  max-width: 90%; /* Responsive behavior */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  overflow: hidden; /* Prevent content overflow */
+  animation: fadeIn 0.3s ease-in-out; /* Add animation */
+}
+
+
+/* Modal header styling */
+.modal-header {
+  background-color: #00786c; /* Header color */
+  color: #fff; /* White text for contrast */
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Close button styling */
+.close-button {
+  background: none;
+  border: none;
+  color: #fff; /* White text for contrast */
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #ccc; /* Light gray for hover effect */
+}
+
+/* Modal body styling */
+.modal-body {
+  padding: 20px;
+  font-size: 16px;
+  color: #333; /* Dark gray text */
+}
+
+/* Modal footer styling */
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #eaeaea;
+  background-color: #f9f9f9; /* Light gray footer background */
+}
+
+/* Close button in footer */
+.modal-footer .close-button {
+  background-color: #00786c; /* Button color */
+  color: #fff; /* White text for contrast */
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-footer .close-button:hover {
+  background-color: #005f54; /* Darker shade for hover */
+}
+
+/* Animation for modal fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -2,6 +2,8 @@
   <span>Add/Edit Stock</span>
 </div>
 <div class="background">
+  <div class="triangle"></div>
+  <div class="triangle1"></div>
   <div class="form-container">
     <form [formGroup]="stockForm">
       <div class="form-group">
@@ -28,9 +30,15 @@
         <label for="totalValue">Total Value</label>
         <input id="totalValue" formControlName="totalValue" type="number" />
       </div>
-      <button type="submit" class="submit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
+      <button type="submit" class="edit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
       <button type="submit" class="edit" *ngIf="forEdit" (click)="onSubmit('edit')">Edit</button>
       <button type="submit" class="delete" *ngIf="forEdit" (click)="onSubmit('delete')">Delete</button>
     </form>
   </div>
+  <div class="triangle2"></div>
+  <div class="triangle3"></div>
 </div>
+
+
+<!-- Modal Popup -->
+ 

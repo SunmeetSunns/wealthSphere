@@ -7,6 +7,7 @@ const fdSchema=new mongoose.Schema({
     interestRate:{type:Number,required:true},
     tenure: {type:Number,required:true},
     maturityDate: {type:Date,required:true},
+    beginningDate:{type:Date,required:true},
     orderId:{type:Number,unique:true},
     expectedReturn: {type:Number,required:true},
     date: { type: Date, default: Date.now }

@@ -30,4 +30,10 @@ this.http.get(url).subscribe((res)=>{
   routeTo(where:String){
     this.router.navigate([`/add-investment/${where}`])
   }
+  addCommasToNumber(value: number | string): string {
+    if (typeof value === "number") {
+      value = value.toString();
+    }
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 }

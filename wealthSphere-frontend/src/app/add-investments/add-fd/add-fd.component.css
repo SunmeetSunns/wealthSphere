@@ -43,7 +43,11 @@
     margin-right: 20px; /* Space between columns */
     margin-bottom: 16px;
   }
-  
+  .form-group1 {
+    flex: 1 1 90%; /* Adjust the width of the form-group to fit two fields per row */
+    margin-right: 20px; /* Space between columns */
+    margin-bottom: 16px;
+  }
   .form-group:nth-of-type(even) {
     margin-right: 0; /* Remove margin for the last item in the row */
   }
@@ -121,3 +125,101 @@
     font-weight: bold;
     color: #00786c;
   }
+  
+/* Triangle Code */
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 104.08px solid #FF8A9E; /* Triangle color */
+  position: absolute;
+  top: 2em;
+  left: 10em;
+  animation: rotate 4s linear infinite;
+  transform-origin: center; /* Rotate from the center of the container */
+}
+
+/* Second Equilateral Triangle */
+.triangle1 {
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 104.08px solid #6FB9E7; /* Triangle color */
+  position: absolute;
+  top: 2em;
+  left: 10.5em;
+  animation: rotate1 4s linear infinite;
+  transform-origin: center; /* Rotate from the center of the container */
+}
+.triangle3 {
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 104.08px solid #77D9D9; /* Triangle color */
+  position: absolute;
+  bottom: 2em;
+  right: 10em;
+  z-index: -5;
+  animation: rotate 4s linear infinite;
+  transform-origin: center; /* Rotate from the center of the container */
+}
+
+/* Second Equilateral Triangle */
+.triangle2 {
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 104.08px solid #f3c089; /* Triangle color */
+  position: absolute;
+  bottom: 2em;
+  right: 10em;
+  z-index: -5;
+  animation: rotate1 4s linear infinite;
+  transform-origin: center; /* Rotate from the center of the container */
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate1 {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+.my-modal {
+  font-size: 20px;
+  font-weight: bold;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+.btn-red{
+  color: white;
+  background-color: red;
+}
+.error{
+  color: red;
+}
+.symbolBox{
+  background-color: #00786c;
+  width: 1.5em;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  color: white;
+  font-size: 28px;
+  height: 1.6em;
+
+}

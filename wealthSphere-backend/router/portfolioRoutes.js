@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const { addStock, getStocks, addFD, getFDs, addCash, getCash, addCrypto, getCrypto,calculatePortfolio,getNewsSentiment, AddAccount, getGainers, updateStock, deleteStock, getExchangeRates, getCryptoRates, fetchFDRates, updateFd, deleteFD, updateCash,deleteCash, updateCrypto, deleteCrypto} = require('../controller/portfolioController');
+const { getAllCryptoRiskAssessment, getAllStockRiskAssessment, getCashSummary, getMaturitySchedule, getMaturityScheduleByBank } = require('../controller/portfolioReports');
 
 
 // Stock
@@ -50,6 +51,8 @@ router.get('/cryptoRates',getCryptoRates)
 // fetch fd rates
 
 router.get('/fdRates',fetchFDRates)
-
-
+router.get('/cryptoRiskAssessment',getAllCryptoRiskAssessment)
+router.get('/stockRiskAssessment', getAllStockRiskAssessment)
+router.get('/getCashReport',getCashSummary)
+router.get('/getfdReport',getMaturityScheduleByBank)
 module.exports=router;

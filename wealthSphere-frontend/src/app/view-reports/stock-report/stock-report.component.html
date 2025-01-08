@@ -1,0 +1,39 @@
+<div class="cardBoxShadow1">
+    <span>
+        Stocks Report
+    </span>
+</div>
+<div class="cardBoxShadow">
+    <p-table [columns]="columns" [value]="data" [rows]="10">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" class="custom-header">
+              <span>{{ col.header }}</span>
+            </th>
+          </tr>
+        </ng-template>
+    
+        <ng-template pTemplate="body" let-rowData>
+          <tr class="custom-row" >
+            <td *ngFor="let col of columns" class="custom-cell">
+              <span *ngIf="col.field=='currency'" class="d-flex flex-row">
+                <img class="flags" [src]="'../../..'+rowData.svg_url" />
+                <span>{{rowData[col.field]}}</span></span>
+              <span *ngIf="col.field!=='currency' && col.field!='amount'">{{rowData[col.field]}}</span>
+              <span *ngIf="col.field=='amount'">{{rowData.symbol}} {{rowData[col.field]}}</span>
+              <span *ngIf="col.field=='actions'"  ><img class="edit-svg"src="../../../assets/edit-svgrepo-com.svg"></span>
+            </td>
+          </tr>
+        </ng-template>
+    
+        <ng-template pTemplate="footer" let-columns>
+          <ng-container *ngIf="data.length === 0">
+            <tr>
+              <td [attr.colspan]="columns.length">
+                <span>No Records Found!</span>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+</div>

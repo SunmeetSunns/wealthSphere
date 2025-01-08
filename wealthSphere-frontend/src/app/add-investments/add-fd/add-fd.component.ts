@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-fd',
@@ -18,11 +19,14 @@ export class AddFdComponent implements OnInit {
   orderId: any;
   forEdit: boolean = false;
   private platformId: Object;
+  modalText: string = '';
+  currentText: String | undefined;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
+    private modal: NgbModal,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.platformId = platformId;
@@ -43,13 +47,17 @@ export class AddFdComponent implements OnInit {
 
         // Patch the form with the parsed data
         this.stockForm.patchValue({
-          bankName: this.dataForEdit.bank,
-          depositAmount: this.dataForEdit.amount,
-          interestRate: this.dataForEdit.interest_rate,
-          tenure: this.dataForEdit.tenure,
-          maturityDate: this.dataForEdit.maturity_date,
-          expectedReturn: this.dataForEdit.expected_return,
+          bankName: this.dataForEdit?.bank,
+          depositAmount: parseFloat(this.dataForEdit?.amount.replace(/,/g, '')),
+          interestRate: this.dataForEdit?.interest_rate,
+          tenure: this.dataForEdit?.tenure,
+          maturityDate: this.dataForEdit?.maturity_date,
+          beginningDate: this.dataForEdit?.beginningDate,
+          expectedReturn: this.dataForEdit?.expected_return,
         });
+        
+        console.log(new Date(this.dataForEdit?.maturity_date))
+        
       }
     }
 
@@ -62,11 +70,13 @@ export class AddFdComponent implements OnInit {
   buildForm() {
     this.stockForm = this.fb.group({
       depositAmount: ['', Validators.required],
-      tenure: ['', Validators.required], // In days
       interestRate: ['', [Validators.required, Validators.min(0)]],
       maturityDate: ['', [Validators.required]],
-      expectedReturn: [{ value: '', disabled: true }, [Validators.required]], // Disable input for expectedReturn
+      beginningDate: ['', [Validators.required]],
+
       bankName: ['', [Validators.required]],
+      tenure: [{ value: '', disabled: true }, Validators.required], // Disabled from the start
+      expectedReturn: [{ value: '', disabled: true }, Validators.required],
     });
   }
 
@@ -75,7 +85,7 @@ export class AddFdComponent implements OnInit {
     const n = 4; // Compounded quarterly
     const r = rate / 100; // Convert interest rate to decimal
     const t = tenureInDays / 365; // Convert tenure from days to years
-    
+
     // Maturity Amount formula for compounded interest
     const maturityAmount = principal * Math.pow(1 + (r / n), n * t);
     return Math.round(maturityAmount); // Rounding off to nearest integer
@@ -83,21 +93,37 @@ export class AddFdComponent implements OnInit {
 
   updateMaturityAmount() {
     const formData = this.stockForm.value;
-
-    const depositAmount = formData.depositAmount;
-    const interestRate = formData.interestRate;
-    const tenure = formData.tenure;
-
-    if (depositAmount && interestRate && tenure) {
-      const maturityAmount = this.calculateMaturityAmount(depositAmount, interestRate, tenure);
-
-      // Update the form's expectedReturn field with the calculated maturity amount
+  
+    const depositAmount = (formData.depositAmount); // Ensure it's a number
+    const interestRate = (formData.interestRate); // Ensure it's a number
+    const beginningDate = formData.beginningDate;
+    const maturityDate = formData.maturityDate;
+  
+    if (!isNaN(depositAmount) && !isNaN(interestRate) && beginningDate && maturityDate) {
+      const tenureInDays = this.calculateTenureInDays(beginningDate, maturityDate);
+      this.stockForm.patchValue({ tenure: tenureInDays }, { emitEvent: false });
+  
+      const maturityAmount = this.calculateMaturityAmount(depositAmount, interestRate, tenureInDays);
       this.stockForm.patchValue({ expectedReturn: maturityAmount }, { emitEvent: false });
     }
   }
+  
+
+  // Helper function to calculate tenure in days
+  calculateTenureInDays(beginningDate: string, maturityDate: string): number {
+    const beginDate = new Date(beginningDate);
+    const maturity = new Date(maturityDate);
+
+    // Calculate the difference in time (in milliseconds)
+    const timeDifference = maturity.getTime() - beginDate.getTime();
+
+    // Convert the time difference from milliseconds to days
+    return timeDifference / (1000 * 3600 * 24); // Convert to days
+  }
+
 
   onSubmit(req: string) {
-    debugger
+    this.stockForm.markAllAsTouched();
     if (this.stockForm.valid) {
       const formData = this.stockForm.getRawValue(); // Get raw form data, including disabled fields like expectedReturn
 
@@ -128,17 +154,36 @@ export class AddFdComponent implements OnInit {
 
         this.http.post('http://localhost:3000/api/portfolio/addfd', payload)
           .subscribe(response => {
-            console.log('FD added successfully:', response);
+            if (response) {
+              this.router.navigate(['/add-investment/fd']);
+            }
           }, error => {
             console.error('Error adding FD:', error);
           });
       }
     }
+    this.modal.dismissAll();
   }
 
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId) && sessionStorage.getItem('Data_for_Edit')) {
       sessionStorage.removeItem('Data_for_Edit');
     }
+  }
+  openModal(modal: any, text?: String) {
+    this.currentText = text;
+    if (text == 'submit') {
+      this.modalText = "Are you sure you want to Submit ?"
+    }
+    if (text == 'edit') {
+      this.modalText = "Are you sure you want to Edit?"
+    }
+    if (text == 'delete') {
+      this.modalText = "Are you sure you want to Delete?"
+    }
+    this.modal.open(modal, { size: 'md', centered: true })
+  }
+  close() {
+    this.modal.dismissAll();
   }
 }

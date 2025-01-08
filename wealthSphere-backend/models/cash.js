@@ -9,6 +9,7 @@ const cashSchema = new mongoose.Schema({
   symbol:{type:String},
   amountinINR:{type:Number},
   orderId: { type: Number, unique: true },
+  exchangeRate:{type:Number},
   date: { type: Date, default: Date.now }
 });
 

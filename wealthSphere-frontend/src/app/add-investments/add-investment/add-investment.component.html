@@ -6,7 +6,7 @@
       <div class="d-flex flex-row justify-content-between">
         <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
           style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
-          {{(this.totals?.assetValues?.stockTotal).toFixed(2)}}</span>
+          {{addCommasToNumber((this.totals?.assetValues?.stockTotal).toFixed(2))}}</span>
       </div>
     </div>
     <div (click)="routeTo('cash')" class="cash-box d-flex flex-column justify-content-between">
@@ -15,7 +15,7 @@
       <div class="d-flex flex-row justify-content-between">
         <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
           style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
-          {{(this.totals?.assetValues?.cashTotal).toFixed(2)}}</span>
+          {{addCommasToNumber((this.totals?.assetValues?.cashTotal).toFixed(2))}}</span>
       </div>
     </div>
     <div (click)="routeTo('fd')" class="fd-box d-flex flex-column justify-content-between">
@@ -25,7 +25,7 @@
       <div class="d-flex flex-row justify-content-between">
         <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
           style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
-          {{(this.totals?.assetValues?.fdTotal).toFixed(2)}}</span>
+          {{addCommasToNumber((this.totals?.assetValues?.fdTotal).toFixed(2))}}</span>
       </div>
     </div>
     <div (click)="routeTo('crypto')" class="crypto-box d-flex flex-column justify-content-between">
@@ -35,7 +35,7 @@
       <div class="d-flex flex-row justify-content-between">
         <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
           style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
-          {{(this.totals?.assetValues?.cryptoTotal).toFixed(2)}}</span>
+          {{addCommasToNumber((this.totals?.assetValues?.cryptoTotal).toFixed(2))}}</span>
       </div>
     </div>
   </div>

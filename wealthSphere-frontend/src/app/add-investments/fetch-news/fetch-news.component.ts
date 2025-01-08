@@ -69,7 +69,6 @@ export class FetchNewsComponent implements OnInit {
       url = 'http://localhost:3000/api/portfolio/getGainers';
       this.http.get(url).subscribe((res) => {
         if (res) {
-          console.log(res)
           this.populateData(res);
         }
       })
@@ -77,6 +76,7 @@ export class FetchNewsComponent implements OnInit {
     if (heading == 'Cash') {
       url = 'http://localhost:3000/api/portfolio/exchangeRates'
       this.http.get(url).subscribe((res) => {
+        sessionStorage.setItem('ExchangeRates',JSON.stringify(res))
         this.populateData(res);
       })
     }

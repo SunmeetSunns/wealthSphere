@@ -54,11 +54,11 @@ this.router.navigate(['/add-investment/add-cash'])
     for (let i = 0; i < result?.length; i++) {
       this.data.push({
         source: result[i].source,
-        amount: result[i].amount,
+        amount: this.addCommasToNumber(result[i].amount.toFixed(2)),
         currency: result[i].currency,
         svg_url:result[i].svg_url,
         symbol:result[i].symbol,
-        inrAmount:'₹ '+(result[i].amountinINR).toFixed(2),
+        inrAmount:this.addCommasToNumber((result[i].amountinINR).toFixed(2)),
         orderId:result[i].orderId,
         date: new Date(result[i].date).toLocaleDateString(),
       });
@@ -68,5 +68,11 @@ this.router.navigate(['/add-investment/add-cash'])
   // Redirect to cash addition form
   routeToCash() {
     this.router.navigate(['/add-investment/add-cash']);
+  }
+  addCommasToNumber(value: number | string): string {
+    if (typeof value === "number") {
+      value = value.toString();
+    }
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }

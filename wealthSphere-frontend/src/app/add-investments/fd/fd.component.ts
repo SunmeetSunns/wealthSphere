@@ -48,16 +48,21 @@ export class FdComponent {
     for (let i = 0; i < result?.length; i++) {
       this.data.push({
         bank:result[i].bankName,
-        amount: result[i].depositAmount,
+        amount: this.addCommasToNumber(result[i]?.depositAmount.toFixed(2)),
         interest_rate: result[i].interestRate,
         tenure: result[i].tenure,
-        maturity_date: result[i].maturityDate,
-        expected_return: result[i].expectedReturn,
+        maturity_date: new Date(result[i].maturityDate).toLocaleDateString(),
+        expected_return: this.addCommasToNumber(result[i]?.expectedReturn.toFixed(2)),
         orderId:result[i].orderId ? result[i].orderId:'',
       });
     }
   }
-
+  addCommasToNumber(value: number | string): string {
+    if (typeof value === "number") {
+      value = value.toString();
+    }
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 routeToStock(){
   this.router.navigate(['/add-investment/add-fd'])
 }

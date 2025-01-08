@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-actions',
@@ -10,11 +10,17 @@ import { Router } from '@angular/router';
 })
 export class ActionsComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+   
+  }
   ngOnInit() {
 
+  }
+  routeToaddReport() {
+    this.router.navigate(['/view-reports/reports']);
   }
   routeToaddInvest() {
     this.router.navigate(['/add-investment/initialise']);
   }
+
 }

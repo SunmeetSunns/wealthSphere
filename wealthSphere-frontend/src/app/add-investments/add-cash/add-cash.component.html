@@ -1,32 +1,86 @@
 <div class="cardBoxShadow1 mt-2">
-    <span>Add/Edit Cash</span>
-  </div>
-  <div class="background">
-    <div class="form-container">
-      <form [formGroup]="stockForm" class="col-lg-12">
-        <div class="form-group col-lg-6">
-          <label for="symbol">Source</label>
-          <input id="symbol" formControlName="source" type="text" />
-        </div>
-        <div class="form-group col-lg-6">
-          <label for="company">Amount</label>
+  <span>Add/Edit Cash</span>
+</div>
+<div class="background">
+  <div class="triangle"></div>
+  <div class="triangle1"></div>
+  <div class="form-container">
+    <form [formGroup]="stockForm" class="col-lg-12">
+      <div class="form-group col-lg-6">
+        <label for="symbol">Source <span class="error">*</span></label>
+        <input id="symbol" formControlName="source" type="text" />
+        <span class="error" *ngIf="stockForm.get('source')?.invalid && stockForm.get('source')?.touched" >Source is required.</span>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="currency">Currency <span class="error">*</span></label>
+        <select formControlName="currency" class="form-control">
+          <option value="" disabled>Please Select</option>
+          <option *ngFor="let i of currencies" [value]="i">
+            {{ i }}
+          </option>
+        </select>
+        <span class="error" *ngIf="stockForm.get('currency')?.invalid && stockForm.get('currency')?.touched ">Currency is required.</span>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="company">Amount <span class="error">*</span></label>
+        <div class="d-flex flex-row">
+          <span class="symbolBox">{{this.currentCurrencySymbol}}</span>
           <input id="company" formControlName="amount" type="number" />
         </div>
-        <div class="form-group col-lg-6">
-          <label for="quantity">Currency</label>
-         <select formControlName="currency">
-          <option [value]="'ps'">Please Select</option>
-          <option *ngFor="let i of currencies">{{ i }}</option>
-         </select>
+        <span class="error" *ngIf="stockForm.get('amount')?.invalid && stockForm.get('amount')?.touched">Amount is required.</span>
+      </div>
+     
+      
+      <div class="form-group">
+          <label for="estimatedAmt">Estimated Amount <span class="error">*</span></label>
+          <div class="d-flex flex-row">
+            <span class="symbolBox">₹</span>
+            <input id="estimatedAmt" formControlName="estimatedAmt" type="number" />
+          </div>
+          <span class="error" *ngIf="stockForm.get('estimatedAmt')?.invalid && stockForm.get('estimatedAmt')?.touched">Estimated Amount is required.</span>
         </div>
-        <!-- <div class="form-group">
-          <label for="purchasePrice">Purchase Price</label>
-          <input id="purchasePrice" formControlName="purchasePrice" type="number" />
-        </div> -->
-        <button type="submit" class="submit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
-        <button type="submit" class="edit" *ngIf="forEdit" (click)="onSubmit('edit')">Edit</button>
-        <button type="submit" class="delete" *ngIf="forEdit" (click)="onSubmit('delete')">Delete</button>
-      </form>
+      <button type="submit" class="submit" *ngIf="!forEdit" (click)="openModal(myModal,'submit')">Submit</button>
+      <button type="submit" class="edit" *ngIf="forEdit" (click)="openModal(myModal,'edit')">Edit</button>
+      <button type="submit" class="delete" *ngIf="forEdit" (click)="openModal(myModal,'delete')">Delete</button>
+    </form>
+  </div>
+  <div class="triangle2"></div>
+  <div class="triangle3"></div>
+</div>
+<ng-template #myModal let-modal>
+  <div class="modal-header-pop ">
+    <div class="heading my-modal">
+      <span>{{this.modalText}}</span>
+    </div>
+  
+    <div class="modal-body d-flex justify-content-evenly mt-3">
+      <button *ngIf="this.currentText=='submit'" class="btn btn-success"(click)="onSubmit('submit')">Submit</button>
+      <button *ngIf="this.currentText=='edit'" class="btn btn-primary"(click)="onSubmit('edit')">Edit</button>
+      <button *ngIf="this.currentText=='delete'" class="btn btn-red"(click)="onSubmit('delete')">Delete</button>
+      <button class="btn btn-danger"(click)="close()">Close</button>
     </div>
   </div>
-  
+
+</ng-template>
+
+<!-- <div class="modal" id="myModal">
+
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Hi Sunmeet
+        </h4>
+      </div>
+      <div class="modal-body">
+Modal Body
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID,ViewChild,TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
   selector: 'app-add-stock',
@@ -13,6 +14,8 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./add-stock.component.css']
 })
 export class AddStockComponent implements OnInit {
+ 
+  showModal: boolean = false;
   stockForm!: FormGroup;
   dataForEdit!: any;
   orderId: any;
@@ -126,4 +129,7 @@ export class AddStockComponent implements OnInit {
       sessionStorage.removeItem('Data_for_Edit');
     }
   }
+ 
+
 }
+

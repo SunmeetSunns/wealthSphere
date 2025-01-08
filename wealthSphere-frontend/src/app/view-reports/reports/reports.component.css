@@ -1,0 +1,91 @@
+/* .main-reports{
+
+ 
+
+} */
+.my-reports{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 1em;
+    padding: 1em;
+    padding-left: 5.5em;
+    /* column-gap: 2em; */
+
+}
+.my-reports>div{
+    height: 18em;
+    width: 28em;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+}
+.my-reports>div>span{
+    text-align: center;
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+}
+.report-cash>span{
+    background-color: #00786c;
+    padding: 10px;
+    
+}
+.report-fd>span{
+    background-color: #00786c;
+    padding: 10px;
+    
+}
+.report-stc>span{
+    background-color: #00786c;
+    padding: 10px;
+    
+}
+.report-crypto>span{
+    background-color: #00786c;
+    padding: 10px;
+    
+}
+.report-crypto:hover{
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+}
+.report-fd:hover{
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+}
+.report-cash:hover{
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+}
+.report-stc:hover{
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+}
+.report-stc{
+    background-image: url('../../../assets/stock_report.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.report-cash{
+    background-image: url('../../../assets/cash-report.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.report-fd{
+    background-image: url('../../../assets/fd-report.webp.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.report-crypto{
+    background-image: url('../../../assets/crypto_report.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

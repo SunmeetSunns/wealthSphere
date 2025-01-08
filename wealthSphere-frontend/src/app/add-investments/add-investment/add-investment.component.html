@@ -6,7 +6,7 @@
       <div class="d-flex flex-row justify-content-between">
         <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
           style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
-          {{addCommasToNumber((this.totals?.assetValues?.stockTotal).toFixed(2))}}</span>
+          {{this.totals?.assetValues?.stockTotal ? addCommasToNumber((this.totals?.assetValues?.stockTotal).toFixed(2)):'0'}}</span>
       </div>
     </div>
     <div (click)="routeTo('cash')" class="cash-box d-flex flex-column justify-content-between">
@@ -15,7 +15,7 @@
       <div class="d-flex flex-row justify-content-between">
         <span style="font-size: 20px;font-weight: bold;margin-left: 1em;">Current Position</span><span
           style="font-size: 21px;font-weight: bold;margin-right: 1em;">₹
-          {{addCommasToNumber((this.totals?.assetValues?.cashTotal).toFixed(2))}}</span>
+          {{this.totals?.assetValues?.cashTotal ? addCommasToNumber((this.totals?.assetValues?.cashTotal).toFixed(2)): '0'}}</span>
       </div>
     </div>
     <div (click)="routeTo('fd')" class="fd-box d-flex flex-column justify-content-between">

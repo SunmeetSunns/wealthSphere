@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -21,11 +22,14 @@ export class AddStockComponent implements OnInit {
   orderId: any;
   forEdit: boolean = false;
   private platformId: Object;
+  modalText: string='';
+  currentText: String | undefined;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
+    private modal:NgbModal,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.platformId = platformId;
@@ -79,6 +83,7 @@ export class AddStockComponent implements OnInit {
   }
 
   onSubmit(req: string) {
+    this.stockForm.markAllAsTouched()
     if (this.stockForm.valid) {
       const formData = this.stockForm.value;
       if (this.forEdit && this.orderId && req == 'edit') {
@@ -116,14 +121,32 @@ export class AddStockComponent implements OnInit {
 
         this.http.post('http://localhost:3000/api/portfolio/putstock', payload)
           .subscribe(response => {
-            console.log('Stock added successfully:', response);
+            if(response){
+              this.router.navigate(['/add-investment/stocks']);
+            }
           }, error => {
             console.error('Error adding stock:', error);
           });
       }
+      this.modal.dismissAll()
     }
   }
-
+  openModal(modal: any, text?: String) {
+    this.currentText = text;
+    if (text == 'submit') {
+      this.modalText = "Are you sure you want to Submit ?"
+    }
+    if (text == 'edit') {
+      this.modalText = "Are you sure you want to Edit?"
+    }
+    if (text == 'delete') {
+      this.modalText = "Are you sure you want to Delete?"
+    }
+    this.modal.open(modal, { size: 'md', centered: true })
+  }
+  close() {
+    this.modal.dismissAll();
+  }
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId) && sessionStorage.getItem('Data_for_Edit')) {
       sessionStorage.removeItem('Data_for_Edit');

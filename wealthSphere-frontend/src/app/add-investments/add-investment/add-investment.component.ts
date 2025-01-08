@@ -31,6 +31,9 @@ this.http.get(url).subscribe((res)=>{
     this.router.navigate([`/add-investment/${where}`])
   }
   addCommasToNumber(value: number | string): string {
+    if(value==null){
+      return ''
+    }
     if (typeof value === "number") {
       value = value.toString();
     }

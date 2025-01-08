@@ -38,7 +38,6 @@ export class FdComponent {
     let url = 'http://localhost:3000/api/portfolio/getfd'
     this.http.get(url).subscribe((res) => {
       if (res) {
-        console.log(res)
         this.populateData(res)
       }
     })

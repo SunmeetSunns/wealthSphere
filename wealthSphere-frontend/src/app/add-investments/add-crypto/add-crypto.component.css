@@ -195,3 +195,27 @@
     transform: rotate(0deg);
   }
 }
+.my-modal {
+  font-size: 20px;
+  font-weight: bold;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+.btn-red{
+  color: white;
+  background-color: red;
+}
+.error{
+  color: red;
+}
+.symbolBox{
+  background-color: #00786c;
+  width: 1.5em;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  color: white;
+  font-size: 28px;
+  height: 1.6em;
+
+}

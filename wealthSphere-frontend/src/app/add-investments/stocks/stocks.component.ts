@@ -36,7 +36,6 @@ export class StocksComponent {
     let url = 'http://localhost:3000/api/portfolio/getstock'
     this.http.get(url).subscribe((res) => {
       if (res) {
-        console.log(res)
         this.populateData(res)
       }
     })

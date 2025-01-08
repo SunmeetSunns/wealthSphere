@@ -38,8 +38,7 @@ export class CryptoComponent {
     let url = 'http://localhost:3000/api/portfolio/getcrypto'
     this.http.get(url).subscribe((res) => {
       if (res) {
-        console.log(res)
-        this.populateData(res)
+      this.populateData(res)
       }
     })
   }

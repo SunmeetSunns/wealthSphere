@@ -1,9 +1,0 @@
-[build]
-  command = "ng build --configuration=production"
-  publish = "dist/wealth-sphere-frontend"
-  base = "/"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

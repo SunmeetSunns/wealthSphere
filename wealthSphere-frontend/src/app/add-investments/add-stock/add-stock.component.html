@@ -9,36 +9,64 @@
       <div class="form-group">
         <label for="symbol">Stock Symbol</label>
         <input id="symbol" formControlName="symbol" type="text" />
+        <span class="error" *ngIf="stockForm.get('symbol')?.invalid && stockForm.get('symbol')?.touched ">Stock Symbol is required.</span>
       </div>
       <div class="form-group">
         <label for="company">Company Name</label>
         <input id="company" formControlName="company" type="text" />
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input id="quantity" formControlName="quantity" type="number" />
+        <span class="error" *ngIf="stockForm.get('company')?.invalid && stockForm.get('company')?.touched ">Company is required.</span>
       </div>
       <div class="form-group">
         <label for="purchasePrice">Purchase Price</label>
-        <input id="purchasePrice" formControlName="purchasePrice" type="number" />
+        <div class="d-flex flex-row">
+          <span class="symbolBox">₹</span>
+          <input id="purchasePrice" formControlName="purchasePrice" type="number" />
+        </div>
+        <span class="error" *ngIf="stockForm.get('purchasePrice')?.invalid && stockForm.get('purchasePrice')?.touched ">Purchase Price is required.</span>
       </div>
       <div class="form-group">
         <label for="currentPrice">Current Price</label>
-        <input id="currentPrice" formControlName="currentPrice" type="number" />
+        <div class="d-flex flex-row">
+          <span class="symbolBox">₹</span>
+          <input id="currentPrice" formControlName="currentPrice" type="number" />
+        </div>
+        <span class="error" *ngIf="stockForm.get('currentPrice')?.invalid && stockForm.get('currentPrice')?.touched ">Current Price is required.</span>
+      </div>
+     
+    
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input id="quantity" formControlName="quantity" type="number" />
+        <span class="error" *ngIf="stockForm.get('quantity')?.invalid && stockForm.get('quantity')?.touched ">Quantity is required.</span>
       </div>
       <div class="form-group">
         <label for="totalValue">Total Value</label>
         <input id="totalValue" formControlName="totalValue" type="number" />
+        <span class="error" *ngIf="stockForm.get('totalValue')?.invalid && stockForm.get('totalValue')?.touched ">Total Value is required.</span>
       </div>
-      <button type="submit" class="edit" *ngIf="!forEdit" (click)="onSubmit('submit')">Submit</button>
-      <button type="submit" class="edit" *ngIf="forEdit" (click)="onSubmit('edit')">Edit</button>
-      <button type="submit" class="delete" *ngIf="forEdit" (click)="onSubmit('delete')">Delete</button>
+      <button type="submit" class="edit" *ngIf="!forEdit" (click)="openModal(myModal,'submit')">Submit</button>
+      <button type="submit" class="edit" *ngIf="forEdit" (click)="openModal(myModal,'edit')">Edit</button>
+      <button type="submit" class="delete" *ngIf="forEdit" (click)="openModal(myModal,'delete')">Delete</button>
     </form>
   </div>
   <div class="triangle2"></div>
   <div class="triangle3"></div>
 </div>
+<ng-template #myModal let-modal>
+  <div class="modal-header-pop ">
+    <div class="heading my-modal">
+      <span>{{this.modalText}}</span>
+    </div>
+  
+    <div class="modal-body d-flex justify-content-evenly mt-3">
+      <button *ngIf="this.currentText=='submit'" class="btn btn-success"(click)="onSubmit('submit')">Submit</button>
+      <button *ngIf="this.currentText=='edit'" class="btn btn-primary"(click)="onSubmit('edit')">Edit</button>
+      <button *ngIf="this.currentText=='delete'" class="btn btn-red"(click)="onSubmit('delete')">Delete</button>
+      <button class="btn btn-danger"(click)="close()">Close</button>
+    </div>
+  </div>
 
+</ng-template>
 
 <!-- Modal Popup -->
  

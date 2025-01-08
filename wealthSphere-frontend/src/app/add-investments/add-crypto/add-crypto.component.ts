@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-crypto',
@@ -20,11 +21,14 @@ export class AddCryptoComponent {
   orderId: any;
   forEdit: boolean = false;
   private platformId: Object;
+  modalText: string='';
+  currentText: String | undefined;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
+    private modal:NgbModal,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.platformId = platformId;
@@ -45,10 +49,10 @@ export class AddCryptoComponent {
         // Patch the form with the parsed data
         this.stockForm.patchValue({
           type: this.dataForEdit?.type,
-          currentValue: this.dataForEdit?.currentValue,
+          currentValue:  parseFloat(this.dataForEdit?.currentValue.replace(/,/g, '')),
           quantity: this.dataForEdit?.quantity,
           purchasePrice: this.dataForEdit?.purchasePrice,
-          totalValue: this.dataForEdit?.totalValue,
+          totalValue:  parseFloat(this.dataForEdit?.totalValue.replace(/,/g, '')),
           purchaseDate: this.dataForEdit?.purchaseDate
         });
       }
@@ -77,6 +81,7 @@ export class AddCryptoComponent {
   }
 
   onSubmit(req: string) {
+    this.stockForm.markAllAsTouched()
     if (this.stockForm.valid) {
       const formData = this.stockForm.value;
       if (this.forEdit && this.orderId && req == 'edit') {
@@ -113,18 +118,37 @@ export class AddCryptoComponent {
 
         this.http.post('http://localhost:3000/api/portfolio/putcrypto', payload)
           .subscribe(response => {
-            console.log('Stock added successfully:', response);
+           if(response){
+            this.router.navigate(['/add-investment/crypto']);
+           }
           }, error => {
             console.error('Error adding stock:', error);
           });
       }
+      this.modal.dismissAll();
     }
   }
-
+  openModal(modal: any, text?: String) {
+    this.currentText = text;
+    if (text == 'submit') {
+      this.modalText = "Are you sure you want to Submit ?"
+    }
+    if (text == 'edit') {
+      this.modalText = "Are you sure you want to Edit?"
+    }
+    if (text == 'delete') {
+      this.modalText = "Are you sure you want to Delete?"
+    }
+    this.modal.open(modal, { size: 'md', centered: true })
+  }
+  close() {
+    this.modal.dismissAll();
+  }
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId) && sessionStorage.getItem('Data_for_Edit')) {
       sessionStorage.removeItem('Data_for_Edit');
     }
   }
+
 }
 

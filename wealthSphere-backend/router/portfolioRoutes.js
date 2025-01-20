@@ -55,4 +55,7 @@ router.get('/cryptoRiskAssessment',getAllCryptoRiskAssessment)
 router.get('/stockRiskAssessment', getAllStockRiskAssessment)
 router.get('/getCashReport',getCashSummary)
 router.get('/getfdReport',getMaturityScheduleByBank)
+router.get('/signup',(req,res)=>{
+    return res.render('signup')
+})
 module.exports=router;

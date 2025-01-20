@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { ViewReportsModule } from './view-reports/view-reports.module';
+import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +24,15 @@ import { ViewReportsModule } from './view-reports/view-reports.module';
     ViewReportsModule,
     CommonModule,
     ActionsComponent,
-    SpinnerComponent
+    LoginComponent,
+    SignUpComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+  isLoggedIn?:boolean;
+  isSignupStage?:boolean;
   title = 'wealthSphere-frontend';
   showNews: boolean = true;
   showContent: boolean = true;
@@ -45,8 +49,18 @@ export class AppComponent {
 
   // This method handles toggling the visibility of the news component
   onNewsToggle(isVisible: any) {
-    this.showNews = isVisible;
+    this.showNews = isVisible
+
   }
+  onLogin(isVisible:any){
+    this.isLoggedIn=isVisible
+
+  }
+  onSignup(isVisible:any){
+    this.isSignupStage=isVisible
+
+  }
+
 
   // This method toggles the visibility of the news panel
   toggleData() {

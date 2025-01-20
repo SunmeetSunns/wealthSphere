@@ -1,9 +1,24 @@
 <div class="header">
    <div class="logo" href="/blank">
- <img src="../../assets/Logo.png">
+      <img src="../../assets/Logo.png">
    </div>
-   <div class="profile">
+   <div class="profile"  (click)="toggleDiv()">
       <span>Sunmeet Kaur</span>
       <img src="../../assets/profile.svg">
+   </div>
+</div>
+
+<div class="d-flex flex-column cardBoxShadowBox justify-content-around" *ngIf="this.showDiv">
+   <div class="d-flex flex-row" style="border-bottom: 1px solid #afafaf;">
+      <img class="profile-img" src="../../assets/img-logo.svg" style="
+    margin-right: 1em">
+      <div class="d-flex flex-column justify-content-start" >
+         <span class="text-name1">Sunmeet Kaur Sachdeva</span>
+         <span class="text-name">{{this.email}}</span>
+      </div>
+   </div>
+   <div class="d-flex flex-column">
+      <div class="d-flex flex-row profile-logo justify-content-start mb-2"><img src="../../assets/profile_logo.svg"> <span>My Profile</span></div>
+      <div class="d-flex flex-row profile-logo justify-content-start"(click)="changeState()"><img src="../../assets/sign-out.svg"> <span>Sign Out</span></div>
    </div>
 </div>

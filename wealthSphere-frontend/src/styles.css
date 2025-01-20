@@ -9,3 +9,8 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, .2), 0 4px 8px 0 transparent;
   
   }
+  :root{
+    --text-color:#8e969c;
+    --main-color:#00786c;
+  }
+  

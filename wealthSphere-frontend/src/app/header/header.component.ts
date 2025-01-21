@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter ,HostListener} from '@angular/core';
+import { Component, Output, EventEmitter ,HostListener, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,16 +8,31 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
   @Output() toggleLoginComponent = new EventEmitter<boolean>();
   @Output() toggleSignupComponent = new EventEmitter<boolean>();
   isLoggedIn?: boolean;
   isSignupStage?: boolean;
   email: String = 'abc@gmail.com';
-  showDiv: boolean = false;;
+  showDiv: boolean = false;
+  userData: any;
+  ngOnInit(): void {
+    if(sessionStorage.getItem('userData')){
+      const user=sessionStorage.getItem('userData');
+      if(user){
+        this.userData=JSON.parse(user)
+      }
+      this.email=this.userData?.username
+    }
+   
+    
+  }
   changeState() {
     if (localStorage.getItem('authToken')) {
       localStorage.removeItem('authToken')
+    }
+    if(sessionStorage.getItem('userData')){
+      sessionStorage.removeItem('userData')
     }
     this.isLoggedIn = false;
     this.isSignupStage = false;

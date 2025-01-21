@@ -16,6 +16,7 @@ exports.verifyUser = async (req, res, next) => {
         next(); // Pass control to the next middleware
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
+            // localStorage.removeItem('authToken')
             return res.status(401).json({ error: 'Unauthorized: Token expired.' });
         }
         if (error.name === 'JsonWebTokenError') {

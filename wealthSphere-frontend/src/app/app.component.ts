@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { HeaderComponent } from './header/header.component';
@@ -31,13 +31,13 @@ import { SignUpComponent } from './sign-up/sign-up.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isLoggedIn?:boolean;
-  isSignupStage?:boolean;
+  isLoggedIn?: boolean;
+  isSignupStage?: boolean;
   title = 'wealthSphere-frontend';
   showNews: boolean = true;
   showContent: boolean = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private cdr: ChangeDetectorRef) {
     // Listen to route changes and hide components based on the active route
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -49,18 +49,22 @@ export class AppComponent {
 
   // This method handles toggling the visibility of the news component
   onNewsToggle(isVisible: any) {
-    this.showNews = isVisible
-
-  }
-  onLogin(isVisible:any){
-    this.isLoggedIn=isVisible
-
-  }
-  onSignup(isVisible:any){
-    this.isSignupStage=isVisible
-
+    this.showNews = isVisible;
   }
 
+  onLogin(isVisible: any) {
+    this.isLoggedIn = isVisible;
+
+    // Manually trigger change detection after login status change
+    this.cdr.detectChanges();
+  }
+
+  onSignup(isVisible: any) {
+    this.isSignupStage = isVisible;
+
+    // Manually trigger change detection after signup stage change
+    this.cdr.detectChanges();
+  }
 
   // This method toggles the visibility of the news panel
   toggleData() {

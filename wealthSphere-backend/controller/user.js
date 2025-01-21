@@ -29,9 +29,10 @@ exports.signUp = async (req, res) => {
             mobile_no,
             password: hashedPassword, // Save the hashed password
         });
-
+        const token = setUser(user);
         res.status(201).json({
             message: 'User created successfully',
+            token,
             user: {
                 id: user._id,
                 username: user.username,
@@ -57,7 +58,7 @@ exports.login = async (req, res) => {
 
         // Case-insensitive search for username
         const user = await User.findOne({
-            username: new RegExp(`^${username}$`, 'i') // Case-insensitive regex search
+            username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
         });
 
         // Check if user exists
@@ -67,16 +68,21 @@ exports.login = async (req, res) => {
 
         // Compare the hashed password with the entered password
         const isMatch = await bcrypt.compare(password, user.password);
-        
+
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid username or password' });
         }
 
-        // Generate JWT or session token (e.g., using a function called `setUser`)
+        // Generate JWT with expiry
         const token = setUser(user);
+
+        // Calculate expiry time in seconds
+        const expiresIn = 3600; // 1 hour
+        const expiryTimestamp = Math.floor(Date.now() / 1000) + expiresIn;
 
         res.status(200).json({
             token,
+            expiresIn, // Send expiry time in seconds
             success: true,
             user: {
                 id: user._id,
@@ -93,3 +99,8 @@ exports.login = async (req, res) => {
     }
 };
 
+
+exports.logout = async (req, res) => {
+    res.status(200).json({ message: 'Logged out successfully' });
+    window.location.reload()
+}

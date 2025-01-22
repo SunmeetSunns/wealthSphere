@@ -33,7 +33,7 @@ export class StocksComponent {
     ];
   }
   getStockData() {
-    let url = 'http://localhost:3000/api/portfolio/getstock'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/getstock'
     this.http.get(url).subscribe((res) => {
       if (res) {
         this.populateData(res)

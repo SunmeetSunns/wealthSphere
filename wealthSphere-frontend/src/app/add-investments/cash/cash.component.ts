@@ -40,7 +40,7 @@ this.router.navigate(['/add-investment/add-cash'])
 }
   // Fetch cash data from backend API
   getCashData() {
-    const url = 'http://localhost:3000/api/portfolio/getcash';
+    const url = 'https://wealtsphere.onrender.com/api/portfolio/getcash';
     this.http.get(url).subscribe((res) => {
       if (res) {
         this.populateData(res);

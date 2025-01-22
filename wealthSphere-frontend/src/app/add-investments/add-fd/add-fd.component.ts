@@ -133,7 +133,7 @@ export class AddFdComponent implements OnInit {
           orderId: this.orderId
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/updatefd', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updatefd', payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/fd']);
@@ -144,7 +144,7 @@ export class AddFdComponent implements OnInit {
       } else if (this.forEdit && this.orderId && req === 'delete') {
         const payload = { orderId: this.orderId };
 
-        this.http.post('http://localhost:3000/api/portfolio/deletefd', payload).subscribe(response => {
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deletefd', payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/fd']);
           }
@@ -152,7 +152,7 @@ export class AddFdComponent implements OnInit {
       } else if (!this.forEdit) {
         const payload = { ...formData };
 
-        this.http.post('http://localhost:3000/api/portfolio/addfd', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/addfd', payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/fd']);

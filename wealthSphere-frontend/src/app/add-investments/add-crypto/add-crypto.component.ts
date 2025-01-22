@@ -90,7 +90,7 @@ export class AddCryptoComponent {
           orderId: this.orderId
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/updateCrypto', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updateCrypto', payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/']);
@@ -104,7 +104,7 @@ export class AddCryptoComponent {
         const payload = {
           orderId: this.orderId
         }
-        this.http.post('http://localhost:3000/api/portfolio/deleteCrypto', payload).subscribe(response => {
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deleteCrypto', payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/crypto']);
           }
@@ -116,7 +116,7 @@ export class AddCryptoComponent {
           "totalValue": this.stockForm.get('totalValue')?.value,
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/putcrypto', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/putcrypto', payload)
           .subscribe(response => {
            if(response){
             this.router.navigate(['/add-investment/crypto']);

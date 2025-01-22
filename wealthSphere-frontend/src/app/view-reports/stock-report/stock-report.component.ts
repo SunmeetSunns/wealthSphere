@@ -35,7 +35,7 @@ export class StockReportComponent implements OnInit {
 
   }
   populateData() {
-    let url = 'http://localhost:3000/api/portfolio/stockRiskAssessment'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/stockRiskAssessment'
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

@@ -32,7 +32,7 @@ export class CashReportComponent {
     ]
   }
   populateData() {
-    let url = 'http://localhost:3000/api/portfolio/getCashReport'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/getCashReport'
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

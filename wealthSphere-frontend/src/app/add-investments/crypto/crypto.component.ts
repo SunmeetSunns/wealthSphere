@@ -35,7 +35,7 @@ export class CryptoComponent {
     ];
   }
   getStockData() {
-    let url = 'http://localhost:3000/api/portfolio/getcrypto'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/getcrypto'
     this.http.get(url).subscribe((res) => {
       if (res) {
       this.populateData(res)

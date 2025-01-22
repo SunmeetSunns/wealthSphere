@@ -66,7 +66,7 @@ export class FetchNewsComponent implements OnInit {
   getData(heading: string) {
     let url;
     if (heading == 'Stocks') {
-      url = 'http://localhost:3000/api/portfolio/getGainers';
+      url = 'https://wealtsphere.onrender.com/api/portfolio/getGainers';
       this.http.get(url).subscribe((res) => {
         if (res) {
           this.populateData(res);
@@ -74,20 +74,20 @@ export class FetchNewsComponent implements OnInit {
       })
     }
     if (heading == 'Cash') {
-      url = 'http://localhost:3000/api/portfolio/exchangeRates'
+      url = 'https://wealtsphere.onrender.com/api/portfolio/exchangeRates'
       this.http.get(url).subscribe((res) => {
         sessionStorage.setItem('ExchangeRates',JSON.stringify(res))
         this.populateData(res);
       })
     }
     if (heading == 'Crypto') {
-      url = 'http://localhost:3000/api/portfolio/cryptoRates'
+      url = 'https://wealtsphere.onrender.com/api/portfolio/cryptoRates'
       this.http.get(url).subscribe((res) => {
         this.populateData(res);
       })
     }
     if(heading=='FD'){
-      url='http://localhost:3000/api/portfolio/fdRates'
+      url='https://wealtsphere.onrender.com/api/portfolio/fdRates'
       this.http.get(url).subscribe((res)=>{
         this.populateData(res);
       })

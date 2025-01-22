@@ -34,7 +34,7 @@ export class FdReportComponent {
     ]
   }
   populateData() {
-    let url = 'http://localhost:3000/api/portfolio/getfdReport'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/getfdReport'
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

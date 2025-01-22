@@ -33,7 +33,7 @@ export class PortfolioComponent implements OnInit {
   }
 
   getPortfolioData() {
-    const url = 'http://localhost:3000/api/portfolio/portfolioTotal';
+    const url = 'https://wealtsphere.onrender.com/api/portfolio/portfolioTotal';
     this.http.get(url).subscribe((res: any) => {
       if (res) {
         this.populateData(res);

@@ -93,7 +93,7 @@ export class AddStockComponent implements OnInit {
           orderId: this.orderId
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/updateStock', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updateStock', payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/stocks']);
@@ -107,7 +107,7 @@ export class AddStockComponent implements OnInit {
         const payload = {
           orderId: this.orderId
         }
-        this.http.post('http://localhost:3000/api/portfolio/deleteStock', payload).subscribe(response => {
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deleteStock', payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/stocks']);
           }
@@ -119,7 +119,7 @@ export class AddStockComponent implements OnInit {
           totalValue: this.stockForm.get('totalValue')?.value || 0
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/putstock', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/putstock', payload)
           .subscribe(response => {
             if(response){
               this.router.navigate(['/add-investment/stocks']);

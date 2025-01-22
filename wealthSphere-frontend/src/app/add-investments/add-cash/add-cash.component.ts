@@ -162,7 +162,7 @@ this.stockForm.markAllAsTouched()
           orderId: this.orderId
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/updateCash', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updateCash', payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/cash']);
@@ -176,7 +176,7 @@ this.stockForm.markAllAsTouched()
         const payload = {
           orderId: this.orderId
         }
-        this.http.post('http://localhost:3000/api/portfolio/deleteCash', payload).subscribe(response => {
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deleteCash', payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/cash']);
           }
@@ -187,7 +187,7 @@ this.stockForm.markAllAsTouched()
           ...formData,
         };
 
-        this.http.post('http://localhost:3000/api/portfolio/putcash', payload)
+        this.http.post('https://wealtsphere.onrender.com/api/portfolio/putcash', payload)
           .subscribe(response => {
          
             this.router.navigate(['/add-investment/cash']);

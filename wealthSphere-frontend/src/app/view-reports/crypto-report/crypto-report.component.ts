@@ -33,7 +33,7 @@ export class CryptoReportComponent implements OnInit {
     ]
   }
   populateData() {
-    let url = 'http://localhost:3000/api/portfolio/cryptoRiskAssessment'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/cryptoRiskAssessment'
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

@@ -80,7 +80,7 @@ export class NewsComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
   getNews(){
-    let url='http://localhost:3000/api/portfolio/fetchNews'
+    let url='https://wealtsphere.onrender.com/api/portfolio/fetchNews'
     this.http.get(url).subscribe((res)=>{
       if(res){
         this.marketTrends=res;

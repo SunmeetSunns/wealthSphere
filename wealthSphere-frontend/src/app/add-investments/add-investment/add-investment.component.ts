@@ -20,7 +20,7 @@ export class AddInvestmentComponent {
     this.getTotals()
   }
   getTotals(){
-    let url='http://localhost:3000/api/portfolio/portfolioTotal'
+    let url='https://wealtsphere.onrender.com/api/portfolio/portfolioTotal'
 this.http.get(url).subscribe((res)=>{
   if(res){
     this.totals=res;

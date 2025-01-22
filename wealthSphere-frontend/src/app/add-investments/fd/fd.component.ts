@@ -35,7 +35,7 @@ export class FdComponent {
     ];
   }
   getStockData() {
-    let url = 'http://localhost:3000/api/portfolio/getfd'
+    let url = 'https://wealtsphere.onrender.com/api/portfolio/getfd'
     this.http.get(url).subscribe((res) => {
       if (res) {
         this.populateData(res)

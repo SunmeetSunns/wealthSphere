@@ -36,7 +36,7 @@ export class SignUpComponent implements OnInit {
     this.signupForm.markAllAsTouched();
     if (this.signupForm.invalid)
       return;
-    let url = 'http://localhost:3000/api/user/signUp'
+    let url = 'https://wealtsphere.onrender.com/api/user/signUp'
     let body = {
       first_name: this.signupForm.get('first_name')?.value,
       last_name: this.signupForm.get('last_name')?.value,

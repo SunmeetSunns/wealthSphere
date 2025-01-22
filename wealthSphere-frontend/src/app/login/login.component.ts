@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   changeState(): void {
-    const url = 'http://localhost:3000/api/user/login';
+    const url = 'https://wealtsphere.onrender.com/api/user/login';
     const body = {
       username: this.loginForm.get('username')?.value,
       password: this.loginForm.get('password')?.value,

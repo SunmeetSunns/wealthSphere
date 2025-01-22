@@ -1,0 +1,7 @@
+{
+    "/api": {
+      "target": "https://wealtsphere.onrender.com",
+      "secure": false
+    }
+  }
+  

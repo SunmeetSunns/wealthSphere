@@ -20,7 +20,9 @@ exports.verifyUser = async (req, res, next) => {
             return res.status(401).json({ error: 'Unauthorized: Token expired.' });
         }
         if (error.name === 'JsonWebTokenError') {
-            return res.status(401).json({ error: 'Unauthorized: Invalid token.' });
+            return res.status(401).json({ error: 'Unauthorized: Invalid token.'
+                
+             });
         }
         res.status(500).json({ error: 'Internal Server Error' });
     }

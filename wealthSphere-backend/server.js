@@ -11,20 +11,32 @@ const { verifyUser } = require('./middleware/auth');
 
 const app = express();
 
-// Middleware to set CORS headers (Allow all origins)
+// Define the allowed origins based on the environment
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://deft-starship-250f12.netlify.app'] // Allow Netlify app in production
+  : ['http://localhost:4200']; // Allow localhost in development
+
+// CORS configuration
 app.use(cors({
-  origin: '*',  // Allow all origins
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],  // Allow the required methods
-  credentials: true,  // Allow cookies to be sent with the request
+  origin: function (origin, callback) {
+    // If there's no origin (e.g., requests from Postman or similar), allow the request
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed for this origin'), false);
+    }
+  },
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Allow cookies and credentials
 }));
 
-// Allowing CORS headers explicitly for other purposes if necessary
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');  // Allow all origins
-  res.header('Access-Control-Allow-Credentials', 'true');  // Allow cookies and credentials
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');  // Methods allowed
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');  // Headers allowed
-  next();
+// Handle preflight requests (OPTIONS)
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.header('Origin')); // Set the specific origin that made the request
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.status(200).end();
 });
 
 // Middleware

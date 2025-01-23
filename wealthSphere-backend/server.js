@@ -13,7 +13,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin:'http://localhost:4200',
+  origin:'https://deft-starship-250f12.netlify.app/',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials:true
 }
  

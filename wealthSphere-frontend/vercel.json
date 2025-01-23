@@ -1,14 +1,17 @@
 {
   "builds": [
     {
-      "src": "dist/wealthSphere-frontend/**/*",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist/wealthSphere-frontend" }
     }
+    
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/wealthSphere-frontend/$1"
+      "dest": "/index.html",
+      "status": 200
     }
   ]
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-portfolio',
@@ -12,6 +13,7 @@ import { TableModule } from 'primeng/table';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
+  private apiUrl = environment.apiUrl;
   chartData: any;
   columns: any[] = [];
   data: any[] = [];
@@ -33,7 +35,7 @@ export class PortfolioComponent implements OnInit {
   }
 
   getPortfolioData() {
-    const url = 'https://wealtsphere.onrender.com/api/portfolio/portfolioTotal';
+    const url = `${this.apiUrl}/api/portfolio/portfolioTotal`;
     this.http.get(url).subscribe((res: any) => {
       if (res) {
         this.populateData(res);
@@ -67,7 +69,7 @@ export class PortfolioComponent implements OnInit {
     const { stockTotal, cashTotal, cryptoTotal, fdTotal } = mydata?.assetValues || {};
 
     this.data = [
-      { assets: 'Stocks', percentage: this.chartData.datasets[0].data[0], assetValue: stockTotal },
+      { assets: 'Stocks', percentage: this.chartData.datasets[0].data[0], assetValue: (stockTotal).toFixed(2) },
       { assets: 'Cash', percentage: this.chartData.datasets[0].data[1], assetValue: cashTotal },
       { assets: 'Crypto', percentage: this.chartData.datasets[0].data[2], assetValue: cryptoTotal },
       { assets: 'FD', percentage: this.chartData.datasets[0].data[3], assetValue: fdTotal }

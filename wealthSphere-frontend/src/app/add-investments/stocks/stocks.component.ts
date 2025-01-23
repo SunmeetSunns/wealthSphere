@@ -4,6 +4,7 @@ import { TableModule } from 'primeng/table';
 import { FetchNewsComponent } from '../fetch-news/fetch-news.component';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-stocks',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './stocks.component.css'
 })
 export class StocksComponent {
+   private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
   constructor(private http: HttpClient, public router: Router) { }
@@ -33,7 +35,7 @@ export class StocksComponent {
     ];
   }
   getStockData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/getstock'
+    let url = `${this.apiUrl}/api/portfolio/getstock`
     this.http.get(url).subscribe((res) => {
       if (res) {
         this.populateData(res)

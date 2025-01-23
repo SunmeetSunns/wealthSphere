@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-stock-report',
@@ -11,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './stock-report.component.css'
 })
 export class StockReportComponent implements OnInit {
+   private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
 
@@ -35,7 +37,7 @@ export class StockReportComponent implements OnInit {
 
   }
   populateData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/stockRiskAssessment'
+    let url = `${this.apiUrl}/api/portfolio/stockRiskAssessment`
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

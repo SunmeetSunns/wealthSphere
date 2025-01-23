@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewsComponent } from "../../news/news.component";
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-investment',
@@ -11,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './add-investment.component.css'
 })
 export class AddInvestmentComponent {
+   private apiUrl = environment.apiUrl;
   totals: any;
   constructor(private router: Router,private http:HttpClient) {
 
@@ -20,7 +22,7 @@ export class AddInvestmentComponent {
     this.getTotals()
   }
   getTotals(){
-    let url='https://wealtsphere.onrender.com/api/portfolio/portfolioTotal'
+    let url=`${this.apiUrl}/api/portfolio/portfolioTotal`
 this.http.get(url).subscribe((res)=>{
   if(res){
     this.totals=res;

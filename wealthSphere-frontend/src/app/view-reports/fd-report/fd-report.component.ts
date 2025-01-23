@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-fd-report',
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './fd-report.component.css'
 })
 export class FdReportComponent {
-
+ private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
 
@@ -34,7 +35,7 @@ export class FdReportComponent {
     ]
   }
   populateData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/getfdReport'
+    let url = `${this.apiUrl}/api/portfolio/getfdReport`
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

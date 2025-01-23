@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cash',
@@ -13,6 +14,7 @@ import { TableModule } from 'primeng/table';
   styleUrl: './cash.component.css'
 })
 export class CashComponent implements OnInit {
+   private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
 
@@ -40,7 +42,7 @@ this.router.navigate(['/add-investment/add-cash'])
 }
   // Fetch cash data from backend API
   getCashData() {
-    const url = 'https://wealtsphere.onrender.com/api/portfolio/getcash';
+    const url = `${this.apiUrl}/api/portfolio/getcash`;
     this.http.get(url).subscribe((res) => {
       if (res) {
         this.populateData(res);

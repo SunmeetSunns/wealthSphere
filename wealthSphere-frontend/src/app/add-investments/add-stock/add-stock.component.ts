@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add-stock.component.css']
 })
 export class AddStockComponent implements OnInit {
- 
+  private apiUrl = environment.apiUrl;
   showModal: boolean = false;
   stockForm!: FormGroup;
   dataForEdit!: any;
@@ -93,7 +94,7 @@ export class AddStockComponent implements OnInit {
           orderId: this.orderId
         };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updateStock', payload)
+        this.http.post(`${this.apiUrl}/api/portfolio/updateStock`, payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/stocks']);
@@ -107,7 +108,7 @@ export class AddStockComponent implements OnInit {
         const payload = {
           orderId: this.orderId
         }
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deleteStock', payload).subscribe(response => {
+        this.http.post(`${this.apiUrl}/api/portfolio/deleteStock`, payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/stocks']);
           }
@@ -119,7 +120,7 @@ export class AddStockComponent implements OnInit {
           totalValue: this.stockForm.get('totalValue')?.value || 0
         };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/putstock', payload)
+        this.http.post(`${this.apiUrl}/api/portfolio/putstock`, payload)
           .subscribe(response => {
             if(response){
               this.router.navigate(['/add-investment/stocks']);

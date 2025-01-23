@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css'], // Corrected 'styleUrl' to 'styleUrls'
 })
 export class LoginComponent implements OnInit {
+  private apiUrl = environment.apiUrl;
   @Output() toggleLoginComponent = new EventEmitter<boolean>();
   @Output() toggleSignupComponent = new EventEmitter<boolean>();
   isLoggedIn?: boolean;
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
   }
 
   changeState(): void {
-    const url = 'https://wealtsphere.onrender.com/api/user/login';
+    const url = `${this.apiUrl}/api/user/login`;
     const body = {
       username: this.loginForm.get('username')?.value,
       password: this.loginForm.get('password')?.value,

@@ -4,6 +4,7 @@ import { TableModule } from 'primeng/table';
 import { FetchNewsComponent } from '../fetch-news/fetch-news.component';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-fd',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './fd.component.css'
 })
 export class FdComponent {
-
+ private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
   constructor(private http: HttpClient,public router:Router) { }
@@ -35,7 +36,7 @@ export class FdComponent {
     ];
   }
   getStockData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/getfd'
+    let url = `${this.apiUrl}/api/portfolio/getfd`
     this.http.get(url).subscribe((res) => {
       if (res) {
         this.populateData(res)

@@ -4,6 +4,7 @@ import { TableModule } from 'primeng/table';
 import { FetchNewsComponent } from '../fetch-news/fetch-news.component';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-crypto',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './crypto.component.css'
 })
 export class CryptoComponent {
+   private apiUrl = environment.apiUrl;
 
   columns: any[] = [];
   data: any[] = [];
@@ -35,7 +37,7 @@ export class CryptoComponent {
     ];
   }
   getStockData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/getcrypto'
+    let url = `${this.apiUrl}/api/portfolio/getcrypto`
     this.http.get(url).subscribe((res) => {
       if (res) {
       this.populateData(res)

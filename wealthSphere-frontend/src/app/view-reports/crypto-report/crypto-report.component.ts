@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-crypto-report',
@@ -11,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './crypto-report.component.css'
 })
 export class CryptoReportComponent implements OnInit {
+   private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
 
@@ -33,7 +35,7 @@ export class CryptoReportComponent implements OnInit {
     ]
   }
   populateData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/cryptoRiskAssessment'
+    let url = `${this.apiUrl}/api/portfolio/cryptoRiskAssessment`
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

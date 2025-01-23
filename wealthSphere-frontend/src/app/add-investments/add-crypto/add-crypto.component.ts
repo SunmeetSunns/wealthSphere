@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-crypto',
@@ -16,6 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddCryptoComponent {
 
+  private apiUrl = environment.apiUrl;
   stockForm!: FormGroup;
   dataForEdit!: any;
   orderId: any;
@@ -90,7 +92,7 @@ export class AddCryptoComponent {
           orderId: this.orderId
         };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updateCrypto', payload)
+        this.http.post(`${this.apiUrl}/api/portfolio/updateCrypto`, payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/']);
@@ -104,7 +106,7 @@ export class AddCryptoComponent {
         const payload = {
           orderId: this.orderId
         }
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deleteCrypto', payload).subscribe(response => {
+        this.http.post(`${this.apiUrl}/api/portfolio/deleteCrypto`, payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/crypto']);
           }
@@ -116,7 +118,7 @@ export class AddCryptoComponent {
           "totalValue": this.stockForm.get('totalValue')?.value,
         };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/putcrypto', payload)
+        this.http.post(`${this.apiUrl}/api/portfolio/putcrypto`, payload)
           .subscribe(response => {
            if(response){
             this.router.navigate(['/add-investment/crypto']);

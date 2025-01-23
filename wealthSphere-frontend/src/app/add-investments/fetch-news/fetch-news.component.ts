@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-fetch-news',
@@ -18,7 +19,7 @@ export class FetchNewsComponent implements OnInit {
   heading: string = '';
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
-
+ private apiUrl = environment.apiUrl;
   ngOnInit(): void {
     this.route.url.subscribe(urlSegments => {
       const urlPath = urlSegments.map(segment => segment.path).join('/');
@@ -66,7 +67,7 @@ export class FetchNewsComponent implements OnInit {
   getData(heading: string) {
     let url;
     if (heading == 'Stocks') {
-      url = 'https://wealtsphere.onrender.com/api/portfolio/getGainers';
+      url = `${this.apiUrl}/api/portfolio/getGainers`;
       this.http.get(url).subscribe((res) => {
         if (res) {
           this.populateData(res);
@@ -74,20 +75,20 @@ export class FetchNewsComponent implements OnInit {
       })
     }
     if (heading == 'Cash') {
-      url = 'https://wealtsphere.onrender.com/api/portfolio/exchangeRates'
+      url = `${this.apiUrl}/api/portfolio/exchangeRates`
       this.http.get(url).subscribe((res) => {
         sessionStorage.setItem('ExchangeRates',JSON.stringify(res))
         this.populateData(res);
       })
     }
     if (heading == 'Crypto') {
-      url = 'https://wealtsphere.onrender.com/api/portfolio/cryptoRates'
+      url = `${this.apiUrl}/api/portfolio/cryptoRates`
       this.http.get(url).subscribe((res) => {
         this.populateData(res);
       })
     }
     if(heading=='FD'){
-      url='https://wealtsphere.onrender.com/api/portfolio/fdRates'
+      url=`${this.apiUrl}/api/portfolio/fdRates`
       this.http.get(url).subscribe((res)=>{
         this.populateData(res);
       })

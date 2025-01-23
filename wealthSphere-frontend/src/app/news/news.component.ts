@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TruncatePipe } from '../truncate.pipe';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ import { TruncatePipe } from '../truncate.pipe';
   imports:[CommonModule,TruncatePipe]
 })
 export class NewsComponent implements OnInit {
+  private apiUrl = environment.apiUrl;
   @Output() toggleNewsComponent=new EventEmitter<boolean>();
   newsArray: any[] = [];
   showNews: boolean = true;
@@ -80,7 +82,7 @@ export class NewsComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
   getNews(){
-    let url='https://wealtsphere.onrender.com/api/portfolio/fetchNews'
+    let url=`${this.apiUrl}/api/portfolio/fetchNews`
     this.http.get(url).subscribe((res)=>{
       if(res){
         this.marketTrends=res;

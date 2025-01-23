@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FetchNewsComponent } from '../../add-investments/fetch-news/fetch-news.component';
+// import { FetchNewsComponent } from '../../add-investments/fetch-news/fetch-news.component';
 import { NewsComponent } from "../../news/news.component";
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [FetchNewsComponent, NewsComponent],
+  imports: [ NewsComponent],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.css'
 })

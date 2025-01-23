@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-fd',
@@ -14,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add-fd.component.css']
 })
 export class AddFdComponent implements OnInit {
+   private apiUrl = environment.apiUrl;
   stockForm!: FormGroup;
   dataForEdit!: any;
   orderId: any;
@@ -133,7 +135,7 @@ export class AddFdComponent implements OnInit {
           orderId: this.orderId
         };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/updatefd', payload)
+        this.http.post(`${this.apiUrl}/api/portfolio/updatefd`, payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/fd']);
@@ -144,7 +146,7 @@ export class AddFdComponent implements OnInit {
       } else if (this.forEdit && this.orderId && req === 'delete') {
         const payload = { orderId: this.orderId };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/deletefd', payload).subscribe(response => {
+        this.http.post(`${this.apiUrl}/api/portfolio/deletefd`, payload).subscribe(response => {
           if (response) {
             this.router.navigate(['/add-investment/fd']);
           }
@@ -152,7 +154,7 @@ export class AddFdComponent implements OnInit {
       } else if (!this.forEdit) {
         const payload = { ...formData };
 
-        this.http.post('https://wealtsphere.onrender.com/api/portfolio/addfd', payload)
+        this.http.post(`${this.apiUrl}/api/portfolio/addfd`, payload)
           .subscribe(response => {
             if (response) {
               this.router.navigate(['/add-investment/fd']);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cash-report',
@@ -11,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './cash-report.component.css'
 })
 export class CashReportComponent {
+   private apiUrl = environment.apiUrl;
 
   columns: any[] = [];
   data: any[] = [];
@@ -32,7 +34,7 @@ export class CashReportComponent {
     ]
   }
   populateData() {
-    let url = 'https://wealtsphere.onrender.com/api/portfolio/getCashReport'
+    let url = `${this.apiUrl}/api/portfolio/getCashReport`
     this.http.get(url).subscribe((res) => {
       this.fillData(res)
     })

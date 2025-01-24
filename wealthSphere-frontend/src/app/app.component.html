@@ -5,7 +5,7 @@
 <app-sign-up *ngIf="!this.isLoggedIn && this.isSignupStage" (toggleSignupComponent)="onSignup($event)" (toggleLoginComponent)="onLogin($event)"></app-sign-up>
 
 <app-header class="app-header" *ngIf="this.isLoggedIn" (toggleLoginComponent)="onLogin($event)" (toggleSignupComponent)="onSignup($event)"></app-header>
-<!-- <app-spinner></app-spinner> -->
+<app-spinner></app-spinner>
 <router-outlet></router-outlet>
 <div *ngIf="this.isLoggedIn">
   <div *ngIf="this.showContent " class="d-flex flex-row dashboard">

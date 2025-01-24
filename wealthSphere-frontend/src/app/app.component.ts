@@ -25,7 +25,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     CommonModule,
     ActionsComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    SpinnerComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

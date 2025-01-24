@@ -69,10 +69,10 @@ export class PortfolioComponent implements OnInit {
     const { stockTotal, cashTotal, cryptoTotal, fdTotal } = mydata?.assetValues || {};
 
     this.data = [
-      { assets: 'Stocks', percentage: this.chartData.datasets[0].data[0], assetValue: (stockTotal).toFixed(2) },
-      { assets: 'Cash', percentage: this.chartData.datasets[0].data[1], assetValue: cashTotal },
-      { assets: 'Crypto', percentage: this.chartData.datasets[0].data[2], assetValue: cryptoTotal },
-      { assets: 'FD', percentage: this.chartData.datasets[0].data[3], assetValue: fdTotal }
+      { assets: 'Stocks', percentage: this.chartData.datasets[0].data[0]+' %', assetValue: (stockTotal).toFixed(2) },
+      { assets: 'Cash', percentage: this.chartData.datasets[0].data[1]+' %', assetValue: (cashTotal).toFixed(2) },
+      { assets: 'Crypto', percentage: this.chartData.datasets[0].data[2]+' %', assetValue: (cryptoTotal).toFixed(2) },
+      { assets: 'FD', percentage: this.chartData.datasets[0].data[3]+' %', assetValue: (fdTotal).toFixed(2) }
     ];
   }
 }

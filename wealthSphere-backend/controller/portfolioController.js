@@ -465,7 +465,6 @@ exports.calculatePortfolio = async (req, res) => {
     if (newUser) {
       return res.status(200).json({
         success: true,
-        newUser: true,
         message: 'No assets found for the user. User seems to be new.',
         totalValue: 0,
         percentages: {

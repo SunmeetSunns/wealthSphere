@@ -89,6 +89,8 @@ export class PortfolioComponent implements OnInit {
       
     }
     else{
+      sessionStorage.removeItem('newUser');
+      this.isNewUser=false;
       const { stockTotal, cashTotal, cryptoTotal, fdTotal } = mydata?.assetValues || {};
 
       this.data = [

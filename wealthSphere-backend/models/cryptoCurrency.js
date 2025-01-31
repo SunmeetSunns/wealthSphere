@@ -3,6 +3,7 @@ const Counter = require('./counter');
 
 const cryptoSchema = new mongoose.Schema({
   type: {type:String,required:true},
+  username:{type:String,required:true},
   quantity: {type:Number,required:true},
   purchasePrice: {type:Number,required:true},
   currentValue: {type:Number,required:true},

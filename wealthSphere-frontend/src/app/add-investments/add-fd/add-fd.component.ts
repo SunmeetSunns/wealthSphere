@@ -23,6 +23,7 @@ export class AddFdComponent implements OnInit {
   private platformId: Object;
   modalText: string = '';
   currentText: String | undefined;
+  userData: any;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +37,10 @@ export class AddFdComponent implements OnInit {
 
   ngOnInit() {
     // Initialize the form
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
     this.buildForm();
 
     // Check if data exists in sessionStorage
@@ -152,7 +157,8 @@ export class AddFdComponent implements OnInit {
           }
         });
       } else if (!this.forEdit) {
-        const payload = { ...formData };
+        const payload = { ...formData,username:this.userData?.username
+         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/addfd`, payload)
           .subscribe(response => {

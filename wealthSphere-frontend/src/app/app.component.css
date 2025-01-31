@@ -1,1 +1,26 @@
-.noShow{display:none}.toggle1{background-color:#8e969c;position:absolute;height:1.5em;z-index:1000;width:3em;border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:16px;border-bottom-right-radius:16px}.dashboard{height:32em;gap:1em}.app-header{position:static}.toggle{background-color:#8e969c;position:absolute;border-radius:15px;top:5em;left:23.8em;height:1.5em;z-index:1000;width:3em;border-top-right-radius:16px;border-bottom-right-radius:16px;border-top-left-radius:0;border-bottom-left-radius:0}
+.noShow{display:none}.toggle1{background-color:#8e969c;position:absolute;height:1.5em;z-index:1000;width:3em;border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:16px;border-bottom-right-radius:16px}.dashboard{height:80vh;gap:1em}.app-header{position:static}.toggle{background-color:#8e969c;position:absolute;border-radius:15px;top:5.3em;left:24em;height:1.5em;z-index:1000;width:3em;border-top-right-radius:16px;border-bottom-right-radius:16px;border-top-left-radius:0;border-bottom-left-radius:0}
+.my-modal {
+    font-size: 20px;
+    font-weight: 700;
+    margin: auto;
+    display: flex;
+    justify-content: center
+}
+.cardBoxShadow{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Increased shadow for visibility */
+    border-radius: 8px; /* Smooth corners */
+    padding: 1rem; /* Add padding to prevent content from touching edges */
+    background: white; /* Ensure the card has a background */
+    overflow: hidden; /* Prevent content overflow */
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 2em; /* Maintain correct stacking */
+}
+.app-comp{
+    height: fit-content;
+    width: 100vw;
+}
+.portfolio-container .chart-container,
+.portfolio-container .table-container {
+    margin-bottom: 2rem; /* Ensures space for shadow */
+}

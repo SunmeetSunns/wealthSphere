@@ -17,8 +17,13 @@ export class StocksComponent {
    private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
+  userData: any;
   constructor(private http: HttpClient, public router: Router) { }
   ngOnInit() {
+    const user=localStorage.getItem('userData')
+    if(user){
+      this.userData=JSON.parse(user)
+    }
     this.populateSchema();
     this.getStockData();
     // this.getNewsData();
@@ -36,7 +41,10 @@ export class StocksComponent {
   }
   getStockData() {
     let url = `${this.apiUrl}/api/portfolio/getstock`
-    this.http.get(url).subscribe((res) => {
+    let body={
+      username:this.userData?.username
+    }
+    this.http.post(url,body).subscribe((res) => {
       if (res) {
         this.populateData(res)
       }

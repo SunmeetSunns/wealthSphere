@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-actions',
@@ -10,17 +11,36 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class ActionsComponent {
 
-  constructor(private router: Router) { 
-   
+  constructor(private router: Router, private modal: NgbModal) {
+
   }
   ngOnInit() {
 
   }
-  routeToaddReport() {
-    this.router.navigate(['/view-reports/reports']);
+  routeToaddReport(modal: any) {
+    if (sessionStorage.getItem('newUser')) {
+      this.modal.open(modal, { size: 'md', centered: true })
+    }
+    else {
+      this.router.navigate(['/view-reports/reports']);
+    }
+
   }
-  routeToaddInvest() {
-    this.router.navigate(['/add-investment/initialise']);
+  routeToSetup(){
+    this.router.navigate(['account-setup']);
+    this.modal.dismissAll();
+  }
+  routeToaddInvest(modal: any) {
+    if (sessionStorage.getItem('newUser')) {
+      this.modal.open(modal, { size: 'md', centered: true })
+    }
+    else {
+      this.router.navigate(['/add-investment/initialise']);
+    }
+
   }
 
+  close() {
+    this.modal.dismissAll();
+  }
 }

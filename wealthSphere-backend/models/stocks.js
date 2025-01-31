@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Counter = require('./counter'); // Import the counter schema
 
 const stockSchema = new mongoose.Schema({
+  username:{type:String,required:true},
   symbol: { type: String, required: true },
   company: { type: String, required: true },
   quantity: { type: Number, required: true },

@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter ,HostListener, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -16,9 +17,12 @@ export class HeaderComponent implements OnInit{
   email: String = 'abc@gmail.com';
   showDiv: boolean = false;
   userData: any;
+  constructor(private router:Router){
+    
+  }
   ngOnInit(): void {
-    if(sessionStorage.getItem('userData')){
-      const user=sessionStorage.getItem('userData');
+    if(localStorage.getItem('userData')){
+      const user=localStorage.getItem('userData');
       if(user){
         this.userData=JSON.parse(user)
       }
@@ -31,8 +35,14 @@ export class HeaderComponent implements OnInit{
     if (localStorage.getItem('authToken')) {
       localStorage.removeItem('authToken')
     }
-    if(sessionStorage.getItem('userData')){
+    if(localStorage.getItem('userData')){
       sessionStorage.removeItem('userData')
+    }
+    if(sessionStorage.getItem('newUser')){
+      sessionStorage.removeItem('newUser')
+    }
+    if(localStorage.getItem('tokenExpiry')){
+      localStorage.removeItem('tokenExpiry')
     }
     this.isLoggedIn = false;
     this.isSignupStage = false;
@@ -43,6 +53,10 @@ export class HeaderComponent implements OnInit{
   }
   toggleDiv() {
     this.showDiv = !this.showDiv;
+  }
+  myProfile(){
+    this.router.navigate([`/account-setup`])
+    this.showDiv=false;
   }
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {

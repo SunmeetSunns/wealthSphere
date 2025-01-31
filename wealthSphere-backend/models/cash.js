@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Counter = require('./counter');
 
 const cashSchema = new mongoose.Schema({
+  username:{type:String,required:true},
   source: {type:String,required:true},
   amount: {type:Number,required:true},
   currency:{type:String,required:true},

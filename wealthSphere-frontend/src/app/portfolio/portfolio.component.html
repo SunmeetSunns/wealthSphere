@@ -1,4 +1,4 @@
-<div class="d-flex flex-row justify-content-between position-relative portfolio-container col-lg-12">
+<div *ngIf="!this.isNewUser" class="d-flex flex-row justify-content-between position-relative portfolio-container col-lg-12">
   <!-- Pie Chart Container --> 
   <div class="chart-container flex-grow-1 col-lg-6" >
     <!-- Pie Chart -->
@@ -41,3 +41,22 @@
     </p-table>
   </div>
 </div>
+<div class="col-lg-12 align-items-center" *ngIf="this.isNewUser">
+  <div class="setup-container">
+    <div class="illustration">
+      <img src="../../assets/noDataAvl.webp" alt="Account Not Setup" />
+    </div>
+    <div class="setup-info">
+      <h2>Account Not Setup</h2>
+      <p>Please set up your account to start tracking investments.</p>
+      <ul>
+        <li>✅ Connect your bank account</li>
+        <li>📊 Set your investment preferences</li>
+        <li>📉 Start tracking your portfolio</li>
+      </ul>
+      <button pButton type="button" label="Set Up Account" class="setup-btn" (click)="routeToSetup()">SetUp Account</button>
+    </div>
+  </div>
+  
+</div>
+

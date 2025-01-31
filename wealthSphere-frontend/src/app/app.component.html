@@ -7,7 +7,7 @@
 <app-header class="app-header" *ngIf="this.isLoggedIn" (toggleLoginComponent)="onLogin($event)" (toggleSignupComponent)="onSignup($event)"></app-header>
 <app-spinner></app-spinner>
 <router-outlet></router-outlet>
-<div *ngIf="this.isLoggedIn">
+<div *ngIf="this.isLoggedIn" class="app-comp">
   <div *ngIf="this.showContent " class="d-flex flex-row dashboard">
     <div class="toggle" *ngIf="this.showNews" (click)="toggleData()">
       <i class="fa-solid fa-chevron-left" style="color: white; position: absolute; left: 2em; top: 0.3em;"></i>
@@ -15,7 +15,7 @@
     <div class="toggle1" (click)="toggleData()" *ngIf="!this.showNews">
       <i class="fa-solid fa-chevron-right" style="color: #ffffff; position: absolute; left: 2em; top: 0.3em;"></i>
     </div>
-    <app-news *ngIf="showNews" class="cardBoxShadow" [ngClass]="{'col-lg-3': showNews, 'noShow': !showNews}"
+    <app-news *ngIf="showNews" class="cardBoxShadow ml-3" [ngClass]="{'col-lg-3': showNews, 'noShow': !showNews}"
       (toggleNewsComponent)="onNewsToggle($event)">
     </app-news>
     <app-portfolio class="cardBoxShadow" [ngClass]="{'col-lg-6': showNews, 'col-lg-9': !showNews}"></app-portfolio>
@@ -23,3 +23,23 @@
 
   </div>
 </div>
+
+<ng-template #noAccModal let-modal>
+  <div class="modal-header-pop ">
+    <div class="heading my-modal">
+    User Setup
+    </div>
+  
+    <div class="modal-body d-flex flex-column mt-3 justify-content-center align-items-center">
+      <span>Account Still Not Setup ? </span>
+      
+      <span>Please setup your account first.</span>
+     
+    </div>
+    <div class="modal-footer d-flex flex-row justify-content-evenly">
+      <button class="btn btn-primary "(click)="routeToSetup()">SetUp Account</button>
+      <button class="btn btn-danger"(click)="close()">Close</button>
+    </div>
+  </div>
+
+</ng-template>

@@ -14,12 +14,17 @@ import { environment } from '../../../environments/environment';
   styleUrl: './crypto.component.css'
 })
 export class CryptoComponent {
-   private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
 
   columns: any[] = [];
   data: any[] = [];
+  userData: any;
   constructor(private http: HttpClient, public router: Router) { }
   ngOnInit() {
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
     this.populateSchema();
     this.getStockData();
     // this.getNewsData();
@@ -37,10 +42,13 @@ export class CryptoComponent {
     ];
   }
   getStockData() {
+    let body = {
+      username: this.userData?.username
+    }
     let url = `${this.apiUrl}/api/portfolio/getcrypto`
-    this.http.get(url).subscribe((res) => {
+    this.http.post(url, body).subscribe((res) => {
       if (res) {
-      this.populateData(res)
+        this.populateData(res)
       }
     })
   }
@@ -54,7 +62,7 @@ export class CryptoComponent {
         purchasePrice: this.addCommasToNumber(result[i].purchasePrice.toFixed(2)),
         currentValue: this.addCommasToNumber(result[i].currentValue.toFixed(2)),
         orderId: result[i].orderId ? result[i].orderId : '',
-        purchaseDate:this.formatDate(result[i].purchaseDate) ,
+        purchaseDate: this.formatDate(result[i].purchaseDate),
       });
     }
   }
@@ -77,11 +85,11 @@ export class CryptoComponent {
   }
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    
+
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // months are zero-indexed
     const year = date.getFullYear();
-  
+
     // Return the formatted date as "DD-MM-YYYY"
     return `${day}-${month}-${year}`;
   }

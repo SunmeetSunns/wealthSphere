@@ -14,16 +14,24 @@ import { environment } from '../../../environments/environment';
 export class AddInvestmentComponent {
    private apiUrl = environment.apiUrl;
   totals: any;
+  userData: any;
   constructor(private router: Router,private http:HttpClient) {
 
   }
 
   ngOnInit() {
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
     this.getTotals()
   }
   getTotals(){
     let url=`${this.apiUrl}/api/portfolio/portfolioTotal`
-this.http.get(url).subscribe((res)=>{
+    let body={
+      username:this.userData?.username
+    }
+this.http.post(url,body).subscribe((res)=>{
   if(res){
     this.totals=res;
   }

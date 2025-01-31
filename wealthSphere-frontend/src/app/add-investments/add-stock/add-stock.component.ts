@@ -25,6 +25,7 @@ export class AddStockComponent implements OnInit {
   private platformId: Object;
   modalText: string='';
   currentText: String | undefined;
+  userData: any;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +39,10 @@ export class AddStockComponent implements OnInit {
 
   ngOnInit() {
     // Initialize the form
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
     this.buildForm();
 
     // Check if data exists in sessionStorage
@@ -54,9 +59,10 @@ export class AddStockComponent implements OnInit {
           company: this.dataForEdit.company,
           purchasePrice: this.dataForEdit.purchasePrice,
           quantity: this.dataForEdit.quantity,
-          totalValue: this.dataForEdit.totalValue,
-          currentPrice: this.dataForEdit.currentPrice,
+          totalValue: parseFloat(this.dataForEdit?.totalValue.replace(/,/g, '')),
+          currentPrice: parseFloat(this.dataForEdit?.currentPrice.replace(/,/g, '')),
         });
+        console.log(this.stockForm.get('currentPrice')?.value)
       }
     }
   }
@@ -91,7 +97,8 @@ export class AddStockComponent implements OnInit {
         const payload = {
           ...formData,
           totalValue: this.stockForm.get('totalValue')?.value || 0,
-          orderId: this.orderId
+          orderId: this.orderId,
+          username:this.userData?.username,
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/updateStock`, payload)
@@ -106,7 +113,8 @@ export class AddStockComponent implements OnInit {
       if (this.forEdit && this.orderId && req == 'delete') {
 
         const payload = {
-          orderId: this.orderId
+          orderId: this.orderId,
+          username:this.userData?.username,
         }
         this.http.post(`${this.apiUrl}/api/portfolio/deleteStock`, payload).subscribe(response => {
           if (response) {
@@ -117,6 +125,7 @@ export class AddStockComponent implements OnInit {
       else if (!this.forEdit) {
         const payload = {
           ...formData,
+          username:this.userData?.username,
           totalValue: this.stockForm.get('totalValue')?.value || 0
         };
 

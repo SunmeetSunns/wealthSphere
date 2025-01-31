@@ -7,17 +7,26 @@ const Account=new mongoose.Schema({
     account_name:{
         type:String,required:true,
     },
-    primary_acc:{
-        type:Boolean,required:true,
+    // primary_acc:{
+    //     type:Boolean,required:true,
+    // },
+    username:{
+        type:String,required:true,
     },
-    email:{
+    address:{
+        type:String,required:true,
+    },
+    birth_date:{
+        type:Date,required:true,
+    },
+    gender:{
         type:String,required:true,
     },
     pan_no:{
         type:String,required:true,
     },
     aadhar_no:{
-        type:Number,required:true,
+        type:String,required:true,
     },
     createdAt:{
         type:Date,default:Date.now()

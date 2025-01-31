@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Check token validity
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
   }
 
   changeState(): void {
+  
     const url = `${this.apiUrl}/api/user/login`;
     const body = {
       username: this.loginForm.get('username')?.value,
@@ -53,21 +54,44 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn = !this.isLoggedIn;
           this.toggleLoginComponent.emit(this.isLoggedIn);
         }
+        this.checkUserAccount(res)
       }
     });
   }
 
   setToken(res: any): string | null {
+
     if (this.isLocalStorageAvailable()) {
       const expiryTime = new Date().getTime() + res.expiresIn * 1000; // Assuming `expiresIn` is in seconds
       localStorage.setItem('authToken', res.token);
       localStorage.setItem('tokenExpiry', expiryTime.toString());
-      sessionStorage.setItem('userData', JSON.stringify(res.user));
+      localStorage.setItem('userData', JSON.stringify(res.user));
       return res.token;
     }
     return null;
   }
+  checkUserAccount(res: any) {
+    if (res?.success) {
+      let body = {
+        username: res?.user?.username
+      }
+      let url = `${this.apiUrl}/api/user/userDetailsExist`
+      this.http.post(url, body).subscribe((res) => {
+        if (res) {
+          this.setToNewUser(res)
+        }
+      })
+    }
 
+  }
+  setToNewUser(res: any) {
+    if (res?.success && res?.newUser) {
+      sessionStorage.setItem('newUser', res?.newUser)
+    }
+    else {
+      return;
+    }
+  }
   getToken(): string | null {
     if (this.isLocalStorageAvailable()) {
       const expiryTime = localStorage.getItem('tokenExpiry');
@@ -84,7 +108,8 @@ export class LoginComponent implements OnInit {
     if (this.isLocalStorageAvailable()) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('tokenExpiry');
-      sessionStorage.removeItem('userData');
+      localStorage.removeItem('userData');
+      sessionStorage.removeItem('newUser')
     }
   }
 

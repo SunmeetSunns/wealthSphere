@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-portfolio',
@@ -18,12 +19,25 @@ export class PortfolioComponent implements OnInit {
   columns: any[] = [];
   data: any[] = [];
   assetsValue: any;
+  userData: any;
+  isNewUser?: boolean;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
-    this.populateSchema(); // Ensure columns are populated before fetching data
-    this.getPortfolioData();
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
+    const userNew = sessionStorage.getItem('newUser')
+    if (userNew) {
+      this.isNewUser = true;
+    }
+    else {
+      this.populateSchema(); // Ensure columns are populated before fetching data
+      this.getPortfolioData();
+    }
+
   }
 
   populateSchema() {
@@ -35,8 +49,11 @@ export class PortfolioComponent implements OnInit {
   }
 
   getPortfolioData() {
+    let body = {
+      username: this.userData?.username
+    }
     const url = `${this.apiUrl}/api/portfolio/portfolioTotal`;
-    this.http.get(url).subscribe((res: any) => {
+    this.http.post(url, body).subscribe((res: any) => {
       if (res) {
         this.populateData(res);
         this.populateTableData(res);
@@ -54,10 +71,10 @@ export class PortfolioComponent implements OnInit {
       datasets: [
         {
           data: [
-            (stock || 0).toFixed(2),  // Use 0 if the data is undefined
-            (cash || 0).toFixed(2),
-            (crypto || 0).toFixed(2),
-            (fd || 0).toFixed(2)
+            (stock || 0), // Use 0 if the data is undefined
+            (cash || 0),
+            (crypto || 0),
+            (fd || 0)
           ],
           backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
         }
@@ -66,13 +83,27 @@ export class PortfolioComponent implements OnInit {
   }
 
   populateTableData(mydata: any) {
-    const { stockTotal, cashTotal, cryptoTotal, fdTotal } = mydata?.assetValues || {};
+    if(mydata?.newUser){
+      sessionStorage.setItem('newUser',mydata?.newUser);
+      this.isNewUser=true;
+      
+    }
+    else{
+      const { stockTotal, cashTotal, cryptoTotal, fdTotal } = mydata?.assetValues || {};
 
-    this.data = [
-      { assets: 'Stocks', percentage: this.chartData.datasets[0].data[0]+' %', assetValue: (stockTotal).toFixed(2) },
-      { assets: 'Cash', percentage: this.chartData.datasets[0].data[1]+' %', assetValue: (cashTotal).toFixed(2) },
-      { assets: 'Crypto', percentage: this.chartData.datasets[0].data[2]+' %', assetValue: (cryptoTotal).toFixed(2) },
-      { assets: 'FD', percentage: this.chartData.datasets[0].data[3]+' %', assetValue: (fdTotal).toFixed(2) }
-    ];
+      this.data = [
+        { assets: 'Stocks', percentage: this.chartData.datasets[0].data[0] + ' %', assetValue: (stockTotal).toFixed(2) },
+        { assets: 'Cash', percentage: this.chartData.datasets[0].data[1] + ' %', assetValue: (cashTotal).toFixed(2) },
+        { assets: 'Crypto', percentage: this.chartData.datasets[0].data[2] + ' %', assetValue: (cryptoTotal).toFixed(2) },
+        { assets: 'FD', percentage: this.chartData.datasets[0].data[3] + ' %', assetValue: (fdTotal).toFixed(2) }
+      ];
+    }
+   
   }
+  routeToSetup(): void {
+    this.router.navigate(['account-setup']).then(() => {
+    
+    });
+  }
+
 }

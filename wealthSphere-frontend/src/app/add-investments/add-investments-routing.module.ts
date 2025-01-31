@@ -10,6 +10,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
 import { AddFdComponent } from './add-fd/add-fd.component';
 import { AddCashComponent } from './add-cash/add-cash.component';
 import { AddCryptoComponent } from './add-crypto/add-crypto.component';
+import { AuthGuard } from '../auth-guard.service';
 
 const routes: Routes = [
   { 
@@ -17,16 +18,16 @@ const routes: Routes = [
     redirectTo: 'initialise',  // Redirect to 'stocks' if no sub-route is specified 
     pathMatch: 'full' 
   },
-  {path:'initialise',component:AddInvestmentComponent},
-  { path: 'stocks', component: StocksComponent }, 
-  { path: 'cash', component: CashComponent }, 
-  { path: 'crypto', component: CryptoComponent },
-  { path: 'fd', component: FdComponent },
-  {path:'fetch-news',component:FetchNewsComponent},
-  {path:'add-stock',component:AddStockComponent},
-  {path:'add-cash',component:AddCashComponent},
-  {path:'add-fd',component:AddFdComponent},
-  {path:'add-crypto',component:AddCryptoComponent},
+  {path:'initialise',component:AddInvestmentComponent,canActivate: [AuthGuard] },
+  { path: 'stocks', component: StocksComponent ,canActivate: [AuthGuard] }, 
+  { path: 'cash', component: CashComponent ,canActivate: [AuthGuard] }, 
+  { path: 'crypto', component: CryptoComponent ,canActivate: [AuthGuard] },
+  { path: 'fd', component: FdComponent,canActivate: [AuthGuard]  },
+  {path:'fetch-news',component:FetchNewsComponent,canActivate: [AuthGuard] },
+  {path:'add-stock',component:AddStockComponent,canActivate: [AuthGuard] },
+  {path:'add-cash',component:AddCashComponent,canActivate: [AuthGuard] },
+  {path:'add-fd',component:AddFdComponent,canActivate: [AuthGuard] },
+  {path:'add-crypto',component:AddCryptoComponent,canActivate: [AuthGuard] },
 ];
 
 @NgModule({

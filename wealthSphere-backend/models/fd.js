@@ -1,21 +1,22 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 const Counter = require('./counter');
 
-const fdSchema=new mongoose.Schema({
-    bankName:{type:String,required:true},
-    depositAmount: {type:Number,required:true},
-    interestRate:{type:Number,required:true},
-    tenure: {type:Number,required:true},
-    maturityDate: {type:Date,required:true},
-    beginningDate:{type:Date,required:true},
-    orderId:{type:Number,unique:true},
-    expectedReturn: {type:Number,required:true},
-    date: { type: Date, default: Date.now }
-  });
-  
-fdSchema.pre('save', async function(next) {
+const fdSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  bankName: { type: String, required: true },
+  depositAmount: { type: Number, required: true },
+  interestRate: { type: Number, required: true },
+  tenure: { type: Number, required: true },
+  maturityDate: { type: Date, required: true },
+  beginningDate: { type: Date, required: true },
+  orderId: { type: Number, unique: true },
+  expectedReturn: { type: Number, required: true },
+  date: { type: Date, default: Date.now }
+});
+
+fdSchema.pre('save', async function (next) {
   let doc = this;
-  
+
   // Find and increment the counter for orderId
   try {
     const counter = await Counter.findByIdAndUpdate(
@@ -31,4 +32,4 @@ fdSchema.pre('save', async function(next) {
     next(error);
   }
 });
-  module.exports = mongoose.model('FD', fdSchema);
+module.exports = mongoose.model('FD', fdSchema);

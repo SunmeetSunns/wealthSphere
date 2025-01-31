@@ -17,8 +17,13 @@ export class FdComponent {
  private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
+  userData: any;
   constructor(private http: HttpClient,public router:Router) { }
   ngOnInit() {
+    const user=localStorage.getItem('userData')
+    if(user){
+      this.userData=JSON.parse(user)
+    }
     this.populateSchema();
     this.getStockData();
     // this.getNewsData();
@@ -36,8 +41,11 @@ export class FdComponent {
     ];
   }
   getStockData() {
-    let url = `${this.apiUrl}/api/portfolio/getfd`
-    this.http.get(url).subscribe((res) => {
+    let url = `${this.apiUrl}/api/portfolio/getfd`;
+    let body={
+      username:this.userData?.username
+    }
+    this.http.post(url,body).subscribe((res) => {
       if (res) {
         this.populateData(res)
       }

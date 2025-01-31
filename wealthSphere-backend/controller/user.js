@@ -1,5 +1,6 @@
-const User = require('../models/users')
-const { setUser } = require('../service/auth')
+const User = require('../models/users');
+const Account = require('../models/bankAccount');
+const { setUser } = require('../service/auth');
 const bcrypt = require('bcrypt');
 
 exports.signUp = async (req, res) => {
@@ -20,8 +21,8 @@ exports.signUp = async (req, res) => {
         // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create a new user
+        const newUser = true;
+        //Create a new user
         const user = await User.create({
             username,
             first_name,
@@ -33,6 +34,7 @@ exports.signUp = async (req, res) => {
         res.status(201).json({
             message: 'User created successfully',
             token,
+            newUser: newUser,
             user: {
                 id: user._id,
                 username: user.username,
@@ -103,4 +105,58 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     res.status(200).json({ message: 'Logged out successfully' });
     window.location.reload()
+}
+
+exports.findAccountData = async (req, res) => {
+    const { username } = req.body;
+    const accountDetails = await Account.findOne({
+        username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
+    });
+    if (!accountDetails) {
+        res.status(500).json({
+            message: 'No account details found'
+        })
+    }
+    else {
+        res.status(200).json({
+            success: true,
+            accountDetails: accountDetails
+        })
+    }
+
+}
+exports.AddAccount = async (req, res) => {
+    try {
+        const account = req.body;
+        await Account.create(account);
+        res.status(201).json({
+            success:true, 
+        });
+    }
+    catch (err) {
+        res.status(400).json({ error: 'Error adding Account' });
+    }
+
+}
+exports.checkUserAccount=async(req,res)=>{
+    try{
+        const {username}=req.body;
+
+        const user=await Account.findOne({username})
+        if(!user){
+           res.status(201).json({
+               newUser:true,
+               success:true,
+           })
+        }
+        else{
+           res.status(200).json({
+            mesage:'User account exist'
+           })
+        }
+    }
+    catch(error){
+        res.status(500).json('Internal Server error')
+    }
+  
 }

@@ -26,7 +26,12 @@ exports.addStock = async (req, res) => {
 };
 exports.getStocks = async (req, res) => {
   try {
-    const stocks = await Stock.find();
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const stocks = await Stock.find({ username });
     res.status(200).json(stocks);
   } catch (error) {
     res.status(400).json({ error: 'Error fetching stocks' });
@@ -34,11 +39,16 @@ exports.getStocks = async (req, res) => {
 };
 exports.updateStock = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const orderId = req.body.orderId;
     const updatedData = { ...req.body };
     delete updatedData.orderId;
     const updatedStock = await Stock.findOneAndUpdate(
-      { orderId: orderId },
+      { orderId: orderId, username: username },
       updatedData,
       { new: true }
     );
@@ -60,8 +70,13 @@ exports.updateStock = async (req, res) => {
 };
 exports.deleteStock = async (req, res) => {
   try {
-    const { orderId } = req.body;
-    const deletedStock = await Stock.findOneAndDelete({ orderId: orderId });
+    const orderId = req.body.orderId;
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const deletedStock = await Stock.findOneAndDelete({ orderId: orderId, username: username });
     if (!deletedStock) {
       return res.status(404).json({
         success: false,
@@ -79,12 +94,12 @@ exports.deleteStock = async (req, res) => {
   }
 };
 
-exports.calculateStockRisk=async(req,res)=>{
-  try{
-    const stock=await Stock.find()
-    
+exports.calculateStockRisk = async (req, res) => {
+  try {
+    const stock = await Stock.find()
+
   }
-  catch(err){
+  catch (err) {
 
   }
 }
@@ -101,7 +116,12 @@ exports.addFD = async (req, res) => {
 
 exports.getFDs = async (req, res) => {
   try {
-    const fds = await FD.find();
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const fds = await FD.find({ username });
     res.status(200).json(fds);
   } catch (error) {
     res.status(400).json({ error: 'Error fetching FDs' });
@@ -109,11 +129,16 @@ exports.getFDs = async (req, res) => {
 };
 exports.updateFd = async (req, res) => {
   try {
-    const {orderId} = req.body;
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const orderId = req.body.orderId;
     const updatedData = { ...req.body };
     delete updatedData.orderId;
     const updateFD = await FD.findOneAndUpdate(
-      { orderId: orderId },
+      { orderId: orderId, username: username },
       updatedData,
       { new: true }
     );
@@ -136,8 +161,13 @@ exports.updateFd = async (req, res) => {
 
 exports.deleteFD = async (req, res) => {
   try {
-    const {orderId} = req.body;
-    const deletedFd = await FD.findOneAndDelete({ orderId: orderId });
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const orderId = req.body.orderID;
+    const deletedFd = await FD.findOneAndDelete({ orderId: orderId, username: username });
     if (!deletedFd) {
       return res.status(404).json({
         success: false,
@@ -185,9 +215,9 @@ exports.addCash = async (req, res) => {
 
     // Convert the amount to INR if currency is not INR
     if (cash.currency && rates[cash.currency]) {
-      const exchangeRate = 1/rates[cash.currency];
+      const exchangeRate = 1 / rates[cash.currency];
       cash.amountinINR = cash.amount * exchangeRate;
-      cash.exchangeRate=exchangeRate
+      cash.exchangeRate = exchangeRate
       // Convert amount to INR
     } else {
       cash.amountinINR = cash.amount; // Assume the amount is already in INR if currency is not found
@@ -220,60 +250,85 @@ exports.addCash = async (req, res) => {
 
 exports.getCash = async (req, res) => {
   try {
-    const cash = await Cash.find();
+    const username = req.user.username; // Assuming email is stored in req.user
+
+    if (!username) {
+      return res.status(400).json({ error: 'User email not provided' });
+    }
+
+    const cash = await Cash.find({ username });
     res.status(200).json(cash);
   } catch (error) {
-    res.status(400).json({ error: 'Error fetching cash' });
+    res.status(500).json({ error: 'Error fetching cash' });
   }
 };
 
+
 exports.updateCash = async (req, res) => {
   try {
-    const {orderId} = req.body;
-    const updatedData = { ...req, body };
-    delete updatedData.orderId;
+
+    const orderId = req.body.orderId;
+    const username = req.body.username; // Get user email from authenticated request
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+
+    const updatedData = { ...req.body };
+    delete updatedData.orderId; // Ensure orderId is not updated
+
     const updatedCash = await Cash.findOneAndUpdate(
-      { orderId: orderId },
+      { orderId: orderId, username: username }, // Ensure user can update only their data
       updatedData,
       { new: true }
-    )
+    );
+
     if (!updatedCash) {
       return res.status(404).json({
         success: false,
-        message: 'Cash details not found with given orderId',
-      })
+        message: 'Cash details not found with given orderId for this user',
+      });
     }
+
     res.status(200).json({
       success: true,
       data: updatedCash,
       message: 'Cash updated successfully',
-    })
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error updating cash details' });
   }
-  catch (err) {
-    console.log(err)
-  }
-}
+};
+
 exports.deleteCash = async (req, res) => {
   try {
-    const{orderId}  = req.body;
-    const deletedCash = await Cash.findOneAndDelete({ orderId: orderId });
+    const orderId = req.body.orderId;
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+
+    const deletedCash = await Cash.findOneAndDelete({ orderId: orderId, username: username });
+
     if (!deletedCash) {
       return res.status(404).json({
         success: false,
-        message: 'Cash details not found with given orderId',
-      })
+        message: 'Cash details not found with given orderId for this user',
+      });
     }
+
     res.status(200).json({
       success: true,
-      data: this.deleteCash,
-      message: 'Cash details deleted successfully'
+      data: deletedCash,
+      message: 'Cash details deleted successfully',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error deleting cash details' });
+  }
+};
 
-    })
-  }
-  catch (err) {
-    console.error(err)
-  }
-}
 // Crypto CRUD
 exports.addCrypto = async (req, res) => {
   try {
@@ -288,20 +343,31 @@ exports.addCrypto = async (req, res) => {
 
 exports.getCrypto = async (req, res) => {
   try {
-    const crypto = await Crypto.find();
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const crypto = await Crypto.find({ username });
     res.status(200).json(crypto);
   } catch (error) {
     res.status(400).json({ error: 'Error fetching crypto' });
   }
 };
 
-exports.updateCrypto= async (req, res) => {
+exports.updateCrypto = async (req, res) => {
   try {
-    const {orderId}  = req.body;
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+
+    const orderId = req.body.orderId;
     const updatedData = { ...req.body };
     delete updatedData.orderId;
-    const updatedCrypto = await Cash.findOneAndUpdate(
-      { orderId: orderId },
+    const updatedCrypto = await Crypto.findOneAndUpdate(
+      { orderId: orderId, username: username },
       updatedData,
       { new: true }
     )
@@ -323,8 +389,13 @@ exports.updateCrypto= async (req, res) => {
 }
 exports.deleteCrypto = async (req, res) => {
   try {
-    const {orderId}  = req.body;
-    const deletedCash = await Crypto.findOneAndDelete({ orderId: orderId });
+    const username = req.body.username; // Get user email from authenticated request
+
+    if (!username) {
+      return res.status(400).json({ success: false, message: 'User email not provided' });
+    }
+    const orderId = req.body.orderId;
+    const deletedCash = await Crypto.findOneAndDelete({ orderId: orderId, username: username });
     if (!deletedCash) {
       return res.status(404).json({
         success: false,
@@ -358,16 +429,65 @@ exports.fetchFDRates = async (req, res) => {
 }
 exports.calculatePortfolio = async (req, res) => {
   try {
-    const stocks = await Stock.find();
-    const fds = await FD.find();
-    const cash = await Cash.find();
-    const cryptos = await Crypto.find();
+    const { username } = req.body; // Extract username from the request body
+
+    if (!username) {
+      return res.status(400).json({
+        success: false,
+        message: 'Username is required to calculate the portfolio',
+      });
+    }
+
+    const accountDetails = await Account.findOne({
+      username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
+    });
+
+    // If account details do not exist, return early without performing further actions
+    if (!accountDetails) {
+      return res.status(201).json({
+        message: 'No account details found',
+        newUser: true,
+      });
+    }
+
+    // Fetch user-specific data only if accountDetails exist
+    const [stocks, fds, cash, cryptos] = await Promise.all([
+      Stock.find({ username }),
+      FD.find({ username }),
+      Cash.find({ username }),
+      Crypto.find({ username }),
+    ]);
+
+    // Check if all assets are empty
+    const newUser = stocks.length === 0 && fds.length === 0 && cash.length === 0 && cryptos.length === 0;
+
+    // Handle case when user has no assets
+    if (newUser) {
+      return res.status(200).json({
+        success: true,
+        newUser: true,
+        message: 'No assets found for the user. User seems to be new.',
+        totalValue: 0,
+        percentages: {
+          stock: 0,
+          fd: 0,
+          cash: 0,
+          crypto: 0,
+        },
+        assetValues: {
+          stockTotal: 0,
+          fdTotal: 0,
+          cashTotal: 0,
+          cryptoTotal: 0,
+        },
+      });
+    }
 
     // Calculate total values
     const stockValue = stocks.reduce((acc, stock) => acc + stock.totalValue, 0);
     const fdValue = fds.reduce((acc, fd) => acc + fd.depositAmount, 0);
-    const cashValue = cash.reduce((acc, cashItem) => acc + cashItem.amountinINR, 0); // Assuming cash has an 'amount' field
-    const cryptoValue = cryptos.reduce((acc, crypto) => acc + crypto.currentValue, 0);
+    const cashValue = cash.reduce((acc, cashItem) => acc + cashItem.amountinINR, 0);
+    const cryptoValue = cryptos.reduce((acc, crypto) => acc + crypto.totalValue, 0);
 
     const totalValue = stockValue + fdValue + cashValue + cryptoValue;
 
@@ -377,27 +497,31 @@ exports.calculatePortfolio = async (req, res) => {
     const cashPercentage = (cashValue / totalValue) * 100;
     const cryptoPercentage = (cryptoValue / totalValue) * 100;
 
-
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
+      newUser: false, // User has some assets
       totalValue,
       percentages: {
-        stock: stockPercentage,
-        fd: fdPercentage,
-        cash: cashPercentage,
-        crypto: cryptoPercentage,
-
+        stock: stockPercentage.toFixed(2),
+        fd: fdPercentage.toFixed(2),
+        cash: cashPercentage.toFixed(2),
+        crypto: cryptoPercentage.toFixed(2),
       },
       assetValues: {
         stockTotal: stockValue,
         fdTotal: fdValue,
         cashTotal: cashValue,
-        cryptoTotal: cryptoValue
-      }
+        cryptoTotal: cryptoValue,
+      },
     });
   } catch (error) {
-    res.status(400).json({ error: 'Error calculating portfolio' });
+    console.error('Error calculating portfolio:', error);
+    return res.status(500).json({ error: 'Error calculating portfolio' });
   }
 };
+
+
+
 const axios = require('axios');
 
 require('dotenv').config();
@@ -461,7 +585,6 @@ exports.getExchangeRates = async (req, res) => {
       svg_url: currencySvgMap[currency]
     }));
 
-    console.log(filteredRates);
     res.json(filteredRates); // Send the filtered data back to the client
   } catch (error) {
     console.error(error);
@@ -470,17 +593,7 @@ exports.getExchangeRates = async (req, res) => {
 };
 
 
-exports.AddAccount = async (req, res) => {
-  try {
-    const account = req.body;
-    await Account.create(account);
-    res.status(201).json(account);
-  }
-  catch (err) {
-    res.status(400).json({ error: 'Error adding Account' });
-  }
 
-}
 
 exports.getCryptoRates = async (req, res) => {
   try {

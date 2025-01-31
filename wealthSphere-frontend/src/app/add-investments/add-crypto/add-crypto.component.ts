@@ -25,6 +25,7 @@ export class AddCryptoComponent {
   private platformId: Object;
   modalText: string='';
   currentText: String | undefined;
+  userData: any;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +39,10 @@ export class AddCryptoComponent {
 
   ngOnInit() {
     // Initialize the form
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
     this.buildForm();
 
     // Check if data exists in sessionStorage
@@ -89,7 +94,8 @@ export class AddCryptoComponent {
       if (this.forEdit && this.orderId && req == 'edit') {
         const payload = {
           ...formData,
-          orderId: this.orderId
+          orderId: this.orderId,
+          username:this.userData?.username,
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/updateCrypto`, payload)
@@ -104,7 +110,8 @@ export class AddCryptoComponent {
       if (this.forEdit && this.orderId && req == 'delete') {
 
         const payload = {
-          orderId: this.orderId
+          orderId: this.orderId,
+          username:this.userData?.username,
         }
         this.http.post(`${this.apiUrl}/api/portfolio/deleteCrypto`, payload).subscribe(response => {
           if (response) {
@@ -115,7 +122,9 @@ export class AddCryptoComponent {
       else if (!this.forEdit) {
         const payload = {
           ...formData,
+          
           "totalValue": this.stockForm.get('totalValue')?.value,
+          username:this.userData?.username,
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/putcrypto`, payload)

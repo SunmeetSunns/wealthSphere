@@ -17,10 +17,15 @@ export class CashComponent implements OnInit {
    private apiUrl = environment.apiUrl;
   columns: any[] = [];
   data: any[] = [];
+  userData: any;
 
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
+    const user=localStorage.getItem('userData');
+    if(user){
+      this.userData=JSON.parse(user)
+    }
     this.populateSchema();
     this.getCashData();
   }
@@ -43,7 +48,10 @@ this.router.navigate(['/add-investment/add-cash'])
   // Fetch cash data from backend API
   getCashData() {
     const url = `${this.apiUrl}/api/portfolio/getcash`;
-    this.http.get(url).subscribe((res) => {
+    let body={
+      username:this.userData?.username,
+    }
+    this.http.post(url,body).subscribe((res) => {
       if (res) {
         this.populateData(res);
       }

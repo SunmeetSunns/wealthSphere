@@ -1,0 +1,150 @@
+<img *ngIf="this.newUser" class="backSvg1" src="../../assets/backsvg.svg" (click)="simonGoBack()">
+<div *ngIf="this.newUser" class="background">
+    <div class="triangle"></div>
+    <div class="triangle1"></div>
+    <div class="form-container">
+        <form [formGroup]="accountForm" class="col-lg-12">
+            <div class="form-group col-lg-6">
+                <label for="symbol">Account Number<span class="error">*</span></label>
+                <input id="symbol" formControlName="account_no" type="text" />
+                <span class="error"
+                    *ngIf="accountForm.get('account_no')?.invalid && accountForm.get('account_no')?.touched">Source
+                    is required.</span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="currency">Account Name <span class="error">*</span></label>
+                <input id="symbol" formControlName="account_name" type="text" />
+                <span class="error"
+                    *ngIf="accountForm.get('account_name')?.invalid && accountForm.get('account_name')?.touched">Source
+                    is required.</span>
+                <span class="error"
+                    *ngIf="accountForm.get('account_name')?.invalid && accountForm.get('account_name')?.touched ">Currency
+                    is
+                    required.</span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="company">Email <span class="error">*</span></label>
+                <input id="symbol" formControlName="username" type="text" />
+                <span class="error"
+                    *ngIf="accountForm.get('username')?.invalid && accountForm.get('username')?.touched">Email
+                    is required.</span>
+
+            </div>
+
+
+            <div class="form-group col-lg-6">
+                <label for="estimatedAmt">Pan Number<span class="error">*</span></label>
+                <input id="estimatedAmt" formControlName="pan_no" type="number" />
+                <span class="error"
+                    *ngIf="accountForm.get('pan_no')?.invalid && accountForm.get('pan_no')?.touched">Estimated
+                    Pan Number is required.</span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="estimatedAmt">Aadhar Number<span class="error">*</span></label>
+                <input id="estimatedAmt" formControlName="aadhar_no" type="number" />
+                <span class="error"
+                    *ngIf="accountForm.get('pan_no')?.invalid && accountForm.get('pan_no')?.touched">Estimated
+                    Aadhar Number is required.</span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="estimatedAmt">Address<span class="error">*</span></label>
+                <input id="estimatedAmt" formControlName="address" type="text" />
+                <span class="error"
+                    *ngIf="accountForm.get('address')?.invalid && accountForm.get('address')?.touched">Estimated
+                    Address is required.</span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="estimatedAmt">Gender<span class="error">*</span></label>
+                <input id="estimatedAmt" formControlName="gender" type="text" />
+                <span class="error"
+                    *ngIf="accountForm.get('gender')?.invalid && accountForm.get('gender')?.touched">
+                    Gender is required.</span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="estimatedAmt">Birth Date<span class="error">*</span></label>
+                <div class="d-flex flex-row">
+                    <span class="symbolBox">₹</span>
+                    <input id="estimatedAmt" formControlName="birth_date" type="number" />
+                </div>
+                <span class="error"
+                    *ngIf="accountForm.get('birth_date')?.invalid && accountForm.get('birth_date')?.touched">Estimated
+                    Birth Date is required.</span>
+            </div>
+
+            <button type="submit" class="submit" (click)="setUpAccount()">Submit</button>
+
+        </form>
+    </div>
+    <div class="triangle2"></div>
+    <div class="triangle3"></div>
+</div>
+<div *ngIf="!this.newUser" class="profile-container">
+    
+    <div class="profile-sidebar">
+        <img class="backSvg" src="../../assets/backsvg.svg" (click)="simonGoBack()">
+        <div class="profile-pic" >
+            <img src="../../assets/girl_image.jpg" alt="Profile Picture" class="circle-img" />
+            <p class="profile-name">{{this.userData?.first_name}} {{this.userData?.last_name}}</p>
+            <button class="edit-btn">
+                <i class="pi pi-pencil"></i>
+            </button>
+        </div>
+
+        <div class="profile-menu">
+            <ul>
+                <li>MY PROFILE</li>
+                <li>Personal Information</li>
+                <li>Address Information</li>
+                <li>Contact Information</li>
+                <li>Tax Information</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="profile-details">
+        <h1>{{this.userData?.first_name}} {{this.userData?.last_name}}</h1>
+        <h3>About</h3>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Mobile No.:</div>
+            <div class="value d-flex">{{this.userData?.mobile_no}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Email:</div>
+            <div class="value d-flex">{{this.userData?.username}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Address:</div>
+            <div class="value d-flex">{{this.profileData?.address}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Birth Date:</div>
+            <div class="value d-flex">{{this.formatDateToDDMMYYYY(this.profileData?.birth_date)}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Gender:</div>
+            <div class="value d-flex">{{this.profileData?.gender}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Pan Number:</div>
+            <div class="value d-flex">{{this.profileData?.pan_no}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Aadhar Number:</div>
+            <div class="value d-flex">{{this.profileData?.aadhar_no}}</div>
+        </div>
+        <div class="detail-item d-flex flex-row">
+            <div class="label d-flex">Account Number:</div>
+            <div class="value d-flex">{{this.profileData?.accountNo}}</div>
+        </div>
+    </div>
+    
+</div>
+
+<ng-template #myModal let-modal>
+    <div class="modal-header-pop ">
+        <div class="heading my-modal">
+            <span>Success</span>
+        </div>
+    </div>
+
+</ng-template>

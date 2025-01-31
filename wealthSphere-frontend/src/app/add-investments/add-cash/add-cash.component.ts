@@ -16,7 +16,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './add-cash.component.css'
 })
 export class AddCashComponent {
-   private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
   stockForm!: FormGroup;
   dataForEdit!: any;
   orderId: any;
@@ -37,6 +37,7 @@ export class AddCashComponent {
   isModalVisible: boolean = false;
   exchangeRates: any[] = [];
   selectedCurrenci: any;
+  userData: any;
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -48,6 +49,10 @@ export class AddCashComponent {
   }
 
   ngOnInit() {
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+    }
     this.buildForm();
     this.onEdit();
   }
@@ -56,7 +61,7 @@ export class AddCashComponent {
   buildForm() {
     this.stockForm = this.fb.group({
       source: ['', Validators.required],
-      amount: ['',[Validators.required, Validators.min(1)]],
+      amount: ['', [Validators.required, Validators.min(1)]],
       currency: ['', [Validators.required]],
       estimatedAmt: [{ value: '', disabled: true }, Validators.required],
 
@@ -80,8 +85,8 @@ export class AddCashComponent {
         if (this.currencies.includes(this.dataForEdit.currency)) {
           this.stockForm.patchValue({
             source: this.dataForEdit.source,
-            amount:  parseFloat(this.dataForEdit?.amount.replace(/,/g, '')),
-            estimatedAmt:  parseFloat(this.dataForEdit?.inrAmount.replace(/,/g, '')),
+            amount: parseFloat(this.dataForEdit?.amount.replace(/,/g, '')),
+            estimatedAmt: parseFloat(this.dataForEdit?.inrAmount.replace(/,/g, '')),
             currency: this.dataForEdit.currency,
           });
 
@@ -94,36 +99,36 @@ export class AddCashComponent {
     this.stockForm.get('amount')?.valueChanges.subscribe(() => {
       this.triggerCalculationIfValid();
     });
-  
+
     this.stockForm.get('currency')?.valueChanges.subscribe((selectedCurrency) => {
       this.selectedCurrenci = selectedCurrency;
       this.currentCurrencySymbol = this.currencySymbols[selectedCurrency] || '';
       this.triggerCalculationIfValid();
     });
-   
+
   }
   triggerCalculationIfValid(): void {
     const amt = this.stockForm.get('amount')?.value;
     const selectedCurrency = this.stockForm.get('currency')?.value;
-  
+
     if (amt && !isNaN(amt) && selectedCurrency) {
       this.calculateEstimatedValue();
     }
   }
-  
+
   calculateEstimatedValue(): void {
     const amt = this.stockForm.get('amount')?.value;
-  
+
     if (!amt || isNaN(amt)) {
       console.warn('Amount is invalid or not entered');
       return;
     }
-  
+
     // Find the exchange rate for the selected currency
     const selectedRate = this.exchangeRates.find(
       (rate) => rate.currency === this.selectedCurrenci
     );
-  
+
     if (selectedRate) {
       const convertedAmount = amt * selectedRate.actual_price;
       this.stockForm.patchValue(
@@ -132,8 +137,8 @@ export class AddCashComponent {
         },
         { emitEvent: false } // Prevent triggering valueChanges again
       );
-      
-    } 
+
+    }
   }
 
 
@@ -155,13 +160,14 @@ export class AddCashComponent {
     this.modal.dismissAll();
   }
   onSubmit(req: string) {
-this.stockForm.markAllAsTouched()
+    this.stockForm.markAllAsTouched()
     if (this.stockForm.valid) {
       const formData = this.stockForm.value;
       if (this.forEdit && this.orderId && req == 'edit') {
         const payload = {
           ...formData,
-          orderId: this.orderId
+          orderId: this.orderId,
+          username:this.userData?.username
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/updateCash`, payload)
@@ -176,7 +182,8 @@ this.stockForm.markAllAsTouched()
       if (this.forEdit && this.orderId && req == 'delete') {
 
         const payload = {
-          orderId: this.orderId
+          orderId: this.orderId,
+          username:this.userData?.username
         }
         this.http.post(`${this.apiUrl}/api/portfolio/deleteCash`, payload).subscribe(response => {
           if (response) {
@@ -187,11 +194,12 @@ this.stockForm.markAllAsTouched()
       else if (!this.forEdit) {
         const payload = {
           ...formData,
+          username:this.userData?.username
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/putcash`, payload)
           .subscribe(response => {
-         
+
             this.router.navigate(['/add-investment/cash']);
           }, error => {
             console.error('Error adding stock:', error);

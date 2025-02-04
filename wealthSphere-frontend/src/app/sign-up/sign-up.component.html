@@ -6,7 +6,7 @@
             <div>
                 <div class="input-fields">
                     <label>Email</label>
-                    <input type="string" placeholder="Enter you email" formControlName="username">
+                    <input type="string" placeholder="Enter you email" formControlName="username" >
                     <span class="error"
                     *ngIf="signupForm.get('username')?.touched && signupForm.get('username')?.invalid">Email is required.</span>
                 </div>
@@ -29,14 +29,18 @@
                 </div>
                 <div class="d-flex flex-row justify-content-between">
                     <div class="input-fields"><label>Password</label>
-                        <input type="password" formControlName="password">
+                        <input type="password" formControlName="password" (input)="checkPass()">
                         <span class="error"
                             *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid">Password is required.</span>
+                         <span class="error"
+                        *ngIf="this.lengthError">The password must be 8 characters long.</span>
                     </div>
                     <div class="input-fields"><label>Confirm Password</label>
-                        <input type="password" formControlName="confirm_password">
+                        <input type="password" formControlName="confirm_password" (input)="confirmPass()">
                         <span class="error"
                             *ngIf="signupForm.get('confirm_password')?.touched && signupForm.get('confirm_password')?.invalid">Confirm Password is Required.</span>
+                            <span class="error"
+                            *ngIf="this.passText!==''">{{this.passText}}</span>
                     </div>
                 </div>
             </div>

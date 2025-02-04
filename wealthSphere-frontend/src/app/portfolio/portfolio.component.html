@@ -1,4 +1,4 @@
-<div *ngIf="!this.isNewUser" class="d-flex flex-row justify-content-between position-relative portfolio-container col-lg-12">
+<div *ngIf="!this.isNewUser && !this.noUserFunds" class="d-flex flex-row justify-content-between position-relative portfolio-container col-lg-12">
   <!-- Pie Chart Container --> 
   <div class="chart-container flex-grow-1 col-lg-6" >
     <!-- Pie Chart -->
@@ -59,4 +59,27 @@
   </div>
   
 </div>
+<div *ngIf="this.noUserFunds" class="noFund">
+  <div  class="empty-investment-container">
+    <h2>Hey {{this.userName}} start building your investment portfolio today!</h2>
+    
+    <div class="progress-tracker">
+      <div class="step">
+        <div class="icon">📈</div>
+        <p>Choose an asset</p>
+      </div>
+      <div class="step">
+        <div class="icon">📝</div>
+        <p>Enter investment details</p>
+      </div>
+      <div class="step">
+        <div class="icon">📊</div>
+        <p>Track & analyze</p>
+      </div>
+    </div>
+  
+    <button @bounce (click)="routeToInvestment()">Start Investing</button>
+  </div>
+</div>
+
 

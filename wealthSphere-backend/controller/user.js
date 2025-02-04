@@ -65,14 +65,14 @@ exports.login = async (req, res) => {
 
         // Check if user exists
         if (!user) {
-            return res.status(400).json({ error: 'Invalid username or password' });
+            return res.status(200).json({ message: 'Invalid username or password' ,success:false});
         }
 
         // Compare the hashed password with the entered password
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid username or password' });
+            return res.status(200).json({ message: 'Invalid username or password' ,success:false});
         }
 
         // Generate JWT with expiry

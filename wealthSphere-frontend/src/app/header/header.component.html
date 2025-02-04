@@ -10,7 +10,7 @@
 
 <div class="d-flex flex-column cardBoxShadowBox justify-content-around" *ngIf="this.showDiv">
    <div class="d-flex flex-row" style="border-bottom: 1px solid #afafaf;">
-      <img class="profile-img" src="../../assets/img-logo.svg" style="
+      <img class="profile-img" src="../../assets/img-logo.svg" (click)="this.homeScreen()"style="
     margin-right: 1em">
       <div class="d-flex flex-column justify-content-start" >
          <span class="text-name1">{{this.userData?.first_name}}</span>

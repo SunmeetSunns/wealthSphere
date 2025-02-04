@@ -1,30 +1,34 @@
 <div class="d-flex flex-column justify-content-between align-center col-lg-12 actions position-relative all-inv">
-    <div class="add-inv d-flex flex-column justify-content-between" (click)="routeToaddInvest(noAccModal)">
-        <span style="color:#00786c,">Add Investment</span>
-        <img src="../../assets/add-invest.svg">
-    </div>
-    <div class="view-rep d-flex flex-column justify-content-between" (click)="routeToaddReport(noAccModal)"> <span
-            style="color:#00786c,">Reports</span>
-        <img src="../../assets/report.svg">
-    </div>
+  <div class="add-inv d-flex flex-column justify-content-between" [ngClass]="this.isNewUser ? 'grey-inv' :'add-inv'"
+    (click)="routeToaddInvest(noAccModal)">
+    <span>Add Investment</span>
+    <img *ngIf="!this.isNewUser" src="../../assets/add-invest.svg">
+    <img *ngIf="this.isNewUser" src="'../../assets/lock.svg">
+  </div>
+  <div class="view-rep d-flex flex-column justify-content-between" [ngClass]="this.isNewUser ? 'grey-inv' :'view-rep'"
+    (click)="routeToaddReport(noAccModal)"> 
+    <span>Reports</span>
+    <img *ngIf="!this.isNewUser" src="../../assets/report.svg">
+    <img *ngIf="this.isNewUser" src="'../../assets/lock.svg">
+  </div>
 </div>
 
 <ng-template #noAccModal let-modal>
-    <div class="modal-header-pop ">
-      <div class="heading my-modal">
+  <div class="modal-header-pop ">
+    <div class="heading my-modal">
       User Setup
-      </div>
-    
-      <div class="modal-body d-flex flex-column mt-3 justify-content-center align-items-center">
-        <span>Account Still Not Setup ? </span>
-        
-        <span>Please setup your account first.</span>
-       
-      </div>
-      <div class="modal-footer d-flex flex-row justify-content-evenly">
-        <button class="btn btn-primary"(click)="routeToSetup()">SetUp Account</button>
-        <button class="btn btn-danger"(click)="close()">Close</button>
-      </div>
     </div>
-  
-  </ng-template>
+
+    <div class="modal-body d-flex flex-column mt-3 justify-content-center align-items-center">
+      <span>Account Still Not Setup ? </span>
+
+      <span>Please setup your account first.</span>
+
+    </div>
+    <div class="modal-footer d-flex flex-row justify-content-evenly">
+      <button class="btn btn-primary" (click)="routeToSetup()">SetUp Account</button>
+      <button class="btn btn-danger" (click)="close()">Close</button>
+    </div>
+  </div>
+
+</ng-template>

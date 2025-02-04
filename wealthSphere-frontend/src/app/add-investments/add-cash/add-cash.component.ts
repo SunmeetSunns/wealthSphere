@@ -117,30 +117,37 @@ export class AddCashComponent {
   }
 
   calculateEstimatedValue(): void {
+   
     const amt = this.stockForm.get('amount')?.value;
-
+  
     if (!amt || isNaN(amt)) {
       console.warn('Amount is invalid or not entered');
       return;
     }
-
-    // Find the exchange rate for the selected currency
-    const selectedRate = this.exchangeRates.find(
-      (rate) => rate.currency === this.selectedCurrenci
-    );
-
+  
+    let selectedRate;
+  
+    // For both edit and new entry, find the exchange rate for the selected currency
+    if (this.forEdit) {
+      // In edit mode, find the rate based on the currency selected in the form
+      const selectedCurrency = this.stockForm.get('currency')?.value;
+      selectedRate = this.exchangeRates.find(rate => rate.currency === selectedCurrency);
+    } else {
+      // For new entry, use the selected currency from the form or another variable
+      selectedRate = this.exchangeRates.find(rate => rate.currency === this.selectedCurrenci);
+    }
+  
     if (selectedRate) {
+      // Calculate the estimated amount by multiplying the amount with the actual price
       const convertedAmount = amt * selectedRate.actual_price;
-      this.stockForm.patchValue(
-        {
-          estimatedAmt: convertedAmount.toFixed(2),
-        },
-        { emitEvent: false } // Prevent triggering valueChanges again
-      );
-
+  
+      // Set the estimated amount to the form
+      this.stockForm.get('estimatedAmt')?.setValue(convertedAmount.toFixed(2))
+    } else {
+      console.warn('Exchange rate for the selected currency is not found');
     }
   }
-
+  
 
 
   openModal(modal: any, text?: String) {
@@ -167,7 +174,8 @@ export class AddCashComponent {
         const payload = {
           ...formData,
           orderId: this.orderId,
-          username:this.userData?.username
+          username: this.userData?.username,
+          amountinINR:this.stockForm.get('estimatedAmt')?.value
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/updateCash`, payload)
@@ -183,7 +191,7 @@ export class AddCashComponent {
 
         const payload = {
           orderId: this.orderId,
-          username:this.userData?.username
+          username: this.userData?.username
         }
         this.http.post(`${this.apiUrl}/api/portfolio/deleteCash`, payload).subscribe(response => {
           if (response) {
@@ -194,7 +202,7 @@ export class AddCashComponent {
       else if (!this.forEdit) {
         const payload = {
           ...formData,
-          username:this.userData?.username
+          username: this.userData?.username
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/putcash`, payload)

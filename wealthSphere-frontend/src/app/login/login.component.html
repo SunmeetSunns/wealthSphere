@@ -1,7 +1,12 @@
 <div class="software row margin-auto">
 
   <form [formGroup]="loginForm" class="login-container">
+   
     <div class="login-box">
+      <div class="d-flex flex-row box-error mb-2" *ngIf="this.errorMsg !==''">
+        <img class="caution" src="../../assets/caution.svg">
+        <span class="error">{{this.errorMsg}}</span>
+      </div>
       <h2>Login</h2>
 
       <div class="input-fields">

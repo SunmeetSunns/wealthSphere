@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn?: boolean;
   isSignupStage?: boolean = false;
   loginForm!: FormGroup;
+  errorMsg: String='';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   changeState(): void {
-  
+
     const url = `${this.apiUrl}/api/user/login`;
     const body = {
       username: this.loginForm.get('username')?.value,
@@ -49,16 +50,25 @@ export class LoginComponent implements OnInit {
 
     this.http.post(url, body, { withCredentials: true }).subscribe((res: any) => {
       if (res) {
+        debugger
         const token = this.setToken(res);
+
         if (token) {
           this.isLoggedIn = !this.isLoggedIn;
           this.toggleLoginComponent.emit(this.isLoggedIn);
+        }
+        else {
+          this.isThereAnyError(res);
         }
         this.checkUserAccount(res)
       }
     });
   }
-
+  isThereAnyError(res: any) {
+    if (!res?.success) {
+      this.errorMsg = res?.message;
+    }
+  }
   setToken(res: any): string | null {
 
     if (this.isLocalStorageAvailable()) {

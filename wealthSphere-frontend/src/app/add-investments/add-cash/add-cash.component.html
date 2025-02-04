@@ -25,7 +25,7 @@
         <label for="company">Amount <span class="error">*</span></label>
         <div class="d-flex flex-row">
           <span class="symbolBox">{{this.currentCurrencySymbol}}</span>
-          <input id="company" formControlName="amount" type="number" />
+          <input id="company" formControlName="amount" type="number" (input)="calculateEstimatedValue()" />
         </div>
         <span class="error" *ngIf="stockForm.get('amount')?.invalid && stockForm.get('amount')?.touched">Amount is required.</span>
       </div>

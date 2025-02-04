@@ -266,9 +266,9 @@ exports.getCash = async (req, res) => {
 
 exports.updateCash = async (req, res) => {
   try {
-
     const orderId = req.body.orderId;
     const username = req.body.username; // Get user email from authenticated request
+
     if (!username) {
       return res.status(400).json({ success: false, message: 'User email not provided' });
     }
@@ -276,6 +276,39 @@ exports.updateCash = async (req, res) => {
     const updatedData = { ...req.body };
     delete updatedData.orderId; // Ensure orderId is not updated
 
+    // Mapping of currencies to their corresponding SVG file paths
+    const currencySvgMap = {
+      INR: '/assets/flags/india.svg',
+      USD: '/assets/flags/usa.svg',
+      EUR: '/assets/flags/cad.svg',
+      GBP: '/assets/flags/uk.svg',
+      CAD: '/assets/flags/canada.svg',
+    };
+
+    const symbolMap = {
+      INR: '₹',
+      USD: '$',
+      EUR: '€',
+      GBP: '£',
+      CAD: '$',
+    };
+
+    // Check if the currency is provided in the updatedData
+    if (updatedData.currency) {
+      // Add the corresponding SVG URL based on the currency
+      if (currencySvgMap[updatedData.currency]) {
+        updatedData.svg_url = currencySvgMap[updatedData.currency];
+      } else {
+        updatedData.svg_url = '/assets/flags/default.svg'; // Fallback if the currency is not in the map
+      }
+
+      // Add the currency symbol
+      if (symbolMap[updatedData.currency]) {
+        updatedData.symbol = symbolMap[updatedData.currency];
+      }
+    }
+
+    // Perform the update operation in the database
     const updatedCash = await Cash.findOneAndUpdate(
       { orderId: orderId, username: username }, // Ensure user can update only their data
       updatedData,
@@ -299,6 +332,7 @@ exports.updateCash = async (req, res) => {
     res.status(500).json({ success: false, message: 'Error updating cash details' });
   }
 };
+
 
 exports.deleteCash = async (req, res) => {
   try {
@@ -466,6 +500,7 @@ exports.calculatePortfolio = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: 'No assets found for the user. User seems to be new.',
+        newUserWithNoFunds:true,
         totalValue: 0,
         percentages: {
           stock: 0,

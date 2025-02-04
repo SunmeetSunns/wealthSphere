@@ -5,13 +5,29 @@ import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { trigger, transition, animate, keyframes, style } from '@angular/animations';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
   imports: [ChartModule, CommonModule, TableModule],
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.css']
+  styleUrls: ['./portfolio.component.css'],
+  animations: [
+    trigger('bounce', [
+      transition('* => *', [
+        animate(
+          '1s',
+          keyframes([
+            style({ transform: 'scale(1)' }),
+            style({ transform: 'scale(1.05)' }),
+            style({ transform: 'scale(1)' }),
+          ])
+        ),
+      ]),
+    ]),
+  ],
+
 })
 export class PortfolioComponent implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -21,6 +37,8 @@ export class PortfolioComponent implements OnInit {
   assetsValue: any;
   userData: any;
   isNewUser?: boolean;
+  noUserFunds?: boolean;
+  userName?:String;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -28,6 +46,7 @@ export class PortfolioComponent implements OnInit {
     const user = localStorage.getItem('userData');
     if (user) {
       this.userData = JSON.parse(user)
+      this.userName=this.userData?.first_name + ' ' + this.userData?.last_name;
     }
     const userNew = sessionStorage.getItem('newUser')
     if (userNew) {
@@ -83,14 +102,20 @@ export class PortfolioComponent implements OnInit {
   }
 
   populateTableData(mydata: any) {
-    if(mydata?.newUser){
-      sessionStorage.setItem('newUser',mydata?.newUser);
-      this.isNewUser=true;
-      
+    if (mydata?.newUser) {
+      sessionStorage.setItem('newUser', mydata?.newUser);
+      this.isNewUser = true;
+
     }
-    else{
+    else if (mydata?.newUserWithNoFunds) {
+      sessionStorage.setItem('newUserWithNoFunds', mydata?.newUserWithNoFunds);
+      this.noUserFunds = true;
+    }
+    else {
       sessionStorage.removeItem('newUser');
-      this.isNewUser=false;
+      this.isNewUser = false;
+      sessionStorage.removeItem('newUserWithNoFunds');
+      this.noUserFunds = false;
       const { stockTotal, cashTotal, cryptoTotal, fdTotal } = mydata?.assetValues || {};
 
       this.data = [
@@ -100,12 +125,14 @@ export class PortfolioComponent implements OnInit {
         { assets: 'FD', percentage: this.chartData.datasets[0].data[3] + ' %', assetValue: (fdTotal).toFixed(2) }
       ];
     }
-   
+
   }
   routeToSetup(): void {
     this.router.navigate(['account-setup']).then(() => {
-    
+
     });
   }
-
+routeToInvestment(){
+  this.router.navigate(['/add-investment/initialise']);
+}
 }

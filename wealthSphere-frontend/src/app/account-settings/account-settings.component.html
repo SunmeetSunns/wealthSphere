@@ -2,7 +2,7 @@
 <div *ngIf="this.newUser" class="background">
     <div class="triangle"></div>
     <div class="triangle1"></div>
-    <div class="form-container">
+    <div class="form-container mb-3">
         <form [formGroup]="accountForm" class="col-lg-12">
             <div class="form-group col-lg-6">
                 <label for="symbol">Account Number<span class="error">*</span></label>
@@ -62,10 +62,7 @@
             </div>
             <div class="form-group col-lg-6">
                 <label for="estimatedAmt">Birth Date<span class="error">*</span></label>
-                <div class="d-flex flex-row">
-                    <span class="symbolBox">₹</span>
-                    <input id="estimatedAmt" formControlName="birth_date" type="number" />
-                </div>
+                <input id="estimatedAmt" formControlName="birth_date" type="date" />
                 <span class="error"
                     *ngIf="accountForm.get('birth_date')?.invalid && accountForm.get('birth_date')?.touched">Estimated
                     Birth Date is required.</span>

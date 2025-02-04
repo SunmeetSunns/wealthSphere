@@ -28,8 +28,9 @@ export class HeaderComponent implements OnInit{
       }
       this.email=this.userData?.username
     }
-   
-    
+  }
+  homeScreen(){
+    this.router.navigate(['/'])
   }
   changeState() {
     if (localStorage.getItem('authToken')) {

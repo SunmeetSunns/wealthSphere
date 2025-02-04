@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule, MaxLengthValidator } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +20,8 @@ export class SignUpComponent implements OnInit {
   signupForm!: FormGroup;
   isLoggedIn!: boolean;
   apiUrl = environment.apiUrl;
+  lengthError?: boolean;
+  passText: string='';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,12 +74,30 @@ export class SignUpComponent implements OnInit {
 
   buildForm() {
     this.signupForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirm_password: ['', Validators.required],
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
-      mobile_number: ['', Validators.required]
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]], 
+      password: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(8)]], 
+      confirm_password: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(8)]],
+      first_name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      mobile_number: ['', [Validators.required,Validators.maxLength(10), Validators.minLength(10)]]
     });
   }
+  checkMail(){
+    
+  }
+  confirmPass(){
+   const pass= this.signupForm.get('password')?.value
+   const confrm_pass=this.signupForm.get('confirm_password')?.value;
+   if(confrm_pass !==pass){
+    this.passText=`Password doesn't match`;
+   }
+   else{
+    this.passText=''
+   }
+  }
+  checkPass() {
+    const pass = this.signupForm.get('password')?.value || ''; // Ensure pass is always a string
+    this.lengthError = pass.length < 8;
+  }
+  
 }

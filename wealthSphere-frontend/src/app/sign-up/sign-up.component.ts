@@ -22,6 +22,7 @@ export class SignUpComponent implements OnInit {
   apiUrl = environment.apiUrl;
   lengthError?: boolean;
   passText: string='';
+  errorMsg:string='';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,13 +55,25 @@ export class SignUpComponent implements OnInit {
 
     this.http.post(url, body).subscribe((res: any) => {
       if (res) {
-        this.setToken(res);
-        this.isLoggedIn = !this.isLoggedIn;
-        this.toggleLoginComponent.emit(this.isLoggedIn);
+        if(!res?.success){
+          this.setErrorMsg(res);
+          return;
+        }
+        else{
+          this.setToken(res);
+          this.isLoggedIn = !this.isLoggedIn;
+          this.toggleLoginComponent.emit(this.isLoggedIn);
+        }
+      
       }
     });
   }
 
+  setErrorMsg(res:any){
+if(!res?.success){
+  this.errorMsg=res?.message
+}
+  }
   setToken(res: any): string | null {
     // Assuming the server sends an expiresIn (expiry time in seconds)
     const expiryTime = new Date().getTime() + res.expiresIn * 1000; // expiry in milliseconds

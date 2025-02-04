@@ -41,7 +41,9 @@ export class LoginComponent implements OnInit {
   }
 
   changeState(): void {
-
+    this.loginForm.markAllAsTouched();
+    if (this.loginForm.invalid)
+      return;
     const url = `${this.apiUrl}/api/user/login`;
     const body = {
       username: this.loginForm.get('username')?.value,

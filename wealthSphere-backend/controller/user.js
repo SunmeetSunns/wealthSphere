@@ -9,13 +9,13 @@ exports.signUp = async (req, res) => {
 
         // Ensure all required fields are provided
         if (!username || !first_name || !last_name || !mobile_no || !password) {
-            return res.status(400).json({ error: 'All fields are required' });
+            return res.status(200).json({ message: 'All fields are required' });
         }
 
         // Check if the username already exists
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(400).json({ error: 'Username already exists' });
+            return res.status(200).json({ message: 'Username already exists' ,success:false});
         }
 
         // Hash the password
@@ -46,7 +46,7 @@ exports.signUp = async (req, res) => {
     } catch (error) {
         if (error.code === 11000) {
             // Handle duplicate key error
-            return res.status(400).json({ error: 'Username already exists' });
+            return res.status(200).json({ message: 'Username already exists',success:false });
         }
 
         console.error('Error creating user:', error);

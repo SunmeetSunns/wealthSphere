@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn?: boolean;
   isSignupStage?: boolean = false;
   loginForm!: FormGroup;
-  errorMsg: String='';
+  errorMsg: String = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -125,8 +125,8 @@ export class LoginComponent implements OnInit {
 
   buildForm(): void {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(8)]],
     });
   }
 

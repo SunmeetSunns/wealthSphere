@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const portfolioRoutes = require('./router/portfolioRoutes');
 const userRoute = require('./router/user');
+const webhookRoutes=require('./router/webhookRoutes');
 const Counter = require('./models/counter');
 const { connectDB } = require('./db');
 require('dotenv').config();
@@ -12,32 +13,37 @@ const { verifyUser } = require('./middleware/auth');
 const app = express();
 
 // Define the allowed origins based on the environment
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://deft-starship-250f12.netlify.app'] // Allow Netlify app in production
-  : ['http://localhost:4200']; // Allow localhost in development
+const allowedOrigins = [
+  'http://localhost:4200', // Allow Angular dev server
+  'https://deft-starship-250f12.netlify.app', // Allow Netlify
+  'https://dialogflow.cloud.google.com', // Allow Dialogflow requests
+  'https://88ef-2405-201-6805-f8f3-9130-66d2-a26a-4b8d.ngrok-free.app' // Replace with actual ngrok URL
+];
+
 
 // CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
-    // If there's no origin (e.g., requests from Postman or similar), allow the request
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
       callback(null, true);
     } else {
       callback(new Error('CORS not allowed for this origin'), false);
     }
   },
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Allow cookies and credentials
+  credentials: true,
 }));
+
 
 // Handle preflight requests (OPTIONS)
 app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', req.header('Origin')); // Set the specific origin that made the request
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Origin', req.header('Origin') || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.status(200).end();
 });
+
 
 // Middleware
 app.use(bodyParser.json());
@@ -48,6 +54,7 @@ const port = process.env.PORT || 5000;
 // Initialize routes
 app.use('/api/user', userRoute);
 app.use('/api/portfolio', verifyUser, portfolioRoutes);
+app.use('/api',webhookRoutes);
 
 // Initialize the counter for orderId
 const initCounter = async () => {

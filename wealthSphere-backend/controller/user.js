@@ -161,3 +161,95 @@ exports.checkUserAccount=async(req,res)=>{
     }
   
 }
+exports.calculatePortfolioWebhook = async (req, res) => {
+  try {
+    const { username } = req.body; // Extract username from the request body
+
+    if (!username) {
+      return res.status(400).json({
+        success: false,
+        message: 'Username is required to calculate the portfolio',
+      });
+    }
+
+    const accountDetails = await Account.findOne({
+      username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
+    });
+
+    // If account details do not exist, return early without performing further actions
+    if (!accountDetails) {
+      return res.status(201).json({
+        message: 'No account details found',
+        newUser: true,
+      });
+    }
+
+    // Fetch user-specific data only if accountDetails exist
+    const [stocks, fds, cash, cryptos] = await Promise.all([
+      Stock.find({ username }),
+      FD.find({ username }),
+      Cash.find({ username }),
+      Crypto.find({ username }),
+    ]);
+
+    // Check if all assets are empty
+    const newUser = stocks.length === 0 && fds.length === 0 && cash.length === 0 && cryptos.length === 0;
+
+    // Handle case when user has no assets
+    if (newUser) {
+      return res.status(200).json({
+        success: true,
+        message: 'No assets found for the user. User seems to be new.',
+        newUserWithNoFunds:true,
+        totalValue: 0,
+        percentages: {
+          stock: 0,
+          fd: 0,
+          cash: 0,
+          crypto: 0,
+        },
+        assetValues: {
+          stockTotal: 0,
+          fdTotal: 0,
+          cashTotal: 0,
+          cryptoTotal: 0,
+        },
+      });
+    }
+
+    // Calculate total values
+    const stockValue = stocks.reduce((acc, stock) => acc + stock.totalValue, 0);
+    const fdValue = fds.reduce((acc, fd) => acc + fd.depositAmount, 0);
+    const cashValue = cash.reduce((acc, cashItem) => acc + cashItem.amountinINR, 0);
+    const cryptoValue = cryptos.reduce((acc, crypto) => acc + crypto.totalValue, 0);
+
+    const totalValue = stockValue + fdValue + cashValue + cryptoValue;
+
+    // Calculate percentages
+    const stockPercentage = (stockValue / totalValue) * 100;
+    const fdPercentage = (fdValue / totalValue) * 100;
+    const cashPercentage = (cashValue / totalValue) * 100;
+    const cryptoPercentage = (cryptoValue / totalValue) * 100;
+
+    return res.status(200).json({
+      success: true,
+      newUser: false, // User has some assets
+      totalValue,
+      percentages: {
+        stock: stockPercentage.toFixed(2),
+        fd: fdPercentage.toFixed(2),
+        cash: cashPercentage.toFixed(2),
+        crypto: cryptoPercentage.toFixed(2),
+      },
+      assetValues: {
+        stockTotal: stockValue,
+        fdTotal: fdValue,
+        cashTotal: cashValue,
+        cryptoTotal: cryptoValue,
+      },
+    });
+  } catch (error) {
+    console.error('Error calculating portfolio:', error);
+    return res.status(500).json({ error: 'Error calculating portfolio' });
+  }
+};

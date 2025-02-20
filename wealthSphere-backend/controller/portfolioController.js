@@ -555,7 +555,6 @@ exports.calculatePortfolio = async (req, res) => {
 };
 
 
-
 const axios = require('axios');
 
 require('dotenv').config();

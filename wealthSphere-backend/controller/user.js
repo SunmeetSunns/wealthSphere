@@ -2,6 +2,11 @@ const User = require('../models/users');
 const Account = require('../models/bankAccount');
 const { setUser } = require('../service/auth');
 const bcrypt = require('bcrypt');
+const Stock = require('../models/stocks');
+const FD = require('../models/fd');
+const Cash = require('../models/cash');
+const Crypto = require('../models/cryptoCurrency');
+// const { getDB } = require('../db')
 
 exports.signUp = async (req, res) => {
     try {

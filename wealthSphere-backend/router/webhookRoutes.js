@@ -83,7 +83,7 @@ router.post("/webhook", async (req, res) => {
           console.log("📤 Headers being sent:", headers);
 
           const portfolioResponse = await axios.post(
-            "https://wealtsphere.onrender.com/api/portfolio/portfolioTotal",
+            "https://wealtsphere.onrender.com/api/user/webhookPortfolio",
             { username: queryText },
             { headers }
           );

@@ -53,7 +53,26 @@
             </span>
         </div>
     </form>
-
+    <div class="alice-bot">
+        <div class="main-bot" *ngIf="!this.isChatboxOpen">
+    
+          <div class="bot-text">
+            <span class="text1">Hello! How can I Help?</span>
+            <br>
+            <span class="text2">WealthSphere Assistance</span>
+          </div>
+          <div class="circle-bot" (click)="openChatBot()">
+            <img src="../../assets/bot.svg">
+          </div>
+        </div>
+        <div class="bot">
+          <app-chatbot *ngIf="this.isChatboxOpen" class="chatbox-positioning"></app-chatbot>
+          <div *ngIf="this.isChatboxOpen" class="chat-footer" (click)="openChatBot()">
+            <div class="sub-footer">X</div>
+          </div>
+        </div>
+    
+      </div>
 </div>
 
 <ng-template #successModal let-modal>

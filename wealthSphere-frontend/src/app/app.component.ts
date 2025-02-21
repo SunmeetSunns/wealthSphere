@@ -12,6 +12,7 @@ import { ViewReportsModule } from './view-reports/view-reports.module';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     ActionsComponent,
     LoginComponent,
     SignUpComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ChatbotComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

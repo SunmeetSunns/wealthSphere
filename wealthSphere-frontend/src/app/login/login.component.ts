@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ChatbotComponent } from '../chatbot/chatbot.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,ChatbotComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'], // Corrected 'styleUrl' to 'styleUrls'
 })
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
   isSignupStage?: boolean = false;
   loginForm!: FormGroup;
   errorMsg: String = '';
+  isChatboxOpen: boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -95,6 +97,9 @@ export class LoginComponent implements OnInit {
       })
     }
 
+  }
+  openChatBot(){
+    this.isChatboxOpen=!this.isChatboxOpen;
   }
   setToNewUser(res: any) {
     if (res?.success && res?.newUser) {

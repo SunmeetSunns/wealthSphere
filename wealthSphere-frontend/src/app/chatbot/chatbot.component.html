@@ -1,0 +1,29 @@
+<!-- <div class="chat-header">
+  <span>WealthSphere Assistance</span>
+</div>
+<div class="chat-container">
+  
+  <div class="messages">
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
+      {{ msg.text }}
+    </div>
+  </div>
+  <input
+    type="text"
+    [(ngModel)]="userMessage"
+    (keyup.enter)="sendMessage()"
+    placeholder="Write a message..."
+  />
+</div> -->
+
+<div class="chat-container">
+  <div class="chat-header">WealthSphere Assistance</div>
+  <div class="chat-messages" #chatMessages>
+    <div *ngFor="let message of messages" class="message" [ngClass]="{'user': message.sender === 'user', 'bot': message.sender === 'bot'}">
+      {{ message.text }}
+    </div>
+  </div>
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Write a message...">
+  </div>
+</div>

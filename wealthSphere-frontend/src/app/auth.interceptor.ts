@@ -4,16 +4,16 @@ import { LoaderService } from './loader.service';
 import { finalize } from 'rxjs/operators';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-  // Retrieve the LoaderService
   const loaderService = inject(LoaderService);
-
-  // Retrieve the token from localStorage
   const token = localStorage.getItem('authToken');
 
-  // Show the loading spinner
-  loaderService.show();
+  // Check if the API is a webhook
+  const isWebhook = req.url.includes('/webhook'); // Adjust the identifier accordingly
 
-  // Clone the request and add the Authorization header if token exists
+  if (!isWebhook) {
+    loaderService.show(); // Show spinner only for non-webhook requests
+  }
+
   const modifiedReq = token
     ? req.clone({
         setHeaders: {
@@ -22,11 +22,11 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
       })
     : req;
 
-  // Handle the request and hide the spinner when complete
   return next(modifiedReq).pipe(
     finalize(() => {
-      // Hide the loading spinner
-      loaderService.hideWithMinimumDelay();
+      if (!isWebhook) {
+        loaderService.hideWithMinimumDelay(); // Hide spinner only if it was shown
+      }
     })
   );
 };

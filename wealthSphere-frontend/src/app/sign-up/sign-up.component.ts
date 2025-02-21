@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ChatbotComponent } from '../chatbot/chatbot.component';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,ChatbotComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
@@ -23,6 +24,7 @@ export class SignUpComponent implements OnInit {
   lengthError?: boolean;
   passText: string='';
   errorMsg:string='';
+  isChatboxOpen: boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,6 +96,9 @@ if(!res?.success){
       last_name: ['', [Validators.required]],
       mobile_number: ['', [Validators.required,Validators.maxLength(10), Validators.minLength(10)]]
     });
+  }
+  openChatBot(){
+    this.isChatboxOpen=!this.isChatboxOpen;
   }
   checkMail(){
     

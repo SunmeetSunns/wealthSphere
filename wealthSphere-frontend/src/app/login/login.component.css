@@ -1,10 +1,181 @@
-.software{margin:0;padding:0;height:100vh;display:flex;align-items:center;justify-content:center;background-image:url(../../assets/software-table.jpg);background-size:cover;background-position:center;background-repeat:no-repeat;font-family:Arial,sans-serif}.login-container{display:flex;align-items:center;justify-content:center;height:100%;width:100%}.login-box{background:rgba(255,255,255,.9);padding:30px 20px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,.2);text-align:center;width:22em}.login-box h2{margin-bottom:1.5em;color:#00786c}.text-blue{color:#319ee2;cursor:pointer}.redBorder{border:1px solid #e80001!important}.error{color:#e80001}.input-fields input{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px;font-size:16px}.login-box button{background-color:#00786c;color:#fff;border:none;padding:10px;margin-top:2em;width:100%;font-size:16px;border-radius:5px;cursor:pointer}.input-fields>label{color:#0a998b}.login-box button:hover{background-color:#005c53}.input-fields{display:flex;flex-direction:column;align-items:flex-start}
-.caution{
+.software {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    /* overflow-y: hidden; */
+    background-image: url(../../assets/software-table.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%
+}
+
+.login-box {
+    background: rgba(255, 255, 255, .9);
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+    text-align: center;
+    width: 22em
+}
+
+.login-box h2 {
+    margin-bottom: 1.5em;
+    color: #00786c
+}
+
+.text-blue {
+    color: #319ee2;
+    cursor: pointer
+}
+
+.redBorder {
+    border: 1px solid #e80001 !important
+}
+
+.error {
+    color: #e80001
+}
+
+.input-fields input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px
+}
+
+.login-box button {
+    background-color: #00786c;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    margin-top: 2em;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.input-fields>label {
+    color: #0a998b
+}
+
+.login-box button:hover {
+    background-color: #005c53
+}
+
+.input-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start
+}
+
+.caution {
     height: 1.5em;
     width: 1.5em;
     margin-right: 1em;
 }
-.box-error{
+
+.box-error {
     border: 1px solid #e80001;
-    padding:  0.2em 0.5em;
+    padding: 0.2em 0.5em;
 }
+
+.alice-bot{
+    margin-left: auto;
+    position: absolute;
+    /* height: 20em; */
+    width: 25em;
+    bottom: 3em;
+    right: 1em;
+    display: flex;
+    justify-content: flex-end;
+}
+.circle-bot {
+    
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6em;
+    width: 6em;
+    border-radius: 10em;
+    background-color: #005c53;
+    cursor: pointer;
+}
+.main-bot{
+    display: flex;
+    flex-direction: row;
+    width: 20em;
+}
+.circle-bot>img {
+    align-self: center;
+   
+    height: 4em;
+    width: 4em;
+}
+
+.bot-text {
+    background-color: white;
+    padding: 0.2em 0.5em;
+    width: fit-content;
+    height: fit-content;
+    margin-top: 4em;
+    margin-left: 2.5em;
+    border-left: 2em;
+    border-bottom-right-radius: 2em;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, .2), 0 3px 30px rgba(0, 0, 0, .5);
+
+}
+
+
+.text1 {
+    color: red;
+    text-wrap: nowrap;
+
+}
+
+.text2 {
+    color: black;
+    text-wrap: nowrap;
+    font-size: 0.8rem;
+}
+.chatbox-positioning{
+    margin-left: auto;
+}
+.chat-footer{
+    display: flex;
+    justify-content: flex-end;
+    width: 20em;
+    margin-bottom: 3em;
+  /* position: absolute;
+  bottom: ; */
+  }
+  .sub-footer{
+    color: white;
+    font-size: 2em;
+    width: 2em;
+    height: 1.5em;
+    cursor: pointer;
+    background-color: #00786c;
+    border-bottom-right-radius: 2em;
+    border-bottom-left-radius: 2em;
+    margin-right: 0.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

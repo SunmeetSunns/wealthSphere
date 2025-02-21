@@ -13,7 +13,7 @@ export class LoaderService {
   show() {
     this.loadingSubject.next(true); // Show spinner
   }
-
+ 
   hide() {
     this.loadingSubject.next(false); // Hide spinner immediately
   }

@@ -1,7 +1,7 @@
 <div class="software row margin-auto">
 
   <form [formGroup]="loginForm" class="login-container">
-   
+
     <div class="login-box">
       <div class="d-flex flex-row box-error mb-2" *ngIf="this.errorMsg !==''">
         <img class="caution" src="../../assets/caution.svg">
@@ -11,13 +11,15 @@
 
       <div class="input-fields">
         <label>Email</label>
-        <input type="email" [ngClass]="{'redBorder':this.loginForm.get('username')?.value==null}" placeholder="name@xyz.com" formControlName="username">
+        <input type="email" [ngClass]="{'redBorder':this.loginForm.get('username')?.value==null}"
+          placeholder="name@xyz.com" formControlName="username">
         <span class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">Please
           enter valid username</span>
       </div>
       <div class="input-fields">
         <label>Password</label>
-        <input type="password" [ngClass]="{'redBorder':this.loginForm.get('password')?.value==null}" placeholder="atleast 8 characters" formControlName="password">
+        <input type="password" [ngClass]="{'redBorder':this.loginForm.get('password')?.value==null}"
+          placeholder="atleast 8 characters" formControlName="password">
         <span class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">Please
           enter correct password</span>
       </div>
@@ -27,5 +29,25 @@
       </div>
     </div>
   </form>
+  <div class="alice-bot">
+    <div class="main-bot" *ngIf="!this.isChatboxOpen">
+
+      <div class="bot-text">
+        <span class="text1">Hello! How can I Help?</span>
+        <br>
+        <span class="text2">WealthSphere Assistance</span>
+      </div>
+      <div class="circle-bot" (click)="openChatBot()">
+        <img src="../../assets/bot.svg">
+      </div>
+    </div>
+    <div class="bot">
+      <app-chatbot *ngIf="this.isChatboxOpen" class="chatbox-positioning"></app-chatbot>
+      <div *ngIf="this.isChatboxOpen" class="chat-footer" (click)="openChatBot()">
+        <div class="sub-footer">X</div>
+      </div>
+    </div>
+
+  </div>
 
 </div>

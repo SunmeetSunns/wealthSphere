@@ -9,13 +9,19 @@ dotenv.config();
 
 const getDialogflowCredentials = () => {
   try {
-    const credentialsPath = process.env.DIALOGFLOW_KEY_PATH || "./dialogflow-key.json";
-    return JSON.parse(fs.readFileSync(credentialsPath));
+    if (process.env.DIALOGFLOW_KEY_PATH_BASE_64) {
+      console.log("🔵 Decoding credentials from BASE64");
+      const decoded = Buffer.from(process.env.DIALOGFLOW_KEY_PATH_BASE_64, "base64").toString("utf8");
+      return JSON.parse(decoded); // ✅ Correctly return parsed JSON credentials
+    }
+
+    throw new Error("❌ DIALOGFLOW_KEY_PATH_BASE_64 is missing. Cannot load credentials.");
   } catch (error) {
-    console.error("❌ Error loading Dialogflow credentials:", error);
+    console.error("❌ Error loading Dialogflow credentials:", error.message);
     throw new Error("Dialogflow credentials not found or invalid.");
   }
 };
+
 
 const sessionClient = new dialogflow.SessionsClient({
   credentials: getDialogflowCredentials(),
@@ -26,7 +32,6 @@ const userSessions = {};
 
 // Dialogflow webhook route
 router.post("/webhook", async (req, res) => {
-  
   try {
     console.log("🔵 Webhook received request:", req.body);
 
@@ -97,12 +102,12 @@ router.post("/webhook", async (req, res) => {
             finalResponse = "❌ Couldn't fetch portfolio. Please check your email and try again.";
           } else {
             const { totalValue, percentages, assetValues } = portfolioResponse.data;
-            finalResponse = `📊 **Your Portfolio Summary:**  
-            - **Total Value:** ₹${totalValue}  
-            - **Stocks:** ₹${assetValues.stockTotal} (${percentages.stock}%)  
-            - **FDs:** ₹${assetValues.fdTotal} (${percentages.fd}%)  
-            - **Cash:** ₹${assetValues.cashTotal} (${percentages.cash}%)  
-            - **Crypto:** ₹${assetValues.cryptoTotal} (${percentages.crypto}%)  
+            finalResponse = `📊 **Your Portfolio Summary:**  \n
+            - **Total Value:** ₹${totalValue}  \n
+            - **Stocks:** ₹${assetValues.stockTotal} (${percentages.stock}%)  \n
+            - **FDs:** ₹${assetValues.fdTotal} (${percentages.fd}%)  \n
+            - **Cash:** ₹${assetValues.cashTotal} (${percentages.cash}%)  \n
+            - **Crypto:** ₹${assetValues.cryptoTotal} (${percentages.crypto}%)  \n
             `;
           }
 
@@ -120,7 +125,6 @@ router.post("/webhook", async (req, res) => {
     }
 
     return res.json({ response: botResponse });
-
   } catch (error) {
     console.error("❌ Dialogflow Error:", error.message);
     return res.status(500).json({ error: "An error occurred while processing the request." });

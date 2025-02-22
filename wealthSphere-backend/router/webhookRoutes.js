@@ -1,6 +1,5 @@
 const express = require("express");
 const dialogflow = require("@google-cloud/dialogflow");
-const fs = require("fs");
 const dotenv = require("dotenv");
 const axios = require("axios");
 
@@ -12,16 +11,14 @@ const getDialogflowCredentials = () => {
     if (process.env.DIALOGFLOW_KEY_PATH_BASE_64) {
       console.log("🔵 Decoding credentials from BASE64");
       const decoded = Buffer.from(process.env.DIALOGFLOW_KEY_PATH_BASE_64, "base64").toString("utf8");
-      return JSON.parse(decoded); // ✅ Correctly return parsed JSON credentials
+      return JSON.parse(decoded);
     }
-
     throw new Error("❌ DIALOGFLOW_KEY_PATH_BASE_64 is missing. Cannot load credentials.");
   } catch (error) {
     console.error("❌ Error loading Dialogflow credentials:", error.message);
     throw new Error("Dialogflow credentials not found or invalid.");
   }
 };
-
 
 const sessionClient = new dialogflow.SessionsClient({
   credentials: getDialogflowCredentials(),
@@ -63,19 +60,24 @@ router.post("/webhook", async (req, res) => {
 
     let botResponse = result.fulfillmentText;
 
+    // If another intent is called before providing an email, clear the session
+    if (intentName !== "GetPortfolioSummary" && userSessions[sessionId]?.waitingForEmail) {
+      console.log("🟠 Another intent detected before email. Resetting session.");
+      delete userSessions[sessionId];
+    }
+
     if (intentName === "GetPortfolioSummary") {
       if (userSessions[sessionId]?.waitingForEmail) {
         console.log("🟠 Email received:", queryText);
 
+        // Validate email format
         if (!/\S+@\S+\.\S+/.test(queryText)) {
           botResponse = "❌ Invalid email format. Please enter a valid email.";
           return res.json({ response: botResponse });
         }
 
-        delete userSessions[sessionId]; // Reset session state
-
+        delete userSessions[sessionId]; // Reset session after receiving valid email
         botResponse = "📊 Fetching your portfolio summary...";
-        res.json({ response: botResponse }); // Send immediate response
 
         try {
           console.log("🔵 Calling portfolio API...");
@@ -101,22 +103,20 @@ router.post("/webhook", async (req, res) => {
           } else if (!portfolioResponse.data.success) {
             finalResponse = "❌ Couldn't fetch portfolio. Please check your email and try again.";
           } else {
-            const { totalValue, percentages, assetValues } = portfolioResponse.data;
-            finalResponse = `📊 **Your Portfolio Summary:**  \n
-            - **Total Value:** ₹${totalValue}  \n
-            - **Stocks:** ₹${assetValues.stockTotal} (${percentages.stock}%)  \n
-            - **FDs:** ₹${assetValues.fdTotal} (${percentages.fd}%)  \n
-            - **Cash:** ₹${assetValues.cashTotal} (${percentages.cash}%)  \n
-            - **Crypto:** ₹${assetValues.cryptoTotal} (${percentages.crypto}%)  \n
-            `;
+            const { totalValue, assetValues } = portfolioResponse.data;
+            finalResponse = `📊 **Your Portfolio Summary:**\n\n` +
+            `💰 **Total Value:** ₹${totalValue}\n\n` +
+            `📈 **Stocks:** ₹${assetValues.stockTotal} \n` +
+            `🏦 **FDs:** ₹${assetValues.fdTotal} \n` +
+            `💵 **Cash:** ₹${assetValues.cashTotal}\n` +
+            `₿ **Crypto:** ₹${assetValues.cryptoTotal}`;
           }
 
-          await sendFollowUpMessage(sessionId, finalResponse);
+          return res.json({ response: finalResponse });
         } catch (error) {
           console.error("❌ Error fetching portfolio:", error.message);
-          await sendFollowUpMessage(sessionId, "❌ Error fetching portfolio. Please try again later.");
+          return res.json({ response: "❌ Error fetching portfolio. Please try again later." });
         }
-        return;
       } else {
         console.log("🟠 User requested portfolio summary. Waiting for email...");
         userSessions[sessionId] = { waitingForEmail: true };
@@ -130,12 +130,5 @@ router.post("/webhook", async (req, res) => {
     return res.status(500).json({ error: "An error occurred while processing the request." });
   }
 });
-
-// Function to send a follow-up message asynchronously
-async function sendFollowUpMessage(sessionId, message) {
-  console.log("🟡 Sending follow-up message:", message);
-  // Implement a function to send the message back to the user
-  // Example: Send via WebSocket, Push Notification, or a Chat API
-}
 
 module.exports = router;

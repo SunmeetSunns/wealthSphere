@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
 
     this.http.post(url, body, { withCredentials: true }).subscribe((res: any) => {
       if (res) {
-        debugger
         const token = this.setToken(res);
 
         if (token) {

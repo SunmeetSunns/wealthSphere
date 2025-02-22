@@ -1,28 +1,45 @@
-<!-- <div class="chat-header">
-  <span>WealthSphere Assistance</span>
-</div>
 <div class="chat-container">
-  
-  <div class="messages">
-    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
-      {{ msg.text }}
+  <div class="chat-header">
+    <span>WealthSphere Assistance</span>
+    <div>
+      <img src="../../assets/dropdown.svg" class="dropdown-head" (click)="toggleDropdown()">
     </div>
   </div>
-  <input
-    type="text"
-    [(ngModel)]="userMessage"
-    (keyup.enter)="sendMessage()"
-    placeholder="Write a message..."
-  />
-</div> -->
 
-<div class="chat-container">
-  <div class="chat-header">WealthSphere Assistance</div>
+  <div class="dropdown" *ngIf="dropdownOpen">
+    <span (click)="selectDropdownOption('About WealthSphere')">About WealthSphere</span>
+    <span (click)="selectDropdownOption('Signup')">Signup Enquiry</span>
+    <span (click)="selectDropdownOption('Account Setup')">Account Setup</span>
+    <span (click)="selectDropdownOption('Add Investment')">Investment Enquiry</span>
+    <span (click)="selectDropdownOption('Portfolio Summary')">Portfolio Summary</span>
+  </div>
+
   <div class="chat-messages" #chatMessages>
-    <div *ngFor="let message of messages" class="message" [ngClass]="{'user': message.sender === 'user', 'bot': message.sender === 'bot'}">
-      {{ message.text }}
+    <div *ngFor="let message of messages" class="message"
+      [ngClass]="{'user': message.sender === 'user', 'bot': message.sender === 'bot'}"
+      [innerHTML]="formatMessage(message.text)">
+    </div>
+
+    <!-- Bot Typing Indicator -->
+    <div *ngIf="isTyping" class="typing-indicator">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- "Need Help?" Button (Only Visible Until Clicked) -->
+    <div *ngIf="helpButtonVisible" class="chat-help">
+      <button class="chat-button help-button" (click)="showHelpButtons()">Need Help?</button>
+    </div>
+
+    <!-- Quick Reply Buttons -->
+    <div *ngIf="showButtons" class="chat-buttons">
+      <button *ngFor="let btn of buttons" class="chat-button" (click)="sendQuickReply(btn)">
+        {{ btn }}
+      </button>
     </div>
   </div>
+
   <div class="chat-input">
     <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Write a message...">
   </div>

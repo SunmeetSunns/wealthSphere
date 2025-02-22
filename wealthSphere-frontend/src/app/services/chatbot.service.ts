@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'http://localhost:3000/api/webhook';  // Replace with your ngrok URL
+  private apiUrl = 'https://wealtsphere.onrender.com/api/webhook';  // Replace with your ngrok URL
 
   constructor(private http: HttpClient) {}
 

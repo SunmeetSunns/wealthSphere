@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'wealthSphere-frontend';
   showNews: boolean = true;
   showContent: boolean = true;
+  isChatboxOpen: any=false;
 
   constructor(
     private router: Router,
@@ -90,7 +91,9 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleData(): void {
     this.showNews = !this.showNews;
   }
-
+  openChatBot(){
+    this.isChatboxOpen=!this.isChatboxOpen;
+  }
   routeToSetup(): void {
     this.modal.dismissAll(); // Close modal
     this.router.navigate(['account-setup']).then(() => {

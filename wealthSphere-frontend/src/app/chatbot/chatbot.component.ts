@@ -111,6 +111,8 @@ export class ChatbotComponent {
   }
 
   selectDropdownOption(text: string) {
+    this.showButtons = false;
+    this.helpButtonVisible = false;
     this.messages.push({ text, sender: 'user' });
     this.scrollToBottom();
 

@@ -61,10 +61,10 @@ export class NewsComponent implements OnInit {
     } else {
       for (let i = 0; i <= 5; i++) {
         this.newsArray.push({
-          img: '',
-          heading: 'Hello',
-          news: 'Kaisi h',
-          date: '02-04-2002',
+          img: '../../assets/stock_report.webp',
+          heading: 'Could Buying Roku Stock Today Set You Up for Life?',
+          news: 'Roku ( NASDAQ: ROKU ) recently reported financial',
+          date: '2025-02-22 06:22:14',
           url: ''
         });
       }

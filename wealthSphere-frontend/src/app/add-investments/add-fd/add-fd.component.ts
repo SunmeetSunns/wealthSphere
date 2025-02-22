@@ -62,9 +62,7 @@ export class AddFdComponent implements OnInit {
           beginningDate: this.dataForEdit?.beginningDate,
           expectedReturn: this.dataForEdit?.expected_return,
         });
-        
-        console.log(new Date(this.dataForEdit?.maturity_date))
-        
+      
       }
     }
 
@@ -137,7 +135,9 @@ export class AddFdComponent implements OnInit {
       if (this.forEdit && this.orderId && req === 'edit') {
         const payload = {
           ...formData,
-          orderId: this.orderId
+          orderId: this.orderId,
+          username: this.userData?.username,
+          
         };
 
         this.http.post(`${this.apiUrl}/api/portfolio/updatefd`, payload)

@@ -132,9 +132,9 @@ export class FetchNewsComponent implements OnInit {
     if(this.heading=='FD'){
      for(let i=0;i<res?.length;i++){
       this.data.push({
-        bank_name:res[i].bank,
-        citizen_rate:res[i].generalCitizensRate,
-        old_citizen_rate:res[i].seniorCitizensRate
+        bank_name:res[i].bank_name,
+        citizen_rate:res[i].citizen_rate,
+        old_citizen_rate:res[i].old_citizen_rate
 
       })
      }

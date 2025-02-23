@@ -25,11 +25,17 @@ export class CashComponent implements OnInit {
     const user=localStorage.getItem('userData');
     if(user){
       this.userData=JSON.parse(user)
+      this.populateSchema();
+      this.getCashData();
     }
-    this.populateSchema();
-    this.getCashData();
+    if(!user){
+      this.homeScreen();
+    }
+   
   }
-
+  homeScreen(){
+    this.router.navigate(['/'])
+  }
   // Define columns for the Cash table
   populateSchema() {
     this.columns = [

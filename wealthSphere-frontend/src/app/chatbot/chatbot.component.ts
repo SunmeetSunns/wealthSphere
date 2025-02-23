@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatbotService } from '../services/chatbot.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class ChatbotComponent {
+export class ChatbotComponent implements OnInit{
   @ViewChild('chatMessages') chatMessages!: ElementRef;
 
   messages: { text: string, sender: string }[] = [
@@ -18,14 +18,22 @@ export class ChatbotComponent {
     { text: `I'm Alice, your virtual assistant. How can I assist you today?`, sender: 'bot' },
   ];
 
-  buttons: string[] = ["What is WealthSphere?", "How do I sign up?", "How to setup my account?", "How to add investment?", "View my portfolio"];
+  buttons: string[] = ["What is WealthSphere?", "How do I sign up?", "How to setup my account?", "How to add investment?"];
   userInput = '';
   showButtons: boolean = false;
   dropdownOpen: boolean = false;
   helpButtonVisible: boolean = true; // Controls visibility of "Need Help?" button
   quickReplyUsed: boolean = false; // Prevents showing quick reply buttons again
   isTyping: boolean = false; // Tracks if bot is typing
+  userData: any;
 
+  ngOnInit(): void {
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.userData = JSON.parse(user)
+      this.buttons.push("View my portfolio");
+    }
+  }
   constructor(private chatbotService: ChatbotService) {}
 
   sendMessage() {

@@ -11,7 +11,7 @@
     <span (click)="selectDropdownOption('Signup')">Signup Enquiry</span>
     <span (click)="selectDropdownOption('Account Setup')">Account Setup</span>
     <span (click)="selectDropdownOption('Add Investment')">Investment Enquiry</span>
-    <span (click)="selectDropdownOption('Portfolio Summary')">Portfolio Summary</span>
+    <span *ngIf="this.userData" (click)="selectDropdownOption('Portfolio Summary')">Portfolio Summary</span>
   </div>
 
   <div class="chat-messages" #chatMessages>

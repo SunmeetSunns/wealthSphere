@@ -24,7 +24,13 @@ export class AddInvestmentComponent {
     if (user) {
       this.userData = JSON.parse(user)
     }
+    if(!user){
+      this.homeScreen();
+    }
     this.getTotals()
+  }
+  homeScreen(){
+    this.router.navigate(['/'])
   }
   getTotals(){
     let url=`${this.apiUrl}/api/portfolio/portfolioTotal`

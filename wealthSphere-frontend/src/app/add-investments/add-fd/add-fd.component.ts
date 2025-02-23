@@ -41,6 +41,9 @@ export class AddFdComponent implements OnInit {
     if (user) {
       this.userData = JSON.parse(user)
     }
+    if(!user){
+      this.homeScreen();
+    }
     this.buildForm();
 
     // Check if data exists in sessionStorage
@@ -71,7 +74,9 @@ export class AddFdComponent implements OnInit {
       this.updateMaturityAmount();
     });
   }
-
+  homeScreen(){
+    this.router.navigate(['/'])
+  }
   buildForm() {
     this.stockForm = this.fb.group({
       depositAmount: ['', Validators.required],

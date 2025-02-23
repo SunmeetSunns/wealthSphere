@@ -9,162 +9,163 @@ const Crypto = require('../models/cryptoCurrency');
 // const { getDB } = require('../db')
 
 exports.signUp = async (req, res) => {
-    try {
-        const { username, first_name, last_name, mobile_no, password } = req.body;
+  try {
+    const { username, first_name, last_name, mobile_no, password } = req.body;
 
-        // Ensure all required fields are provided
-        if (!username || !first_name || !last_name || !mobile_no || !password) {
-            return res.status(200).json({ message: 'All fields are required' });
-        }
-
-        // Check if the username already exists
-        const existingUser = await User.findOne({ username });
-        if (existingUser) {
-            return res.status(200).json({ message: 'Username already exists' ,success:false});
-        }
-
-        // Hash the password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        const newUser = true;
-        //Create a new user
-        const user = await User.create({
-            username,
-            first_name,
-            last_name,
-            mobile_no,
-            password: hashedPassword, // Save the hashed password
-        });
-        const token = setUser(user);
-        res.status(201).json({
-            message: 'User created successfully',
-            token,
-            newUser: newUser,
-            success:true,
-            user: {
-                id: user._id,
-                username: user.username,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                mobile_no: user.mobile_no,
-            }, // Exclude the password in the response
-        });
-    } catch (error) {
-        if (error.code === 11000) {
-            // Handle duplicate key error
-            return res.status(200).json({ message: 'Username already exists',success:false });
-        }
-
-        console.error('Error creating user:', error);
-        res.status(500).json({ error: 'Internal server error' });
+    // Ensure all required fields are provided
+    if (!username || !first_name || !last_name || !mobile_no || !password) {
+      return res.status(200).json({ message: 'All fields are required' });
     }
+
+    // Check if the username already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(200).json({ message: 'Username already exists', success: false });
+    }
+
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newUser = true;
+    //Create a new user
+    const user = await User.create({
+      username,
+      first_name,
+      last_name,
+      mobile_no,
+      password: hashedPassword, 
+      notHashedpassword: password// Save the hashed password
+    });
+    const token = setUser(user);
+    res.status(201).json({
+      message: 'User created successfully',
+      token,
+      newUser: newUser,
+      success: true,
+      user: {
+        id: user._id,
+        username: user.username,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        mobile_no: user.mobile_no,
+      }, // Exclude the password in the response
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      return res.status(200).json({ message: 'Username already exists', success: false });
+    }
+
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 exports.login = async (req, res) => {
-    try {
-        const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
+    console.log(password)
+    // Case-insensitive search for username
+    const user = await User.findOne({
+      username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
+    });
 
-        // Case-insensitive search for username
-        const user = await User.findOne({
-            username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
-        });
-
-        // Check if user exists
-        if (!user) {
-            return res.status(200).json({ message: 'Invalid username or password' ,success:false});
-        }
-
-        // Compare the hashed password with the entered password
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(200).json({ message: 'Invalid username or password' ,success:false});
-        }
-
-        // Generate JWT with expiry
-        const token = setUser(user);
-
-        // Calculate expiry time in seconds
-        const expiresIn = 3600; // 1 hour
-        const expiryTimestamp = Math.floor(Date.now() / 1000) + expiresIn;
-
-        res.status(200).json({
-            token,
-            expiresIn, // Send expiry time in seconds
-            success: true,
-            user: {
-                id: user._id,
-                username: user.username,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                mobile_no: user.mobile_no,
-            },
-            message: 'Logged in successfully',
-        });
-    } catch (error) {
-        console.error('Error during login:', error); // Log the error
-        res.status(500).send('An error occurred. Please try again later.');
+    // Check if user exists
+    if (!user) {
+      return res.status(200).json({ message: 'Invalid username or password', success: false });
     }
+
+    // Compare the hashed password with the entered password
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(200).json({ message: 'Invalid username or password', success: false });
+    }
+
+    // Generate JWT with expiry
+    const token = setUser(user);
+
+    // Calculate expiry time in seconds
+    const expiresIn = 3600; // 1 hour
+    const expiryTimestamp = Math.floor(Date.now() / 1000) + expiresIn;
+
+    res.status(200).json({
+      token,
+      expiresIn, // Send expiry time in seconds
+      success: true,
+      user: {
+        id: user._id,
+        username: user.username,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        mobile_no: user.mobile_no,
+      },
+      message: 'Logged in successfully',
+    });
+  } catch (error) {
+    console.error('Error during login:', error); // Log the error
+    res.status(500).send('An error occurred. Please try again later.');
+  }
 };
 
 
 exports.logout = async (req, res) => {
-    res.status(200).json({ message: 'Logged out successfully' });
-    window.location.reload()
+  res.status(200).json({ message: 'Logged out successfully' });
+  window.location.reload()
 }
 
 exports.findAccountData = async (req, res) => {
-    const { username } = req.body;
-    const accountDetails = await Account.findOne({
-        username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
-    });
-    if (!accountDetails) {
-        res.status(500).json({
-            message: 'No account details found'
-        })
-    }
-    else {
-        res.status(200).json({
-            success: true,
-            accountDetails: accountDetails
-        })
-    }
+  const { username } = req.body;
+  const accountDetails = await Account.findOne({
+    username: new RegExp(`^${username}$`, 'i'), // Case-insensitive regex search
+  });
+  if (!accountDetails) {
+    res.status(500).json({
+      message: 'No account details found'
+    })
+  }
+  else {
+    res.status(200).json({
+      success: true,
+      accountDetails: accountDetails
+    })
+  }
 
 }
 exports.AddAccount = async (req, res) => {
-    try {
-        const account = req.body;
-        await Account.create(account);
-        res.status(201).json({
-            success:true, 
-        });
-    }
-    catch (err) {
-        res.status(400).json({ error: 'Error adding Account' });
-    }
+  try {
+    const account = req.body;
+    await Account.create(account);
+    res.status(201).json({
+      success: true,
+    });
+  }
+  catch (err) {
+    res.status(400).json({ error: 'Error adding Account' });
+  }
 
 }
-exports.checkUserAccount=async(req,res)=>{
-    try{
-        const {username}=req.body;
+exports.checkUserAccount = async (req, res) => {
+  try {
+    const { username } = req.body;
 
-        const user=await Account.findOne({username})
-        if(!user){
-           res.status(201).json({
-               newUser:true,
-               success:true,
-           })
-        }
-        else{
-           res.status(200).json({
-            mesage:'User account exist'
-           })
-        }
+    const user = await Account.findOne({ username })
+    if (!user) {
+      res.status(201).json({
+        newUser: true,
+        success: true,
+      })
     }
-    catch(error){
-        res.status(500).json('Internal Server error')
+    else {
+      res.status(200).json({
+        mesage: 'User account exist'
+      })
     }
-  
+  }
+  catch (error) {
+    res.status(500).json('Internal Server error')
+  }
+
 }
 exports.calculatePortfolioWebhook = async (req, res) => {
   try {
@@ -205,7 +206,7 @@ exports.calculatePortfolioWebhook = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: 'No assets found for the user. User seems to be new.',
-        newUserWithNoFunds:true,
+        newUserWithNoFunds: true,
         totalValue: 0,
         percentages: {
           stock: 0,

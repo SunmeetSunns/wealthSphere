@@ -122,17 +122,31 @@ export class LoginComponent implements OnInit {
 
   clearToken(): void {
     if (this.isLocalStorageAvailable()) {
+      const authToken = localStorage.getItem('authToken');
+      const tokenExpiry = localStorage.getItem('tokenExpiry');
+  
+      const isSessionExpired = tokenExpiry && parseInt(tokenExpiry, 10) < new Date().getTime();
+      const isUserLoggedOut = !authToken || isSessionExpired;
+  
+      // Remove stored data
       localStorage.removeItem('authToken');
       localStorage.removeItem('tokenExpiry');
       localStorage.removeItem('userData');
-      sessionStorage.removeItem('newUser')
+      sessionStorage.removeItem('newUser');
+  
+      // Redirect only if session expired or no data is found
+      if (isUserLoggedOut) {
+        this.homeScreen();
+      }
     }
   }
-
+  homeScreen(){
+    this.router.navigate(['/'])
+  }
   buildForm(): void {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(8)]],
+      password: ['', [Validators.required,  Validators.minLength(8)]],
     });
   }
 

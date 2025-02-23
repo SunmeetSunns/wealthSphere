@@ -43,6 +43,9 @@ export class AddStockComponent implements OnInit {
     if (user) {
       this.userData = JSON.parse(user)
     }
+    if(!user){
+      this.homeScreen();
+    }
     this.buildForm();
 
     // Check if data exists in sessionStorage
@@ -66,7 +69,9 @@ export class AddStockComponent implements OnInit {
       }
     }
   }
-
+  homeScreen(){
+    this.router.navigate(['/'])
+  }
   buildForm() {
     this.stockForm = this.fb.group({
       symbol: ['', Validators.required],

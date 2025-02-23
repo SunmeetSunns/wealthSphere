@@ -23,12 +23,18 @@ export class StocksComponent {
     const user=localStorage.getItem('userData')
     if(user){
       this.userData=JSON.parse(user)
+      this.populateSchema();
+      this.getStockData();
     }
-    this.populateSchema();
-    this.getStockData();
+    if(!user){
+      this.homeScreen();
+    }
+  
     // this.getNewsData();
   }
-
+  homeScreen(){
+    this.router.navigate(['/'])
+  }
   populateSchema() {
     this.columns = [
       { field: 'company', header: 'Stocks' },

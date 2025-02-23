@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit{
 
     this.toggleLoginComponent.emit(this.isLoggedIn)
     this.toggleSignupComponent.emit(this.isSignupStage)
+    this.homeScreen();
 
   }
   toggleDiv() {

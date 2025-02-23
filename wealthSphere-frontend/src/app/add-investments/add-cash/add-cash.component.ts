@@ -52,8 +52,11 @@ export class AddCashComponent {
     const user = localStorage.getItem('userData');
     if (user) {
       this.userData = JSON.parse(user)
+      this.buildForm();
     }
-    this.buildForm();
+   if(!user){
+    this.homeScreen();
+   }
     this.onEdit();
   }
 
@@ -165,6 +168,9 @@ export class AddCashComponent {
   }
   close() {
     this.modal.dismissAll();
+  }
+  homeScreen(){
+    this.router.navigate(['/'])
   }
   onSubmit(req: string) {
     this.stockForm.markAllAsTouched()

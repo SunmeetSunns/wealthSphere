@@ -42,8 +42,12 @@ export class AddCryptoComponent {
     const user = localStorage.getItem('userData');
     if (user) {
       this.userData = JSON.parse(user)
+      this.buildForm();
     }
-    this.buildForm();
+    if(!user){
+      this.homeScreen()
+    }
+   
 
     // Check if data exists in sessionStorage
     if (isPlatformBrowser(this.platformId)) {
@@ -65,7 +69,9 @@ export class AddCryptoComponent {
       }
     }
   }
-
+  homeScreen(){
+    this.router.navigate(['/'])
+  }
   buildForm() {
     this.stockForm = this.fb.group({
       type: ['', Validators.required],

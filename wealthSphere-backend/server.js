@@ -15,7 +15,8 @@ const app = express();
 // Define the allowed origins based on the environment
 const allowedOrigins = [
   'http://localhost:4200', // Allow Angular dev server
-  'https://deft-starship-250f12.netlify.app', // Allow Netlify
+  'https://deft-starship-250f12.netlify.app', 
+  'https://coruscating-lily-74a6c1.netlify.app',
   'https://dialogflow.cloud.google.com', // Allow Dialogflow requests
   'https://88ef-2405-201-6805-f8f3-9130-66d2-a26a-4b8d.ngrok-free.app' // Replace with actual ngrok URL
 ];

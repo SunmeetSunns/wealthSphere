@@ -15,6 +15,7 @@ const app = express();
 // Define the allowed origins based on the environment
 const allowedOrigins = [
   'http://localhost:4200', // Allow Angular dev server
+  'https://wealthsphere-smartportfolio.netlify.app/',
   'https://deft-starship-250f12.netlify.app', 
   'https://coruscating-lily-74a6c1.netlify.app',
   'https://dialogflow.cloud.google.com', // Allow Dialogflow requests
